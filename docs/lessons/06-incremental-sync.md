@@ -1,6 +1,6 @@
 # 第06课：增量快照、严格回执与确认账本
 
-[上一课：05](05-runtime-buffer.md) · [课程目录](../README.md)
+[上一课：05](05-runtime-buffer.md) · [课程目录](../README.md) · [下一课：07](07-cloud-http-client.md)
 
 05把显式事件可靠地留在本地，本课解决“哪些版本已被处理、失败后只重发什么”。新增[cloudsync](../../cloudsync/sync.go)，消费05的Buffer，不自动调度，也不连接真实Cloud。范围见[本步计划](../plans/06-incremental-sync.md)。
 

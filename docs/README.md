@@ -10,5 +10,6 @@
 | 04 | [运行时记录构建与刷新](lessons/04-runtime-records.md) | M02显式Snapshot、脱敏/hash/累计/source，采集/存储/Cloud待接 |
 | 05 | [运行时缓冲与恢复](lessons/05-runtime-buffer.md) | M08私有scope三桶/cap/持久overflow/固定intent，采集与Cloud待接 |
 | 06 | [增量同步与确认账本](lessons/06-incremental-sync.md) | 指纹快照/严格receipt/部分确认/持久水位，只有fake传输与受控HTTP替身 |
+| 07 | [Cloud HTTP传输](lessons/07-cloud-http-client.md) | runtime intake/discard传输、wire校验与本机真实HTTP联调，未接真实Cloud |
 
 [完整复现计划](port-plan.md) · [PHP源码入口](php-surface-inventory.md)

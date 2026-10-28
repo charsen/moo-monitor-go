@@ -6,7 +6,7 @@ Go 业务系统必需的独立监控采集 SDK，全业务复刻 PHP 监控包�
 
 本包负责运行时错误、慢 SQL、聚合脱敏、可恢复本地缓冲、云端同步、心跳、自检及 MCP 接入；不提供业务页面或研发工作台。业务 Host 可以独立安装它，`go-moo-scaffold` 只消费其状态与公开接口。
 
-已建立独立Go module。M07脱敏、M02显式记录构建与M08私有本地缓冲已有真实PHP纯组件fixture及定向恢复验证；06已有显式Client的增量快照、严格回执、部分确认和持久指纹账本。未知请求表示/Host适配、自动采集、生产HTTP adapter与真实Cloud兼容仍待完成。最低Go1.26.0，本机实测Go1.27.3；不加入Host workspace、不依赖scaffold。
+已建立独立Go module。M07脱敏、M02显式记录构建与M08私有本地缓冲已有真实PHP纯组件fixture及定向恢复验证；06已有显式Client的增量快照、严格回执、部分确认和持久指纹账本。07已有runtime intake/discard显式HTTP传输；未知请求表示/Host适配、自动采集与真实Cloud兼容仍待完成。最低Go1.26.0，本机实测Go1.27.3；不加入Host workspace、不依赖scaffold。
 
 - [有序课程入口](docs/README.md)
 
@@ -17,3 +17,5 @@ Go 业务系统必需的独立监控采集 SDK，全业务复刻 PHP 监控包�
 本地缓冲仅使用调用方显式新建的私有Root：os.MkdirTemp后检查error并os.Chmod(root,0700)，再传buffer.Config.Root；scope子目录由SDK创建。不要传PHP已有runtimes或含open/resolved/deleted的桶根，不自动沿用Host目录。配置、调用链和真实恢复证据见[第05课](docs/lessons/05-runtime-buffer.md)，独立GOWORK=off使用。
 
 [第06课](docs/lessons/06-incremental-sync.md)解释发送中同毫秒更新、确认账本与永久拒收旁车；仅显式fake Client/httptest验证，不含远端鉴权或真实推送。
+
+[第07课](docs/lessons/07-cloud-http-client.md)提供显式HTTPClient，默认验证TLS并拒重定向，坏UTF8编码前失败。仅在调用时联网；当前验证只本机httptest假服务，不含真实Cloud、自动采集或本地discard协调器。

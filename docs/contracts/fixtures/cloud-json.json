@@ -1,0 +1,178 @@
+{
+    "evidence": "native json_encode fixed fake values; matches reviewed Guzzle json-option call; no require/autoload/Host/HTTP",
+    "guzzle_source_sha256": "5e747d1023e3ff323e76fbd34f249e1d3ddbf8b7edd9deafc871247220d770a9",
+    "php_version": "8.3.35",
+    "cases": [
+        {
+            "name": "empty-array",
+            "input_spec": {
+                "type": "array",
+                "values": []
+            },
+            "json": "[]",
+            "error_code": 0
+        },
+        {
+            "name": "empty-object",
+            "input_spec": {
+                "type": "object",
+                "entries": []
+            },
+            "json": "{}",
+            "error_code": 0
+        },
+        {
+            "name": "ordered-object",
+            "input_spec": {
+                "type": "object",
+                "entries": [
+                    {
+                        "key": "z",
+                        "value": 1
+                    },
+                    {
+                        "key": "a",
+                        "value": null
+                    }
+                ]
+            },
+            "json": "{\"z\":1,\"a\":null}",
+            "error_code": 0
+        },
+        {
+            "name": "large-int",
+            "input_spec": {
+                "type": "int64",
+                "value": "9007199254740993"
+            },
+            "json": "9007199254740993",
+            "error_code": 0
+        },
+        {
+            "name": "max-int",
+            "input_spec": {
+                "type": "int64",
+                "value": "9223372036854775807"
+            },
+            "json": "9223372036854775807",
+            "error_code": 0
+        },
+        {
+            "name": "zero-float",
+            "input_spec": {
+                "type": "float",
+                "value": 0
+            },
+            "json": "0",
+            "error_code": 0
+        },
+        {
+            "name": "fraction",
+            "input_spec": {
+                "type": "float",
+                "value": 1.5
+            },
+            "json": "1.5",
+            "error_code": 0
+        },
+        {
+            "name": "unicode",
+            "input_spec": {
+                "type": "string",
+                "value": "固定中文😀/path"
+            },
+            "json": "\"\\u56fa\\u5b9a\\u4e2d\\u6587\\ud83d\\ude00\\/path\"",
+            "error_code": 0
+        },
+        {
+            "name": "null",
+            "input_spec": {
+                "type": "null"
+            },
+            "json": "null",
+            "error_code": 0
+        },
+        {
+            "name": "previous",
+            "input_spec": {
+                "type": "json",
+                "value": [
+                    {
+                        "class": "FixturePrevious",
+                        "message": "fake",
+                        "file": "app/fake.php",
+                        "line": 1
+                    }
+                ]
+            },
+            "json": "[{\"class\":\"FixturePrevious\",\"message\":\"fake\",\"file\":\"app\\/fake.php\",\"line\":1}]",
+            "error_code": 0
+        },
+        {
+            "name": "php-context",
+            "input_spec": {
+                "type": "json",
+                "value": {
+                    "env": "testing",
+                    "project": "fixture",
+                    "php": "fixture-php",
+                    "laravel": "fixture-laravel",
+                    "occurred_at": "2026-10-29T12:00:00.123+08:00"
+                }
+            },
+            "json": "{\"env\":\"testing\",\"project\":\"fixture\",\"php\":\"fixture-php\",\"laravel\":\"fixture-laravel\",\"occurred_at\":\"2026-10-29T12:00:00.123+08:00\"}",
+            "error_code": 0
+        },
+        {
+            "name": "go-context",
+            "input_spec": {
+                "type": "json",
+                "value": {
+                    "env": "testing",
+                    "project": "fixture",
+                    "go": "fixture-go",
+                    "goravel": "fixture-goravel",
+                    "occurred_at": "2026-10-29T12:00:00.123+08:00"
+                }
+            },
+            "json": "{\"env\":\"testing\",\"project\":\"fixture\",\"go\":\"fixture-go\",\"goravel\":\"fixture-goravel\",\"occurred_at\":\"2026-10-29T12:00:00.123+08:00\"}",
+            "error_code": 0
+        },
+        {
+            "name": "invalid-utf8",
+            "input_spec": {
+                "type": "bytes",
+                "base64": "eP/+"
+            },
+            "json": null,
+            "error_code": 5
+        },
+        {
+            "name": "cut-trace",
+            "input_spec": {
+                "type": "bytes",
+                "base64": "5Lit5Lg="
+            },
+            "json": null,
+            "error_code": 5
+        },
+        {
+            "name": "nan",
+            "input_spec": {
+                "type": "nonfinite",
+                "value": "nan"
+            },
+            "json": null,
+            "error_code": 7
+        },
+        {
+            "name": "infinity",
+            "input_spec": {
+                "type": "nonfinite",
+                "value": "infinity"
+            },
+            "json": null,
+            "error_code": 7
+        }
+    ]
+}
