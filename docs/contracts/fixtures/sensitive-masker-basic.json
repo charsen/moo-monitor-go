@@ -1,0 +1,356 @@
+{
+    "evidence": "fixed fake inputs; exact SensitiveMasker class only; no Composer, Host, env, DB or Cloud",
+    "source_commit": "28d424e286222c391b7e64cfb5643e788dfcc456",
+    "source_file_sha256": "0a0cfe0ed7eac0f18f122b6f0b5410146f0494fdff5818105e12b8ccb1c51997",
+    "php_version": "8.3.35",
+    "cases": [
+        {
+            "name": "ascii-substring",
+            "keys": [
+                "token"
+            ],
+            "method": "shouldMaskKey",
+            "input": "ACCESS_TOKEN",
+            "output": true
+        },
+        {
+            "name": "ordinary-key",
+            "keys": [
+                "token"
+            ],
+            "method": "shouldMaskKey",
+            "input": "page",
+            "output": false
+        },
+        {
+            "name": "empty-keys",
+            "keys": [],
+            "method": "shouldMaskKey",
+            "input": "token",
+            "output": false
+        },
+        {
+            "name": "filter-zero-empty",
+            "keys": [
+                "",
+                "0"
+            ],
+            "method": "shouldMaskKey",
+            "input": "0",
+            "output": false
+        },
+        {
+            "name": "ascii-not-unicode-fold",
+            "keys": [
+                "Ä"
+            ],
+            "method": "shouldMaskKey",
+            "input": "ä",
+            "output": false
+        },
+        {
+            "name": "unicode-exact",
+            "keys": [
+                "Ä"
+            ],
+            "method": "shouldMaskKey",
+            "input": "Ä",
+            "output": true
+        },
+        {
+            "name": "url-basic",
+            "keys": [
+                "password",
+                "pwd",
+                "token",
+                "secret",
+                "api_key",
+                "authorization"
+            ],
+            "method": "maskUrl",
+            "input": "https://example.test/x?token=fake-a&api_key=fake-b&page=1#frag",
+            "output": "https://example.test/x?token=***&api_key=***&page=1#frag"
+        },
+        {
+            "name": "url-encoded-repeat",
+            "keys": [
+                "password",
+                "pwd",
+                "token",
+                "secret",
+                "api_key",
+                "authorization"
+            ],
+            "method": "maskUrl",
+            "input": "https://example.test/x?%74oken=fake-a&TOKEN=fake-b&page=1",
+            "output": "https://example.test/x?%74oken=***&TOKEN=***&page=1"
+        },
+        {
+            "name": "url-invalid-percent",
+            "keys": [
+                "password",
+                "pwd",
+                "token",
+                "secret",
+                "api_key",
+                "authorization"
+            ],
+            "method": "maskUrl",
+            "input": "/x?token%ZZ=fake-a&pa%ZZge=1",
+            "output": "/x?token%ZZ=***&pa%ZZge=1"
+        },
+        {
+            "name": "url-bare-empty",
+            "keys": [
+                "password",
+                "pwd",
+                "token",
+                "secret",
+                "api_key",
+                "authorization"
+            ],
+            "method": "maskUrl",
+            "input": "/x?token&&password=fake&blank=&=ordinary&",
+            "output": "/x?token&password=***&blank=&=ordinary"
+        },
+        {
+            "name": "url-plus-key",
+            "keys": [
+                "api key"
+            ],
+            "method": "maskUrl",
+            "input": "/x?api+key=fake&other=ok",
+            "output": "/x?api+key=***&other=ok"
+        },
+        {
+            "name": "url-no-query",
+            "keys": [
+                "password",
+                "pwd",
+                "token",
+                "secret",
+                "api_key",
+                "authorization"
+            ],
+            "method": "maskUrl",
+            "input": "https://example.test/token/fake#token=fake",
+            "output": "https://example.test/token/fake#token=fake"
+        },
+        {
+            "name": "url-fragment-gap",
+            "keys": [
+                "password",
+                "pwd",
+                "token",
+                "secret",
+                "api_key",
+                "authorization"
+            ],
+            "method": "maskUrl",
+            "input": "/x?page=1#token=fake-fragment",
+            "output": "/x?page=1#token=fake-fragment"
+        },
+        {
+            "name": "url-userinfo-gap",
+            "keys": [
+                "password",
+                "pwd",
+                "token",
+                "secret",
+                "api_key",
+                "authorization"
+            ],
+            "method": "maskUrl",
+            "input": "https://fake-user:fake-password@example.test/x",
+            "output": "https://fake-user:fake-password@example.test/x"
+        },
+        {
+            "name": "url-empty-query",
+            "keys": [
+                "password",
+                "pwd",
+                "token",
+                "secret",
+                "api_key",
+                "authorization"
+            ],
+            "method": "maskUrl",
+            "input": "/x?#frag",
+            "output": "/x?#frag"
+        },
+        {
+            "name": "url-empty-keys",
+            "keys": [],
+            "method": "maskUrl",
+            "input": "/x?token=fake",
+            "output": "/x?token=fake"
+        },
+        {
+            "name": "auth-basic",
+            "keys": [
+                "password",
+                "pwd",
+                "token",
+                "secret",
+                "api_key",
+                "authorization"
+            ],
+            "method": "maskSecrets",
+            "input": "upstream Authorization: Basic Zml4dHVyZTpmYWtl",
+            "output": "upstream Authorization: ***"
+        },
+        {
+            "name": "auth-bearer",
+            "keys": [
+                "password",
+                "pwd",
+                "token",
+                "secret",
+                "api_key",
+                "authorization"
+            ],
+            "method": "maskSecrets",
+            "input": "Authorization=Bearer fake-token; rest=ok",
+            "output": "Authorization=***; rest=ok"
+        },
+        {
+            "name": "auth-digest",
+            "keys": [
+                "password",
+                "pwd",
+                "token",
+                "secret",
+                "api_key",
+                "authorization"
+            ],
+            "method": "maskSecrets",
+            "input": "Authorization: Digest fake-token,realm=test",
+            "output": "Authorization: ***,realm=test"
+        },
+        {
+            "name": "auth-vertical-space",
+            "keys": [
+                "password",
+                "pwd",
+                "token",
+                "secret",
+                "api_key",
+                "authorization"
+            ],
+            "method": "maskSecrets",
+            "input": "Authorization:\u000bBasic fake-token",
+            "output": "Authorization:\u000b***"
+        },
+        {
+            "name": "jwt",
+            "keys": [],
+            "method": "maskSecrets",
+            "input": "token eyJhbGciOiJub25lIn0.eyJzdWIiOiJmaXh0dXJlIn0.Zml4dHVyZQ",
+            "output": "token ***JWT***"
+        },
+        {
+            "name": "bearer-jwt-order",
+            "keys": [],
+            "method": "maskSecrets",
+            "input": "Bearer eyJhbGciOiJub25lIn0.eyJzdWIiOiJmaXh0dXJlIn0.Zml4dHVyZQ",
+            "output": "Bearer ***JWT***"
+        },
+        {
+            "name": "bearer-empty-keys",
+            "keys": [],
+            "method": "maskSecrets",
+            "input": "prefix bEaReR fake-token suffix",
+            "output": "prefix Bearer *** suffix"
+        },
+        {
+            "name": "auth-empty-keys",
+            "keys": [],
+            "method": "maskSecrets",
+            "input": "authorization: Basic fake-token",
+            "output": "authorization: ***"
+        },
+        {
+            "name": "key-value",
+            "keys": [
+                "secret"
+            ],
+            "method": "maskSecrets",
+            "input": "my_secret=fake-value keep=ok",
+            "output": "my_secret=*** keep=ok"
+        },
+        {
+            "name": "key-quoted-colon",
+            "keys": [
+                "secret"
+            ],
+            "method": "maskSecrets",
+            "input": "my_secret: \"fake-value\", keep=ok",
+            "output": "my_secret: \"***\", keep=ok"
+        },
+        {
+            "name": "key-regex-escaped",
+            "keys": [
+                "a+b"
+            ],
+            "method": "maskSecrets",
+            "input": "a+b=fake-value keep=ok",
+            "output": "a+b=*** keep=ok"
+        },
+        {
+            "name": "already-masked",
+            "keys": [
+                "password",
+                "pwd",
+                "token",
+                "secret",
+                "api_key",
+                "authorization"
+            ],
+            "method": "maskSecrets",
+            "input": "Authorization: *** password=***",
+            "output": "Authorization: *** password=***"
+        },
+        {
+            "name": "ordinary-text",
+            "keys": [
+                "password",
+                "pwd",
+                "token",
+                "secret",
+                "api_key",
+                "authorization"
+            ],
+            "method": "maskSecrets",
+            "input": "ordinary 中文 text stays unchanged",
+            "output": "ordinary 中文 text stays unchanged"
+        },
+        {
+            "name": "free-text-gap",
+            "keys": [
+                "password",
+                "pwd",
+                "token",
+                "secret",
+                "api_key",
+                "authorization"
+            ],
+            "method": "maskSecrets",
+            "input": "unlabelled-fake-sensitive-value",
+            "output": "unlabelled-fake-sensitive-value"
+        },
+        {
+            "name": "free-text-partial-gap",
+            "keys": [
+                "password",
+                "pwd",
+                "token",
+                "secret",
+                "api_key",
+                "authorization"
+            ],
+            "method": "maskSecrets",
+            "input": "password: fake first second",
+            "output": "password: *** first second"
+        }
+    ]
+}
