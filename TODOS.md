@@ -7,4 +7,5 @@
 - [ ] 在首个实现阶段落实[代码设计标准](../go-moo-engine-skeleton/docs/code-design.md)：审查参考业务调用链、文件职责、抽象必要性及生成/手写协作；文档制定不等于代码验收。
 
 - [ ] 完成[第01课](docs/lessons/01-sensitive-masker.md)固定假值预测、三入口范围与初始化错误隔离复述；代理参考验证不代做用户练习。
-- [ ] 继续M07的SQL值侧/递归payload与有界截断，分别核源fixture；Host坏JSON原日志预防与M18接入另行设计，基础Masker不等于全面脱敏。
+- [ ] 完成[第02课](docs/lessons/02-sql-masker.md)固定假SQL预测、两阶段与语法盲区复述，代理fixture一致性不代做用户练习。
+- [ ] 继续M07的递归payload与有界截断，单独核源fixture；Host坏JSON原日志预防与M18接入另行设计，有限Masker不等于全面脱敏。

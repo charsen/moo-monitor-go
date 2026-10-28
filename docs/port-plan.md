@@ -14,7 +14,7 @@ PHP 复核基线为本机 `moo-monitor-laravel` 提交 `28d424e`。现阶段已�
 
 ## 完整能力对照
 
-以下编号是能力分类，复核发现的遗漏继续补入。当前M07-A已有[基础脱敏纯函数与源fixture](lessons/01-sensitive-masker.md)，仅键/URL query/自由文本有限规则；M07其他部分及其余条目的实现、Host/Cloud验证仍待逐项完成。PHP 特有路径需核实 Go 对应能力；平台限制记为待解决缺口，提出替代方案并说明业务影响，不能自行删项或视为完成，也不宣称捕获所有错误。
+以下编号是能力分类，复核发现的遗漏继续补入。当前M07-A已有[基础脱敏纯函数与源fixture](lessons/01-sensitive-masker.md)，M07-B已有[SQL值侧有限算法与源fixture](lessons/02-sql-masker.md)；递归payload及其余条目的实现、Host/Cloud验证仍待逐项完成。PHP 特有路径需核实 Go 对应能力；平台限制记为待解决缺口，提出替代方案并说明业务影响，不能自行删项或视为完成，也不宣称捕获所有错误。
 
 | 编号 | PHP 能力与现码入口 | Go 目标及验证重点 |
 | --- | --- | --- |

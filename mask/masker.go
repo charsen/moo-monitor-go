@@ -18,6 +18,7 @@ var (
 type Masker struct {
 	keys       []string
 	keySecrets *regexp.Regexp
+	sqlValues  *regexp.Regexp
 }
 
 // New accepts valid UTF-8 configuration; PHP's wider byte-pattern inputs are not supported.
@@ -43,6 +44,12 @@ func New(keys []string) (*Masker, error) {
 			return nil, fmt.Errorf("compile sensitive key pattern: %w", err)
 		}
 		m.keySecrets = compiled
+		pattern = "([`\"\\[]?[a-z0-9_.]*(?:" + strings.Join(alternatives, "|") + ")[a-z0-9_.]*[`\"\\]]?" + sqlSpace + "*(?:=|!=|<>|>=|<=|>|<|\\blike\\b|\\bin\\b)" + sqlSpace + "*)(" + sqlQuoted + `|\([^)]*\)|[0-9.]+)`
+		compiled, err = regexp.Compile(pattern)
+		if err != nil {
+			return nil, fmt.Errorf("compile sensitive SQL pattern: %w", err)
+		}
+		m.sqlValues = compiled
 	}
 	return m, nil
 }

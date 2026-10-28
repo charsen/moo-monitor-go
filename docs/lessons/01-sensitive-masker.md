@@ -1,6 +1,6 @@
 # 第01课：用真实假输入对照建立基础脱敏边界
 
-[课程目录](../README.md)
+[课程目录](../README.md) · [下一课：02](02-sql-masker.md)
 
 本课是独立Monitor的第一段Go实现，先做M07中的基础纯函数：敏感键判断、URL query与自由文本规则。没有采集请求、保存缓冲、接Host或连接Cloud，也不依赖scaffold。
 

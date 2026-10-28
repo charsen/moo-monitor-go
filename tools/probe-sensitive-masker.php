@@ -3,8 +3,8 @@
 declare(strict_types=1);
 
 // Pure fixed-fake-input source probe: load only the exact masker class, never Host/autoload.
-if ($argc !== 2) {
-    fwrite(STDERR, "Usage: php tools/probe-sensitive-masker.php <SensitiveMasker.php>\n");
+if ($argc !== 2 && !($argc === 3 && $argv[2] === '--sql')) {
+    fwrite(STDERR, "Usage: php tools/probe-sensitive-masker.php <SensitiveMasker.php> [--sql]\n");
     exit(2);
 }
 $file = realpath($argv[1]);
@@ -48,6 +48,40 @@ $cases = [
     ['free-text-gap', $base, 'maskSecrets', 'unlabelled-fake-sensitive-value'],
     ['free-text-partial-gap', $base, 'maskSecrets', 'password: fake first second'],
 ];
+if ($argc === 3) {
+    $cases = [
+        ['equals', $base, 'maskSensitiveSql', "select * from t where token = 'fake-token' and id = 7"],
+        ['not-equal', $base, 'maskSensitiveSql', "select * from t where password != 'fake'"],
+        ['not-equal-angle', $base, 'maskSensitiveSql', 'select * from t where password <> "fake"'],
+        ['greater-equal', $base, 'maskSensitiveSql', 'select * from t where token >= 12.5'],
+        ['less-equal', $base, 'maskSensitiveSql', 'select * from t where token <= 9'],
+        ['greater', $base, 'maskSensitiveSql', 'select * from t where token > 8'],
+        ['less', $base, 'maskSensitiveSql', 'select * from t where token < 7'],
+        ['like', $base, 'maskSensitiveSql', "select * from t where API_TOKEN LIKE 'fake%'"],
+        ['in-list', $base, 'maskSensitiveSql', "select * from t where secret IN ('fake-a', 'fake-b')"],
+        ['quoted-qualified', $base, 'maskSensitiveSql', "select * from t where `t`.`api_token` = 'fake' and [password] = 'fake'"],
+        ['escaped-single-backslash', $base, 'maskSensitiveSql', "update t set password = 'fake\\'quote\\\\tail', note = 'O\\'Brien'"],
+        ['escaped-double', $base, 'maskSensitiveSql', 'update t set password = "fake\\"quote\\\\tail", note = "normal"'],
+        ['insert-single', $base, 'maskSensitiveSql', "insert into users (name, password) values ('fake-user','fake-password')"],
+        ['insert-multiple', $base, 'maskSensitiveSql', "INSERT INTO users (`api_token`, name, password) VALUES ('fake-a','one','fake-p'), ('fake-b', 'two', 'fake-q')"],
+        ['insert-sensitive-last', $base, 'maskSensitiveSql', "insert into users (name, note, secret) values ('fake-user', 'comma, inside', 'fake')"],
+        ['insert-bracket-qualified', $base, 'maskSensitiveSql', "insert into t ([profile].[password], name) values ('fake', 'keep')"],
+        ['insert-quotes-commas', $base, 'maskSensitiveSql', "insert into t (name, password, note) values ('O\\'Brien, Jr', 'fake', 'ordinary')"],
+        ['insert-empty-column', $base, 'maskSensitiveSql', "insert into t () values ('fake')"],
+        ['insert-missing-value', $base, 'maskSensitiveSql', "insert into t (name, password) values ('ordinary')"],
+        ['empty-keys', [], 'maskSensitiveSql', "select * from t where token = 'fake'"],
+        ['no-sensitive-column', $base, 'maskSensitiveSql', "insert into t (name, note) values ('fake-user','ordinary')"],
+        ['placeholder', $base, 'maskSensitiveSql', 'select * from t where password = ?'],
+        ['negative-gap', $base, 'maskSensitiveSql', 'select * from t where password = -42'],
+        ['bare-word-gap', $base, 'maskSensitiveSql', 'select * from t where password = fake'],
+        ['null-gap', $base, 'maskSensitiveSql', 'select * from t where password = NULL'],
+        ['nested-function-gap', $base, 'maskSensitiveSql', "insert into t (name, password) values ('ordinary', concat('fake','value'))"],
+        ['in-nested-function-gap', $base, 'maskSensitiveSql', "select * from t where token IN (concat('fake','value'))"],
+        ['no-auto-secrets', $base, 'maskSensitiveSql', "select * from t where note = 'Bearer fake-token'"],
+        ['regex-key-escaped', ['a+b'], 'maskSensitiveSql', "select * from t where a+b = 'fake'"],
+        ['ordinary-text', $base, 'maskSensitiveSql', 'ordinary 中文 text stays unchanged'],
+    ];
+}
 $output = [];
 foreach ($cases as [$name, $keys, $method, $input]) {
     $masker = new Mooeen\MonitorLaravel\Recorder\SensitiveMasker($keys);

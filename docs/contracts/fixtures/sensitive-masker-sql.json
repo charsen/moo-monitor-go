@@ -1,0 +1,416 @@
+{
+    "evidence": "fixed fake inputs; exact SensitiveMasker class only; no Composer, Host, env, DB or Cloud",
+    "source_commit": "28d424e286222c391b7e64cfb5643e788dfcc456",
+    "source_file_sha256": "0a0cfe0ed7eac0f18f122b6f0b5410146f0494fdff5818105e12b8ccb1c51997",
+    "php_version": "8.3.35",
+    "cases": [
+        {
+            "name": "equals",
+            "keys": [
+                "password",
+                "pwd",
+                "token",
+                "secret",
+                "api_key",
+                "authorization"
+            ],
+            "method": "maskSensitiveSql",
+            "input": "select * from t where token = 'fake-token' and id = 7",
+            "output": "select * from t where token = *** and id = 7"
+        },
+        {
+            "name": "not-equal",
+            "keys": [
+                "password",
+                "pwd",
+                "token",
+                "secret",
+                "api_key",
+                "authorization"
+            ],
+            "method": "maskSensitiveSql",
+            "input": "select * from t where password != 'fake'",
+            "output": "select * from t where password != ***"
+        },
+        {
+            "name": "not-equal-angle",
+            "keys": [
+                "password",
+                "pwd",
+                "token",
+                "secret",
+                "api_key",
+                "authorization"
+            ],
+            "method": "maskSensitiveSql",
+            "input": "select * from t where password <> \"fake\"",
+            "output": "select * from t where password <> ***"
+        },
+        {
+            "name": "greater-equal",
+            "keys": [
+                "password",
+                "pwd",
+                "token",
+                "secret",
+                "api_key",
+                "authorization"
+            ],
+            "method": "maskSensitiveSql",
+            "input": "select * from t where token >= 12.5",
+            "output": "select * from t where token >= ***"
+        },
+        {
+            "name": "less-equal",
+            "keys": [
+                "password",
+                "pwd",
+                "token",
+                "secret",
+                "api_key",
+                "authorization"
+            ],
+            "method": "maskSensitiveSql",
+            "input": "select * from t where token <= 9",
+            "output": "select * from t where token <= ***"
+        },
+        {
+            "name": "greater",
+            "keys": [
+                "password",
+                "pwd",
+                "token",
+                "secret",
+                "api_key",
+                "authorization"
+            ],
+            "method": "maskSensitiveSql",
+            "input": "select * from t where token > 8",
+            "output": "select * from t where token > ***"
+        },
+        {
+            "name": "less",
+            "keys": [
+                "password",
+                "pwd",
+                "token",
+                "secret",
+                "api_key",
+                "authorization"
+            ],
+            "method": "maskSensitiveSql",
+            "input": "select * from t where token < 7",
+            "output": "select * from t where token < ***"
+        },
+        {
+            "name": "like",
+            "keys": [
+                "password",
+                "pwd",
+                "token",
+                "secret",
+                "api_key",
+                "authorization"
+            ],
+            "method": "maskSensitiveSql",
+            "input": "select * from t where API_TOKEN LIKE 'fake%'",
+            "output": "select * from t where API_TOKEN LIKE ***"
+        },
+        {
+            "name": "in-list",
+            "keys": [
+                "password",
+                "pwd",
+                "token",
+                "secret",
+                "api_key",
+                "authorization"
+            ],
+            "method": "maskSensitiveSql",
+            "input": "select * from t where secret IN ('fake-a', 'fake-b')",
+            "output": "select * from t where secret IN ***"
+        },
+        {
+            "name": "quoted-qualified",
+            "keys": [
+                "password",
+                "pwd",
+                "token",
+                "secret",
+                "api_key",
+                "authorization"
+            ],
+            "method": "maskSensitiveSql",
+            "input": "select * from t where `t`.`api_token` = 'fake' and [password] = 'fake'",
+            "output": "select * from t where `t`.`api_token` = *** and [password] = ***"
+        },
+        {
+            "name": "escaped-single-backslash",
+            "keys": [
+                "password",
+                "pwd",
+                "token",
+                "secret",
+                "api_key",
+                "authorization"
+            ],
+            "method": "maskSensitiveSql",
+            "input": "update t set password = 'fake\\'quote\\\\tail', note = 'O\\'Brien'",
+            "output": "update t set password = ***, note = 'O\\'Brien'"
+        },
+        {
+            "name": "escaped-double",
+            "keys": [
+                "password",
+                "pwd",
+                "token",
+                "secret",
+                "api_key",
+                "authorization"
+            ],
+            "method": "maskSensitiveSql",
+            "input": "update t set password = \"fake\\\"quote\\\\tail\", note = \"normal\"",
+            "output": "update t set password = ***, note = \"normal\""
+        },
+        {
+            "name": "insert-single",
+            "keys": [
+                "password",
+                "pwd",
+                "token",
+                "secret",
+                "api_key",
+                "authorization"
+            ],
+            "method": "maskSensitiveSql",
+            "input": "insert into users (name, password) values ('fake-user','fake-password')",
+            "output": "insert into users (name, password) values ('fake-user', ***)"
+        },
+        {
+            "name": "insert-multiple",
+            "keys": [
+                "password",
+                "pwd",
+                "token",
+                "secret",
+                "api_key",
+                "authorization"
+            ],
+            "method": "maskSensitiveSql",
+            "input": "INSERT INTO users (`api_token`, name, password) VALUES ('fake-a','one','fake-p'), ('fake-b', 'two', 'fake-q')",
+            "output": "INSERT INTO users (`api_token`, name, password) VALUES (***, 'one', ***), (***, 'two', ***)"
+        },
+        {
+            "name": "insert-sensitive-last",
+            "keys": [
+                "password",
+                "pwd",
+                "token",
+                "secret",
+                "api_key",
+                "authorization"
+            ],
+            "method": "maskSensitiveSql",
+            "input": "insert into users (name, note, secret) values ('fake-user', 'comma, inside', 'fake')",
+            "output": "insert into users (name, note, secret) values ('fake-user', 'comma, inside', ***)"
+        },
+        {
+            "name": "insert-bracket-qualified",
+            "keys": [
+                "password",
+                "pwd",
+                "token",
+                "secret",
+                "api_key",
+                "authorization"
+            ],
+            "method": "maskSensitiveSql",
+            "input": "insert into t ([profile].[password], name) values ('fake', 'keep')",
+            "output": "insert into t ([profile].[password], name) values (***, 'keep')"
+        },
+        {
+            "name": "insert-quotes-commas",
+            "keys": [
+                "password",
+                "pwd",
+                "token",
+                "secret",
+                "api_key",
+                "authorization"
+            ],
+            "method": "maskSensitiveSql",
+            "input": "insert into t (name, password, note) values ('O\\'Brien, Jr', 'fake', 'ordinary')",
+            "output": "insert into t (name, password, note) values ('O\\'Brien, Jr', ***, 'ordinary')"
+        },
+        {
+            "name": "insert-empty-column",
+            "keys": [
+                "password",
+                "pwd",
+                "token",
+                "secret",
+                "api_key",
+                "authorization"
+            ],
+            "method": "maskSensitiveSql",
+            "input": "insert into t () values ('fake')",
+            "output": "insert into t () values ('fake')"
+        },
+        {
+            "name": "insert-missing-value",
+            "keys": [
+                "password",
+                "pwd",
+                "token",
+                "secret",
+                "api_key",
+                "authorization"
+            ],
+            "method": "maskSensitiveSql",
+            "input": "insert into t (name, password) values ('ordinary')",
+            "output": "insert into t (name, password) values ('ordinary')"
+        },
+        {
+            "name": "empty-keys",
+            "keys": [],
+            "method": "maskSensitiveSql",
+            "input": "select * from t where token = 'fake'",
+            "output": "select * from t where token = 'fake'"
+        },
+        {
+            "name": "no-sensitive-column",
+            "keys": [
+                "password",
+                "pwd",
+                "token",
+                "secret",
+                "api_key",
+                "authorization"
+            ],
+            "method": "maskSensitiveSql",
+            "input": "insert into t (name, note) values ('fake-user','ordinary')",
+            "output": "insert into t (name, note) values ('fake-user','ordinary')"
+        },
+        {
+            "name": "placeholder",
+            "keys": [
+                "password",
+                "pwd",
+                "token",
+                "secret",
+                "api_key",
+                "authorization"
+            ],
+            "method": "maskSensitiveSql",
+            "input": "select * from t where password = ?",
+            "output": "select * from t where password = ?"
+        },
+        {
+            "name": "negative-gap",
+            "keys": [
+                "password",
+                "pwd",
+                "token",
+                "secret",
+                "api_key",
+                "authorization"
+            ],
+            "method": "maskSensitiveSql",
+            "input": "select * from t where password = -42",
+            "output": "select * from t where password = -42"
+        },
+        {
+            "name": "bare-word-gap",
+            "keys": [
+                "password",
+                "pwd",
+                "token",
+                "secret",
+                "api_key",
+                "authorization"
+            ],
+            "method": "maskSensitiveSql",
+            "input": "select * from t where password = fake",
+            "output": "select * from t where password = fake"
+        },
+        {
+            "name": "null-gap",
+            "keys": [
+                "password",
+                "pwd",
+                "token",
+                "secret",
+                "api_key",
+                "authorization"
+            ],
+            "method": "maskSensitiveSql",
+            "input": "select * from t where password = NULL",
+            "output": "select * from t where password = NULL"
+        },
+        {
+            "name": "nested-function-gap",
+            "keys": [
+                "password",
+                "pwd",
+                "token",
+                "secret",
+                "api_key",
+                "authorization"
+            ],
+            "method": "maskSensitiveSql",
+            "input": "insert into t (name, password) values ('ordinary', concat('fake','value'))",
+            "output": "insert into t (name, password) values ('ordinary', ***, 'value'))"
+        },
+        {
+            "name": "in-nested-function-gap",
+            "keys": [
+                "password",
+                "pwd",
+                "token",
+                "secret",
+                "api_key",
+                "authorization"
+            ],
+            "method": "maskSensitiveSql",
+            "input": "select * from t where token IN (concat('fake','value'))",
+            "output": "select * from t where token IN ***)"
+        },
+        {
+            "name": "no-auto-secrets",
+            "keys": [
+                "password",
+                "pwd",
+                "token",
+                "secret",
+                "api_key",
+                "authorization"
+            ],
+            "method": "maskSensitiveSql",
+            "input": "select * from t where note = 'Bearer fake-token'",
+            "output": "select * from t where note = 'Bearer fake-token'"
+        },
+        {
+            "name": "regex-key-escaped",
+            "keys": [
+                "a+b"
+            ],
+            "method": "maskSensitiveSql",
+            "input": "select * from t where a+b = 'fake'",
+            "output": "select * from t where a+b = ***"
+        },
+        {
+            "name": "ordinary-text",
+            "keys": [
+                "password",
+                "pwd",
+                "token",
+                "secret",
+                "api_key",
+                "authorization"
+            ],
+            "method": "maskSensitiveSql",
+            "input": "ordinary 中文 text stays unchanged",
+            "output": "ordinary 中文 text stays unchanged"
+        }
+    ]
+}
