@@ -6,7 +6,7 @@ Go 业务系统必需的独立监控采集 SDK，全业务复刻 PHP 监控包�
 
 本包负责运行时错误、慢 SQL、聚合脱敏、可恢复本地缓冲、云端同步、心跳、自检及 MCP 接入；不提供业务页面或研发工作台。业务 Host 可以独立安装它，`go-moo-scaffold` 只消费其状态与公开接口。
 
-已建立独立标准库Go module，M07-A基础脱敏与M07-B SQL值侧有限算法已有真实PHP假输入fixture对照；递归脱敏、采集、缓冲和Cloud尚未实现。最低Go1.26.0，本机实测Go1.27.3；不加入Host workspace、不依赖scaffold。
+已建立独立标准库Go module，M07-A基础脱敏、M07-B SQL值侧有限算法与M07-C递归payload已有真实PHP假输入fixture对照；未知请求表示/Host适配、采集、缓冲和Cloud尚未实现。最低Go1.26.0，本机实测Go1.27.3；不加入Host workspace、不依赖scaffold。
 
 - [有序课程入口](docs/README.md)
 

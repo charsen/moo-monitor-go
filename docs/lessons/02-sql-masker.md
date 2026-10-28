@@ -1,6 +1,6 @@
 # 第02课：SQL诊断文本按列脱敏，不等于解析SQL
 
-[上一课：01](01-sensitive-masker.md) · [课程目录](../README.md)
+[上一课：01](01-sensitive-masker.md) · [课程目录](../README.md) · [下一课：03](03-bounded-payload.md)
 
 [第01课](01-sensitive-masker.md)完成query与自由文本，本课补SQL值侧。目标是对真实源算法的当前行为建立可重放证据，不把有限正则写成完整SQL parser，更不把处理后的诊断文本交回数据库执行。
 

@@ -3,8 +3,8 @@
 declare(strict_types=1);
 
 // Pure fixed-fake-input source probe: load only the exact masker class, never Host/autoload.
-if ($argc !== 2 && !($argc === 3 && $argv[2] === '--sql')) {
-    fwrite(STDERR, "Usage: php tools/probe-sensitive-masker.php <SensitiveMasker.php> [--sql]\n");
+if ($argc !== 2 && !($argc === 3 && in_array($argv[2], ['--sql', '--payload'], true))) {
+    fwrite(STDERR, "Usage: php tools/probe-sensitive-masker.php <SensitiveMasker.php> [--sql|--payload]\n");
     exit(2);
 }
 $file = realpath($argv[1]);
@@ -48,7 +48,7 @@ $cases = [
     ['free-text-gap', $base, 'maskSecrets', 'unlabelled-fake-sensitive-value'],
     ['free-text-partial-gap', $base, 'maskSecrets', 'password: fake first second'],
 ];
-if ($argc === 3) {
+if ($argc === 3 && $argv[2] === '--sql') {
     $cases = [
         ['equals', $base, 'maskSensitiveSql', "select * from t where token = 'fake-token' and id = 7"],
         ['not-equal', $base, 'maskSensitiveSql', "select * from t where password != 'fake'"],
@@ -83,9 +83,106 @@ if ($argc === 3) {
     ];
 }
 $output = [];
-foreach ($cases as [$name, $keys, $method, $input]) {
-    $masker = new Mooeen\MonitorLaravel\Recorder\SensitiveMasker($keys);
-    $output[] = ['name' => $name, 'keys' => $keys, 'method' => $method, 'input' => $input, 'output' => $masker->$method($input)];
+if ($argc !== 3 || $argv[2] !== '--payload') {
+    foreach ($cases as [$name, $keys, $method, $input]) {
+        $masker = new Mooeen\MonitorLaravel\Recorder\SensitiveMasker($keys);
+        $output[] = ['name' => $name, 'keys' => $keys, 'method' => $method, 'input' => $input, 'output' => $masker->$method($input)];
+    }
+}
+if ($argc === 3 && $argv[2] === '--payload') {
+    // Only declarations of these four reviewed files are loaded. Any surprise dependency aborts.
+    $root = dirname($file, 3);
+    spl_autoload_register(static function (string $class): void {
+        throw new RuntimeException('Unexpected autoload in pure payload probe: ' . $class);
+    });
+    require $root . '/src/Concerns/SafelyLogs.php';
+    require $root . '/src/Recorder/BucketedYamlRecorder.php';
+    require $root . '/src/Recorder/RuntimeErrorRecorder.php';
+    if (!extension_loaded('mbstring')) {
+        throw new RuntimeException('Payload fixture requires the reviewed mbstring path.');
+    }
+    $scalar = static fn ($value) => ['type' => 'scalar', 'value' => $value];
+    $object = static fn ($entries) => ['type' => 'object', 'entries' => array_map(static fn ($key, $value) => ['key' => $key, 'value' => $value], array_keys($entries), array_values($entries))];
+    $array = static fn ($items) => ['type' => 'array', 'values' => $items];
+    $cases = [
+        ['masked-branch', $base, null, 0, 5000, $object(['password' => $object(['note' => $scalar('fake-value')]), 'note' => $scalar('keep')])],
+        ['nested-text', $base, null, 0, 5000, $object(['profile' => $object(['note' => $scalar('Bearer fake-token')]), 'ok' => $scalar(true)])],
+        ['scalars', $base, null, 0, 5000, $array([$scalar(null), $scalar(false), $scalar(42), $scalar(1.5)])],
+        ['empty-object', $base, null, 0, 5000, $object([])],
+        ['empty-array', $base, null, 0, 5000, $array([])],
+        ['depth-five', $base, null, 5, 5000, $scalar('keep')],
+        ['depth-six', $base, null, 6, 5000, $scalar('fake-hidden')],
+        ['depth-before-container', $base, null, 6, 5000, $object(['password' => $scalar('fake')])],
+        ['masked-key-before-child-depth', $base, null, 5, 5000, $object(['password' => $scalar('fake')])],
+        ['shared-small-budget', $base, null, 0, 3, $object(['a' => $object(['x' => $scalar(1), 'y' => $scalar(2), 'z' => $scalar(3)]), 'b' => $scalar('tail')])],
+        ['masked-key-counts', $base, null, 0, 1, $object(['token' => $array([$scalar('fake')]), 'next' => $scalar('tail')])],
+        ['array-budget-shape', $base, null, 0, 2, $array([$scalar('a'), $scalar('b'), $scalar('c')])],
+        ['marker-collision', $base, null, 0, 2, $object(['__truncated__' => $scalar('old'), 'a' => $scalar('keep'), 'b' => $scalar('tail')])],
+        ['zero-budget', $base, null, 0, 0, $object(['a' => $scalar('tail')])],
+        ['chinese-cap-fifty', $base, 50, 0, 5000, $scalar(str_repeat('中', 80))],
+        ['emoji-cap-fifty', $base, 50, 0, 5000, $scalar(str_repeat('😀', 60))],
+        ['combining-codepoints', $base, 20, 0, 5000, $scalar(str_repeat("e\u{0301}", 20))],
+        ['tiny-cap', $base, 10, 0, 5000, $scalar(str_repeat('a', 200))],
+        ['zero-cap', $base, 0, 0, 5000, $scalar('abc')],
+        ['negative-cap', $base, -1, 0, 5000, $scalar('')],
+        ['cap-boundary', $base, 20, 0, 5000, $scalar(str_repeat('a', 20))],
+        ['default-boundary', $base, null, 0, 5000, $scalar(str_repeat('a', 200))],
+        ['default-over', $base, null, 0, 5000, $scalar(str_repeat('a', 201))],
+        ['mask-before-length', $base, 20, 0, 5000, $scalar('Bearer ' . str_repeat('a', 100))],
+        ['opaque-object', $base, 0, 0, 5000, ['type' => 'opaque-object', 'name' => 'stdClass']],
+        ['opaque-resource', $base, 0, 0, 5000, ['type' => 'opaque-resource', 'name' => 'stream']],
+        ['default-budget-boundary', $base, null, 0, 5000, $array(array_map($scalar, range(0, 4999)))],
+        ['default-budget-over', $base, null, 0, 5000, $array(array_map($scalar, range(0, 5000)))],
+    ];
+    $resources = [];
+    $materialize = function (array $spec) use (&$materialize, &$resources) {
+        if ($spec['type'] === 'scalar') {
+            return $spec['value'];
+        }
+        if ($spec['type'] === 'object') {
+            $value = [];
+            foreach ($spec['entries'] as $entry) {
+                $value[$entry['key']] = $materialize($entry['value']);
+            }
+            return $value;
+        }
+        if ($spec['type'] === 'array') {
+            return array_map($materialize, $spec['values']);
+        }
+        if ($spec['type'] === 'opaque-object') {
+            return (object) ['password' => 'fixed-fake-property-never-serialized'];
+        }
+        if ($spec['type'] === 'opaque-resource') {
+            $value = fopen('php://memory', 'r+');
+            if ($value === false) {
+                throw new RuntimeException('Cannot create an in-memory fake resource.');
+            }
+            $resources[] = $value;
+            return $value;
+        }
+        throw new RuntimeException('Unknown fixed payload input specification.');
+    };
+    $output = [];
+    try {
+        foreach ($cases as [$name, $keys, $cap, $depth, $initialBudget, $spec]) {
+            $config = ['mask_keys' => $keys];
+            if ($cap !== null) {
+                $config['string_truncate'] = $cap;
+            }
+            // Non-null arguments short-circuit Host config/path resolution. Constructor assigns only.
+            $recorder = new Mooeen\MonitorLaravel\Recorder\RuntimeErrorRecorder('/__go_moo_payload_probe_never_written__', $config);
+            $method = new ReflectionMethod($recorder, 'maskRecursive');
+            $method->setAccessible(true);
+            $budget = $initialBudget;
+            $value = $materialize($spec);
+            $result = $method->invokeArgs($recorder, [$value, $depth, &$budget]);
+            $output[] = ['name' => $name, 'keys' => $keys, 'string_cap' => $cap, 'depth' => $depth, 'initial_budget' => $initialBudget, 'remaining_budget' => $budget, 'input_spec' => $spec, 'output' => $result];
+        }
+    } finally {
+        foreach ($resources as $resource) {
+            fclose($resource);
+        }
+    }
 }
 $pipes = [];
 $process = proc_open(['git', '-C', dirname($file, 3), 'rev-parse', 'HEAD'], [0 => ['pipe', 'r'], 1 => ['pipe', 'w'], 2 => ['pipe', 'w']], $pipes);
@@ -100,10 +197,16 @@ fclose($pipes[2]);
 if (proc_close($process) !== 0 || !preg_match('/^[a-f0-9]{40}$/', $commit)) {
     throw new RuntimeException('Cannot identify source commit: ' . $error);
 }
-echo json_encode([
+$evidence = [
     'evidence' => 'fixed fake inputs; exact SensitiveMasker class only; no Composer, Host, env, DB or Cloud',
     'source_commit' => $commit,
     'source_file_sha256' => hash_file('sha256', $file),
     'php_version' => PHP_VERSION,
     'cases' => $output,
-], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR), "\n";
+];
+if ($argc === 3 && $argv[2] === '--payload') {
+    $evidence['evidence'] = 'fixed fake payloads; reviewed four declarations; controlled constructor and private maskRecursive reflection only; no record/build/Host/env/DB/Cloud';
+    $evidence['runtime_source_sha256'] = hash_file('sha256', dirname($file) . '/RuntimeErrorRecorder.php');
+    $evidence['mbstring'] = extension_loaded('mbstring');
+}
+echo json_encode($evidence, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR), "\n";
