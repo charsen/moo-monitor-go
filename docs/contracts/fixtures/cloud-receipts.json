@@ -1,0 +1,877 @@
+{
+    "evidence": "fixed fake receipts/versions; three source declarations; constructor fake cfg/cursor; Reflection only; no send/sync/HTTP/Host/storage",
+    "source_commit": "28d424e286222c391b7e64cfb5643e788dfcc456",
+    "source_sha256": "15aafeeb90c047d86f38d06eef45f86d0817c53366178239098593742fa65fc5",
+    "sync_sha256": "c9f5c1b9632da95b82c34af61492312dfd1c373113ef563835a55bc6b979d94e",
+    "php_version": "8.3.35",
+    "cases": [
+        {
+            "name": "partial",
+            "raw": [
+                {
+                    "index": 0,
+                    "hash": "aaaaaaaaaaaa",
+                    "status": "filtered",
+                    "retryable": false,
+                    "reason": "ingest_filter"
+                },
+                {
+                    "index": 1,
+                    "hash": "bbbbbbbbbbbb",
+                    "status": "saved",
+                    "retryable": false,
+                    "reason": null
+                },
+                {
+                    "index": 2,
+                    "hash": "cccccccccccc",
+                    "status": "skipped",
+                    "retryable": true,
+                    "reason": "upsert_failed"
+                }
+            ],
+            "saved": 1,
+            "filtered": 1,
+            "skipped": 1,
+            "records": [
+                {
+                    "hash": "aaaaaaaaaaaa"
+                },
+                {
+                    "hash": "bbbbbbbbbbbb"
+                },
+                {
+                    "hash": "cccccccccccc"
+                }
+            ],
+            "output": [
+                {
+                    "index": 0,
+                    "hash": "aaaaaaaaaaaa",
+                    "status": "filtered",
+                    "retryable": false,
+                    "reason": "ingest_filter"
+                },
+                {
+                    "index": 1,
+                    "hash": "bbbbbbbbbbbb",
+                    "status": "saved",
+                    "retryable": false,
+                    "reason": null
+                },
+                {
+                    "index": 2,
+                    "hash": "cccccccccccc",
+                    "status": "skipped",
+                    "retryable": true,
+                    "reason": "upsert_failed"
+                }
+            ]
+        },
+        {
+            "name": "reordered",
+            "raw": [
+                {
+                    "index": 2,
+                    "hash": "cccccccccccc",
+                    "status": "skipped",
+                    "retryable": true,
+                    "reason": "upsert_failed"
+                },
+                {
+                    "index": 0,
+                    "hash": "aaaaaaaaaaaa",
+                    "status": "filtered",
+                    "retryable": false,
+                    "reason": "ingest_filter"
+                },
+                {
+                    "index": 1,
+                    "hash": "bbbbbbbbbbbb",
+                    "status": "saved",
+                    "retryable": false,
+                    "reason": null
+                }
+            ],
+            "saved": 1,
+            "filtered": 1,
+            "skipped": 1,
+            "records": [
+                {
+                    "hash": "aaaaaaaaaaaa"
+                },
+                {
+                    "hash": "bbbbbbbbbbbb"
+                },
+                {
+                    "hash": "cccccccccccc"
+                }
+            ],
+            "output": [
+                {
+                    "index": 0,
+                    "hash": "aaaaaaaaaaaa",
+                    "status": "filtered",
+                    "retryable": false,
+                    "reason": "ingest_filter"
+                },
+                {
+                    "index": 1,
+                    "hash": "bbbbbbbbbbbb",
+                    "status": "saved",
+                    "retryable": false,
+                    "reason": null
+                },
+                {
+                    "index": 2,
+                    "hash": "cccccccccccc",
+                    "status": "skipped",
+                    "retryable": true,
+                    "reason": "upsert_failed"
+                }
+            ]
+        },
+        {
+            "name": "object-values",
+            "raw": {
+                "third": {
+                    "index": 2,
+                    "hash": "cccccccccccc",
+                    "status": "skipped",
+                    "retryable": true,
+                    "reason": "upsert_failed"
+                },
+                "first": {
+                    "index": 0,
+                    "hash": "aaaaaaaaaaaa",
+                    "status": "filtered",
+                    "retryable": false,
+                    "reason": "ingest_filter"
+                },
+                "second": {
+                    "index": 1,
+                    "hash": "bbbbbbbbbbbb",
+                    "status": "saved",
+                    "retryable": false,
+                    "reason": null
+                }
+            },
+            "saved": 1,
+            "filtered": 1,
+            "skipped": 1,
+            "records": [
+                {
+                    "hash": "aaaaaaaaaaaa"
+                },
+                {
+                    "hash": "bbbbbbbbbbbb"
+                },
+                {
+                    "hash": "cccccccccccc"
+                }
+            ],
+            "output": [
+                {
+                    "index": 0,
+                    "hash": "aaaaaaaaaaaa",
+                    "status": "filtered",
+                    "retryable": false,
+                    "reason": "ingest_filter"
+                },
+                {
+                    "index": 1,
+                    "hash": "bbbbbbbbbbbb",
+                    "status": "saved",
+                    "retryable": false,
+                    "reason": null
+                },
+                {
+                    "index": 2,
+                    "hash": "cccccccccccc",
+                    "status": "skipped",
+                    "retryable": true,
+                    "reason": "upsert_failed"
+                }
+            ]
+        },
+        {
+            "name": "null",
+            "raw": null,
+            "saved": 1,
+            "filtered": 1,
+            "skipped": 1,
+            "records": [
+                {
+                    "hash": "aaaaaaaaaaaa"
+                },
+                {
+                    "hash": "bbbbbbbbbbbb"
+                },
+                {
+                    "hash": "cccccccccccc"
+                }
+            ],
+            "output": null
+        },
+        {
+            "name": "count-mismatch",
+            "raw": [
+                {
+                    "index": 0,
+                    "hash": "aaaaaaaaaaaa",
+                    "status": "filtered",
+                    "retryable": false,
+                    "reason": "ingest_filter"
+                },
+                {
+                    "index": 1,
+                    "hash": "bbbbbbbbbbbb",
+                    "status": "saved",
+                    "retryable": false,
+                    "reason": null
+                },
+                {
+                    "index": 2,
+                    "hash": "cccccccccccc",
+                    "status": "skipped",
+                    "retryable": true,
+                    "reason": "upsert_failed"
+                }
+            ],
+            "saved": 2,
+            "filtered": 0,
+            "skipped": 1,
+            "records": [
+                {
+                    "hash": "aaaaaaaaaaaa"
+                },
+                {
+                    "hash": "bbbbbbbbbbbb"
+                },
+                {
+                    "hash": "cccccccccccc"
+                }
+            ],
+            "output": null
+        },
+        {
+            "name": "missing-item",
+            "raw": [
+                {
+                    "index": 0,
+                    "hash": "aaaaaaaaaaaa",
+                    "status": "filtered",
+                    "retryable": false,
+                    "reason": "ingest_filter"
+                },
+                {
+                    "index": 1,
+                    "hash": "bbbbbbbbbbbb",
+                    "status": "saved",
+                    "retryable": false,
+                    "reason": null
+                }
+            ],
+            "saved": 1,
+            "filtered": 1,
+            "skipped": 1,
+            "records": [
+                {
+                    "hash": "aaaaaaaaaaaa"
+                },
+                {
+                    "hash": "bbbbbbbbbbbb"
+                },
+                {
+                    "hash": "cccccccccccc"
+                }
+            ],
+            "output": null
+        },
+        {
+            "name": "duplicate-index",
+            "raw": [
+                {
+                    "index": 0,
+                    "hash": "aaaaaaaaaaaa",
+                    "status": "filtered",
+                    "retryable": false,
+                    "reason": "ingest_filter"
+                },
+                {
+                    "index": 0,
+                    "hash": "bbbbbbbbbbbb",
+                    "status": "saved",
+                    "retryable": false,
+                    "reason": null
+                },
+                {
+                    "index": 2,
+                    "hash": "cccccccccccc",
+                    "status": "skipped",
+                    "retryable": true,
+                    "reason": "upsert_failed"
+                }
+            ],
+            "saved": 1,
+            "filtered": 1,
+            "skipped": 1,
+            "records": [
+                {
+                    "hash": "aaaaaaaaaaaa"
+                },
+                {
+                    "hash": "bbbbbbbbbbbb"
+                },
+                {
+                    "hash": "cccccccccccc"
+                }
+            ],
+            "output": null
+        },
+        {
+            "name": "index-string",
+            "raw": [
+                {
+                    "index": 0,
+                    "hash": "aaaaaaaaaaaa",
+                    "status": "filtered",
+                    "retryable": false,
+                    "reason": "ingest_filter"
+                },
+                {
+                    "index": "1",
+                    "hash": "bbbbbbbbbbbb",
+                    "status": "saved",
+                    "retryable": false,
+                    "reason": null
+                },
+                {
+                    "index": 2,
+                    "hash": "cccccccccccc",
+                    "status": "skipped",
+                    "retryable": true,
+                    "reason": "upsert_failed"
+                }
+            ],
+            "saved": 1,
+            "filtered": 1,
+            "skipped": 1,
+            "records": [
+                {
+                    "hash": "aaaaaaaaaaaa"
+                },
+                {
+                    "hash": "bbbbbbbbbbbb"
+                },
+                {
+                    "hash": "cccccccccccc"
+                }
+            ],
+            "output": null
+        },
+        {
+            "name": "negative-index",
+            "raw": [
+                {
+                    "index": 0,
+                    "hash": "aaaaaaaaaaaa",
+                    "status": "filtered",
+                    "retryable": false,
+                    "reason": "ingest_filter"
+                },
+                {
+                    "index": -1,
+                    "hash": "bbbbbbbbbbbb",
+                    "status": "saved",
+                    "retryable": false,
+                    "reason": null
+                },
+                {
+                    "index": 2,
+                    "hash": "cccccccccccc",
+                    "status": "skipped",
+                    "retryable": true,
+                    "reason": "upsert_failed"
+                }
+            ],
+            "saved": 1,
+            "filtered": 1,
+            "skipped": 1,
+            "records": [
+                {
+                    "hash": "aaaaaaaaaaaa"
+                },
+                {
+                    "hash": "bbbbbbbbbbbb"
+                },
+                {
+                    "hash": "cccccccccccc"
+                }
+            ],
+            "output": null
+        },
+        {
+            "name": "wrong-hash",
+            "raw": [
+                {
+                    "index": 0,
+                    "hash": "aaaaaaaaaaaa",
+                    "status": "filtered",
+                    "retryable": false,
+                    "reason": "ingest_filter"
+                },
+                {
+                    "index": 1,
+                    "hash": "dddddddddddd",
+                    "status": "saved",
+                    "retryable": false,
+                    "reason": null
+                },
+                {
+                    "index": 2,
+                    "hash": "cccccccccccc",
+                    "status": "skipped",
+                    "retryable": true,
+                    "reason": "upsert_failed"
+                }
+            ],
+            "saved": 1,
+            "filtered": 1,
+            "skipped": 1,
+            "records": [
+                {
+                    "hash": "aaaaaaaaaaaa"
+                },
+                {
+                    "hash": "bbbbbbbbbbbb"
+                },
+                {
+                    "hash": "cccccccccccc"
+                }
+            ],
+            "output": null
+        },
+        {
+            "name": "unknown-status",
+            "raw": [
+                {
+                    "index": 0,
+                    "hash": "aaaaaaaaaaaa",
+                    "status": "filtered",
+                    "retryable": false,
+                    "reason": "ingest_filter"
+                },
+                {
+                    "index": 1,
+                    "hash": "bbbbbbbbbbbb",
+                    "status": "unknown",
+                    "retryable": false,
+                    "reason": null
+                },
+                {
+                    "index": 2,
+                    "hash": "cccccccccccc",
+                    "status": "skipped",
+                    "retryable": true,
+                    "reason": "upsert_failed"
+                }
+            ],
+            "saved": 1,
+            "filtered": 1,
+            "skipped": 1,
+            "records": [
+                {
+                    "hash": "aaaaaaaaaaaa"
+                },
+                {
+                    "hash": "bbbbbbbbbbbb"
+                },
+                {
+                    "hash": "cccccccccccc"
+                }
+            ],
+            "output": null
+        },
+        {
+            "name": "retryable-string",
+            "raw": [
+                {
+                    "index": 0,
+                    "hash": "aaaaaaaaaaaa",
+                    "status": "filtered",
+                    "retryable": false,
+                    "reason": "ingest_filter"
+                },
+                {
+                    "index": 1,
+                    "hash": "bbbbbbbbbbbb",
+                    "status": "saved",
+                    "retryable": "false",
+                    "reason": null
+                },
+                {
+                    "index": 2,
+                    "hash": "cccccccccccc",
+                    "status": "skipped",
+                    "retryable": true,
+                    "reason": "upsert_failed"
+                }
+            ],
+            "saved": 1,
+            "filtered": 1,
+            "skipped": 1,
+            "records": [
+                {
+                    "hash": "aaaaaaaaaaaa"
+                },
+                {
+                    "hash": "bbbbbbbbbbbb"
+                },
+                {
+                    "hash": "cccccccccccc"
+                }
+            ],
+            "output": null
+        },
+        {
+            "name": "saved-retryable",
+            "raw": [
+                {
+                    "index": 0,
+                    "hash": "aaaaaaaaaaaa",
+                    "status": "filtered",
+                    "retryable": false,
+                    "reason": "ingest_filter"
+                },
+                {
+                    "index": 1,
+                    "hash": "bbbbbbbbbbbb",
+                    "status": "saved",
+                    "retryable": true,
+                    "reason": null
+                },
+                {
+                    "index": 2,
+                    "hash": "cccccccccccc",
+                    "status": "skipped",
+                    "retryable": true,
+                    "reason": "upsert_failed"
+                }
+            ],
+            "saved": 1,
+            "filtered": 1,
+            "skipped": 1,
+            "records": [
+                {
+                    "hash": "aaaaaaaaaaaa"
+                },
+                {
+                    "hash": "bbbbbbbbbbbb"
+                },
+                {
+                    "hash": "cccccccccccc"
+                }
+            ],
+            "output": null
+        },
+        {
+            "name": "skipped-reason-empty",
+            "raw": [
+                {
+                    "index": 0,
+                    "hash": "aaaaaaaaaaaa",
+                    "status": "filtered",
+                    "retryable": false,
+                    "reason": "ingest_filter"
+                },
+                {
+                    "index": 1,
+                    "hash": "bbbbbbbbbbbb",
+                    "status": "saved",
+                    "retryable": false,
+                    "reason": null
+                },
+                {
+                    "index": 2,
+                    "hash": "cccccccccccc",
+                    "status": "skipped",
+                    "retryable": true,
+                    "reason": ""
+                }
+            ],
+            "saved": 1,
+            "filtered": 1,
+            "skipped": 1,
+            "records": [
+                {
+                    "hash": "aaaaaaaaaaaa"
+                },
+                {
+                    "hash": "bbbbbbbbbbbb"
+                },
+                {
+                    "hash": "cccccccccccc"
+                }
+            ],
+            "output": null
+        },
+        {
+            "name": "skipped-reason-null",
+            "raw": [
+                {
+                    "index": 0,
+                    "hash": "aaaaaaaaaaaa",
+                    "status": "filtered",
+                    "retryable": false,
+                    "reason": "ingest_filter"
+                },
+                {
+                    "index": 1,
+                    "hash": "bbbbbbbbbbbb",
+                    "status": "saved",
+                    "retryable": false,
+                    "reason": null
+                },
+                {
+                    "index": 2,
+                    "hash": "cccccccccccc",
+                    "status": "skipped",
+                    "retryable": true,
+                    "reason": null
+                }
+            ],
+            "saved": 1,
+            "filtered": 1,
+            "skipped": 1,
+            "records": [
+                {
+                    "hash": "aaaaaaaaaaaa"
+                },
+                {
+                    "hash": "bbbbbbbbbbbb"
+                },
+                {
+                    "hash": "cccccccccccc"
+                }
+            ],
+            "output": null
+        },
+        {
+            "name": "reason-number",
+            "raw": [
+                {
+                    "index": 0,
+                    "hash": "aaaaaaaaaaaa",
+                    "status": "filtered",
+                    "retryable": false,
+                    "reason": "ingest_filter"
+                },
+                {
+                    "index": 1,
+                    "hash": "bbbbbbbbbbbb",
+                    "status": "saved",
+                    "retryable": false,
+                    "reason": null
+                },
+                {
+                    "index": 2,
+                    "hash": "cccccccccccc",
+                    "status": "skipped",
+                    "retryable": true,
+                    "reason": 42
+                }
+            ],
+            "saved": 1,
+            "filtered": 1,
+            "skipped": 1,
+            "records": [
+                {
+                    "hash": "aaaaaaaaaaaa"
+                },
+                {
+                    "hash": "bbbbbbbbbbbb"
+                },
+                {
+                    "hash": "cccccccccccc"
+                }
+            ],
+            "output": null
+        },
+        {
+            "name": "missing-reason",
+            "raw": [
+                {
+                    "index": 0,
+                    "hash": "aaaaaaaaaaaa",
+                    "status": "filtered",
+                    "retryable": false,
+                    "reason": "ingest_filter"
+                },
+                {
+                    "index": 1,
+                    "hash": "bbbbbbbbbbbb",
+                    "status": "saved",
+                    "retryable": false
+                },
+                {
+                    "index": 2,
+                    "hash": "cccccccccccc",
+                    "status": "skipped",
+                    "retryable": true,
+                    "reason": "upsert_failed"
+                }
+            ],
+            "saved": 1,
+            "filtered": 1,
+            "skipped": 1,
+            "records": [
+                {
+                    "hash": "aaaaaaaaaaaa"
+                },
+                {
+                    "hash": "bbbbbbbbbbbb"
+                },
+                {
+                    "hash": "cccccccccccc"
+                }
+            ],
+            "output": null
+        },
+        {
+            "name": "permanent",
+            "raw": [
+                {
+                    "index": 0,
+                    "hash": "aaaaaaaaaaaa",
+                    "status": "filtered",
+                    "retryable": false,
+                    "reason": "ingest_filter"
+                },
+                {
+                    "index": 1,
+                    "hash": "bbbbbbbbbbbb",
+                    "status": "saved",
+                    "retryable": false,
+                    "reason": null
+                },
+                {
+                    "index": 2,
+                    "hash": "cccccccccccc",
+                    "status": "skipped",
+                    "retryable": false,
+                    "reason": "invalid_record"
+                }
+            ],
+            "saved": 1,
+            "filtered": 1,
+            "skipped": 1,
+            "records": [
+                {
+                    "hash": "aaaaaaaaaaaa"
+                },
+                {
+                    "hash": "bbbbbbbbbbbb"
+                },
+                {
+                    "hash": "cccccccccccc"
+                }
+            ],
+            "output": [
+                {
+                    "index": 0,
+                    "hash": "aaaaaaaaaaaa",
+                    "status": "filtered",
+                    "retryable": false,
+                    "reason": "ingest_filter"
+                },
+                {
+                    "index": 1,
+                    "hash": "bbbbbbbbbbbb",
+                    "status": "saved",
+                    "retryable": false,
+                    "reason": null
+                },
+                {
+                    "index": 2,
+                    "hash": "cccccccccccc",
+                    "status": "skipped",
+                    "retryable": false,
+                    "reason": "invalid_record"
+                }
+            ]
+        }
+    ],
+    "empty_cases": [
+        {
+            "wire_results_json": "[]",
+            "output": []
+        },
+        {
+            "wire_results_json": "{}",
+            "output": []
+        },
+        {
+            "wire_results_json": "null",
+            "output": null
+        }
+    ],
+    "versions": [
+        {
+            "name": "same",
+            "record": "2026-10-29T12:00:00.123+08:00",
+            "ack": "2026-10-29T12:00:00.123+08:00",
+            "acknowledged": true
+        },
+        {
+            "name": "newer",
+            "record": "2026-10-29T12:00:00.124+08:00",
+            "ack": "2026-10-29T12:00:00.123+08:00",
+            "acknowledged": false
+        },
+        {
+            "name": "same-zone-converted",
+            "record": "2026-10-29T04:00:00.123+00:00",
+            "ack": "2026-10-29T12:00:00.123+08:00",
+            "acknowledged": true
+        },
+        {
+            "name": "microsecond",
+            "record": "2026-10-29T12:00:00.123456+08:00",
+            "ack": "2026-10-29T12:00:00.123455+08:00",
+            "acknowledged": false
+        },
+        {
+            "name": "invalid-same",
+            "record": "not-a-time",
+            "ack": "not-a-time",
+            "acknowledged": true
+        }
+    ],
+    "timestamps": [
+        {
+            "input": {
+                "meta": {
+                    "updated_at": "fixture-update"
+                },
+                "last_seen": "fixture-last"
+            },
+            "output": "fixture-update"
+        },
+        {
+            "input": {
+                "last_seen": "fixture-last"
+            },
+            "output": "fixture-last"
+        },
+        {
+            "input": {
+                "meta": {
+                    "updated_at": ""
+                },
+                "last_seen": "fixture-last"
+            },
+            "output": ""
+        }
+    ]
+}

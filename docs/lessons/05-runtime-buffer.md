@@ -1,6 +1,6 @@
 # 第05课：运行时缓冲、三桶与可恢复提交
 
-[上一课：04](04-runtime-records.md) · [课程目录](../README.md)
+[上一课：04](04-runtime-records.md) · [课程目录](../README.md) · [下一课：06](06-incremental-sync.md)
 
 04已经能从显式Snapshot构建Record，本课让记录在独立本地目录中累计、冻结和恢复。主链仍由调用者显式触发，不自动采集请求，不向Cloud发送任何内容。范围见[本步计划](../plans/05-runtime-buffer.md)。
 

@@ -8,13 +8,13 @@
 
 本包是 headless 监控 SDK：采集、脱敏、聚合、可恢复缓冲、增量同步和运维接口由它负责。Goravel 适配与通用记录/传输能力保持明确边界，是否拆 module 在实现时决定。业务 Host 可以不安装 scaffold 而单独使用 monitor；monitor 不依赖研发 UI。
 
-PHP 复核基线为本机 `moo-monitor-laravel` 提交 `28d424e`。现阶段已盘点入口、阅读关键采集/存储/同步契约，已实现M07纯脱敏与M02显式快照构建部分，并运行受控PHP纯组件probe；M08已有私有scope本地运行时缓冲与intent恢复；真实采集/Cloud仍待实现。
+PHP 复核基线为本机 `moo-monitor-laravel` 提交 `28d424e`。现阶段已盘点入口、阅读关键采集/存储/同步契约，已实现M07纯脱敏与M02显式快照构建部分，并运行受控PHP纯组件probe；M08已有私有scope本地运行时缓冲与intent恢复；06已有显式Client的增量快照/严格回执/持久确认，真实采集/生产HTTP/Cloud仍待接。
 
 依据：[PHP README](../../moo-monitor-laravel/README.md)、[Cloud 契约](../../moo-monitor-laravel/docs/cloud-api-contract.md)、[Provider](../../moo-monitor-laravel/src/MooeenMonitorLaravelServiceProvider.php)、[源码与测试索引](php-surface-inventory.md)。
 
 ## 完整能力对照
 
-以下编号是能力分类，复核发现的遗漏继续补入。M07-A已有[基础脱敏](lessons/01-sensitive-masker.md)，M07-B已有[SQL值侧有限算法](lessons/02-sql-masker.md)，M07-C已有[递归payload与截断](lessons/03-bounded-payload.md)及各自源fixture；M02已有[运行时记录构建与刷新](lessons/04-runtime-records.md)，覆盖显式输入、脱敏/hash/count/daily/source优先级，该课未自动采集/落盘；M08已在[第05课](lessons/05-runtime-buffer.md)接本地缓冲/cap/持久overflow/重开与恢复。未知请求表示/Host适配与其余条目仍待逐项完成。PHP 特有路径需核实 Go 对应能力；平台限制记为待解决缺口，提出替代方案并说明业务影响，不能自行删项或视为完成，也不宣称捕获所有错误。
+以下编号是能力分类，复核发现的遗漏继续补入。M07-A已有[基础脱敏](lessons/01-sensitive-masker.md)，M07-B已有[SQL值侧有限算法](lessons/02-sql-masker.md)，M07-C已有[递归payload与截断](lessons/03-bounded-payload.md)及各自源fixture；M02已有[运行时记录构建与刷新](lessons/04-runtime-records.md)，覆盖显式输入、脱敏/hash/count/daily/source优先级，该课未自动采集/落盘；M08已在[第05课](lessons/05-runtime-buffer.md)接本地缓冲/cap/持久overflow/重开与恢复。M11/12已有[第06课](lessons/06-incremental-sync.md)指纹确认账本与替身传输验证，尚无生产HTTP/真实Cloud。未知请求表示/Host适配与其余条目仍待逐项完成。PHP 特有路径需核实 Go 对应能力；平台限制记为待解决缺口，提出替代方案并说明业务影响，不能自行删项或视为完成，也不宣称捕获所有错误。
 
 | 编号 | PHP 能力与现码入口 | Go 目标及验证重点 |
 | --- | --- | --- |
@@ -25,10 +25,10 @@ PHP 复核基线为本机 `moo-monitor-laravel` 提交 `28d424e`。现阶段已�
 | M05 | PHP fatal/OOM 轻量路径和采集盲区 | 记录 Go panic/recover 的边界、同 goroutine 约束、进程终止等不可可靠采集路径，不类比宣称全覆盖 |
 | M06 | SqlSlowListener/Recorder、bindings、连接与应用栈 | 查询耗时、阈值、SQL/binding 脱敏、来源和连接标记，不改变查询或凭空制造身份 |
 | M07 | SensitiveMasker、请求/用户/console 语境、payload 截断 | Token/密码/URL/SQL/堆栈的有界脱敏，显式上下文，不把请求对象跨生命周期保存 |
-| M08 | BucketedYamlRecorder、三桶、复发、累计 count、cap/overflow | 05已有私有scope本地缓冲/累计/cap/持久overflow/journal恢复；Cloud回执与跨格式迁移待接 |
+| M08 | BucketedYamlRecorder、三桶、复发、累计 count、cap/overflow | 05已有私有scope本地缓冲/累计/cap/持久overflow/journal恢复；06已接显式Client回执，真实Cloud/缓冲维护与跨格式迁移待接 |
 | M09 | 原子写、坏记录/写失败、并发、路径限制 | 适合 Go 常驻并发/多进程的明确存储方案，容量和竞争不会拖垮业务 |
 | M10 | StorageScope、cursor、partial ack、锁与 prune 范围 | 同一 Host 多项目/环境的所有状态统一隔离，scope 不串数据 |
-| M11 | CloudClient/CloudSync、逐条回执、重试、拒绝隔离 | saved/filtered 最终确认，retryable skipped 单项保留，non-retryable 隔离；畸形回执不推进水位 |
+| M11 | CloudClient/CloudSync、逐条回执、重试、拒绝隔离 | 06已验严格receipt/失败洞/同指纹隔离与账本；生产HTTP/连接重试/真实Cloud待接 |
 | M12 | 累计快照、微秒时间、旧回执兼容、复发与 resolve | 与 Cloud 同源 fixture；既有字段语义不变，不把累计 count 当增量求和 |
 | M13 | CloudPushCommand、调度、锁、恢复、prune | 正常/无数据推送、幂等/并发/失败恢复；未确认数据不清除 |
 | M14 | HeartbeatMeta、summary、discard-local | 心跳和上报结果分开表述，只清获准环境范围，Go 元信息不伪造 PHP/Laravel 版本 |
