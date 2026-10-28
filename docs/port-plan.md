@@ -8,13 +8,13 @@
 
 本包是 headless 监控 SDK：采集、脱敏、聚合、可恢复缓冲、增量同步和运维接口由它负责。Goravel 适配与通用记录/传输能力保持明确边界，是否拆 module 在实现时决定。业务 Host 可以不安装 scaffold 而单独使用 monitor；monitor 不依赖研发 UI。
 
-PHP 复核基线为本机 `moo-monitor-laravel` 提交 `28d424e`。现阶段已盘点入口、阅读关键采集/存储/同步契约，尚未运行 PHP 行为验证或实现 Go 功能。
+PHP 复核基线为本机 `moo-monitor-laravel` 提交 `28d424e`。现阶段已盘点入口、阅读关键采集/存储/同步契约，已实现M07纯脱敏与M02显式快照构建部分，并运行受控PHP纯组件probe；真实采集、持久化/Cloud仍待实现。
 
 依据：[PHP README](../../moo-monitor-laravel/README.md)、[Cloud 契约](../../moo-monitor-laravel/docs/cloud-api-contract.md)、[Provider](../../moo-monitor-laravel/src/MooeenMonitorLaravelServiceProvider.php)、[源码与测试索引](php-surface-inventory.md)。
 
 ## 完整能力对照
 
-以下编号是能力分类，复核发现的遗漏继续补入。M07-A已有[基础脱敏](lessons/01-sensitive-masker.md)，M07-B已有[SQL值侧有限算法](lessons/02-sql-masker.md)，M07-C已有[递归payload与截断](lessons/03-bounded-payload.md)及各自源fixture；未知请求表示/Host适配与其余条目仍待逐项完成。PHP 特有路径需核实 Go 对应能力；平台限制记为待解决缺口，提出替代方案并说明业务影响，不能自行删项或视为完成，也不宣称捕获所有错误。
+以下编号是能力分类，复核发现的遗漏继续补入。M07-A已有[基础脱敏](lessons/01-sensitive-masker.md)，M07-B已有[SQL值侧有限算法](lessons/02-sql-masker.md)，M07-C已有[递归payload与截断](lessons/03-bounded-payload.md)及各自源fixture；M02已有[运行时记录构建与刷新](lessons/04-runtime-records.md)，覆盖显式输入、脱敏/hash/count/daily/source优先级，尚未自动采集/落盘/重开桶。未知请求表示/Host适配与其余条目仍待逐项完成。PHP 特有路径需核实 Go 对应能力；平台限制记为待解决缺口，提出替代方案并说明业务影响，不能自行删项或视为完成，也不宣称捕获所有错误。
 
 | 编号 | PHP 能力与现码入口 | Go 目标及验证重点 |
 | --- | --- | --- |

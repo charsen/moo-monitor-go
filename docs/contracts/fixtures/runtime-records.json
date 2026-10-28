@@ -1,0 +1,535 @@
+{
+    "evidence": "fixed fake inputs; four declarations; guarded autoload; private build/refresh/hash/meta only; nonexistent snippet path only stat; no record/Host/DB/Cloud/persistence",
+    "source_commit": "28d424e286222c391b7e64cfb5643e788dfcc456",
+    "source_sha256": {
+        "SafelyLogs": "ddc4100360459fd887cc9f5d8b157f77a1f3e1e683ca1ec6db3313f715c924df",
+        "SensitiveMasker": "0a0cfe0ed7eac0f18f122b6f0b5410146f0494fdff5818105e12b8ccb1c51997",
+        "BucketedYamlRecorder": "4a2b15884d70e59b99d305cb76d16601d3dac8883d180649a4f7003c6bc5013b",
+        "RuntimeErrorRecorder": "0d7bfffdd9965d684b32aac9d95011561a1d21ba13db95bd410c32c84b47d23b"
+    },
+    "php_version": "8.3.35",
+    "keys": [
+        "password",
+        "token",
+        "secret",
+        "authorization"
+    ],
+    "base_path": "/__go_moo_record_fixture__",
+    "hash_cases": [
+        {
+            "name": "plain",
+            "class": "FixedRecordException",
+            "file": "/__go_moo_record_fixture__/app/fake.php",
+            "line": 41,
+            "message": "Missing item 123 at attempt 42",
+            "normalized_base64": "TWlzc2luZyBpdGVtIE4gYXQgYXR0ZW1wdCBO",
+            "normalized_bytes": 27,
+            "hash": "ce85e05adebb"
+        },
+        {
+            "name": "sql-before-secret",
+            "class": "FixedRecordException",
+            "file": "/__go_moo_record_fixture__/app/fake.php",
+            "line": 41,
+            "message": "select * from t where token = 'fake-token' and id = 123 password=fake-password",
+            "normalized_base64": "c2VsZWN0ICogZnJvbSB0IHdoZXJlIHRva2VuID0gKioqIGFuZCBpZCA9IE4gcGFzc3dvcmQ9Kioq",
+            "normalized_bytes": 57,
+            "hash": "a4e4169779f8"
+        },
+        {
+            "name": "quoted",
+            "class": "FixedRecordException",
+            "file": "/__go_moo_record_fixture__/app/fake.php",
+            "line": 41,
+            "message": "item 'alpha 123' and \"beta 456\"",
+            "normalized_base64": "aXRlbSAnWCcgYW5kICJYIg==",
+            "normalized_bytes": 16,
+            "hash": "4be04808ee61"
+        },
+        {
+            "name": "uuid-hex",
+            "class": "FixedRecordException",
+            "file": "/__go_moo_record_fixture__/app/fake.php",
+            "line": 41,
+            "message": "id 123e4567-e89b-12d3-a456-426614174000 ptr 0xABC123 hash abcdef0123456789 number 456",
+            "normalized_base64": "aWQgVSBwdHIgTnhIIGhhc2ggSCBudW1iZXIgTg==",
+            "normalized_bytes": 28,
+            "hash": "fc04b1f025b5"
+        },
+        {
+            "name": "byte-cut",
+            "class": "FixedRecordException",
+            "file": "/__go_moo_record_fixture__/app/fake.php",
+            "line": 41,
+            "message": "中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中",
+            "normalized_base64": "5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5Lit5A==",
+            "normalized_bytes": 1024,
+            "hash": "da99e4ea1b22"
+        },
+        {
+            "name": "tail-a",
+            "class": "FixedRecordException",
+            "file": "/__go_moo_record_fixture__/app/fake.php",
+            "line": 41,
+            "message": "zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzA",
+            "normalized_base64": "enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6eg==",
+            "normalized_bytes": 1024,
+            "hash": "65ffff961848"
+        },
+        {
+            "name": "tail-b",
+            "class": "FixedRecordException",
+            "file": "/__go_moo_record_fixture__/app/fake.php",
+            "line": 41,
+            "message": "zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzB",
+            "normalized_base64": "enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6enp6eg==",
+            "normalized_bytes": 1024,
+            "hash": "65ffff961848"
+        },
+        {
+            "name": "ascii-digit-only",
+            "class": "FixedRecordException",
+            "file": "/__go_moo_record_fixture__/app/fake.php",
+            "line": 41,
+            "message": "数字１２３ 123",
+            "normalized_base64": "5pWw5a2X77yR77yS77yTIE4=",
+            "normalized_bytes": 17,
+            "hash": "dc82824ce3b1"
+        },
+        {
+            "name": "class",
+            "class": "OtherRecordException",
+            "file": "/__go_moo_record_fixture__/app/fake.php",
+            "line": 41,
+            "message": "Missing item 123 at attempt 42",
+            "normalized_base64": "TWlzc2luZyBpdGVtIE4gYXQgYXR0ZW1wdCBO",
+            "normalized_bytes": 27,
+            "hash": "3a820ab74d16"
+        },
+        {
+            "name": "line",
+            "class": "FixedRecordException",
+            "file": "/__go_moo_record_fixture__/app/fake.php",
+            "line": 42,
+            "message": "Missing item 123 at attempt 42",
+            "normalized_base64": "TWlzc2luZyBpdGVtIE4gYXQgYXR0ZW1wdCBO",
+            "normalized_bytes": 27,
+            "hash": "a8400148f30c"
+        },
+        {
+            "name": "prefix-collision",
+            "class": "FixedRecordException",
+            "file": "/__go_moo_record_fixture__suffix/fake.php",
+            "line": 41,
+            "message": "Missing item 123 at attempt 42",
+            "normalized_base64": "TWlzc2luZyBpdGVtIE4gYXQgYXR0ZW1wdCBO",
+            "normalized_bytes": 27,
+            "hash": "919b265090a7"
+        },
+        {
+            "name": "outside",
+            "class": "FixedRecordException",
+            "file": "/outside/fake.php",
+            "line": 41,
+            "message": "Missing item 123 at attempt 42",
+            "normalized_base64": "TWlzc2luZyBpdGVtIE4gYXQgYXR0ZW1wdCBO",
+            "normalized_bytes": 27,
+            "hash": "ac0b1237c4f2"
+        },
+        {
+            "name": "code-irrelevant",
+            "class": "FixedRecordException",
+            "file": "/__go_moo_record_fixture__/app/fake.php",
+            "line": 41,
+            "message": "Missing item 123 at attempt 42",
+            "normalized_base64": "TWlzc2luZyBpdGVtIE4gYXQgYXR0ZW1wdCBO",
+            "normalized_bytes": 27,
+            "hash": "ce85e05adebb"
+        }
+    ],
+    "path_cases": [
+        {
+            "base_path": "/root/",
+            "file": "/root-other/fake.php",
+            "relative": "-other/fake.php"
+        },
+        {
+            "base_path": "/root/",
+            "file": "/root/app/fake.php",
+            "relative": "app/fake.php"
+        },
+        {
+            "base_path": "/",
+            "file": "/outside/fake.php",
+            "relative": "outside/fake.php"
+        }
+    ],
+    "meta_cases": [
+        {
+            "name": "fresh",
+            "source": " HTTP 5xx! ",
+            "meta": {
+                "password": "fake",
+                "note": "Bearer fake-token",
+                "zero": 0,
+                "no": false,
+                "null": null,
+                "empty": "",
+                "nested": {
+                    "token": "fake"
+                }
+            },
+            "existing": [],
+            "output": {
+                "password": "***",
+                "note": "Bearer ***",
+                "zero": 0,
+                "no": false,
+                "source": "http_5xx",
+                "sources": [
+                    "http_5xx"
+                ]
+            }
+        },
+        {
+            "name": "priority-kept",
+            "source": "reportable",
+            "meta": {
+                "note": "token='fake'",
+                "zero": 0
+            },
+            "existing": {
+                "source": "queue_failed",
+                "sources": [
+                    "http_5xx",
+                    "queue_failed"
+                ],
+                "legacy_password": "fake",
+                "old": "Bearer fake-old"
+            },
+            "output": {
+                "legacy_password": "***",
+                "old": "Bearer ***",
+                "note": "token=***",
+                "zero": 0,
+                "source": "queue_failed",
+                "sources": [
+                    "http_5xx",
+                    "queue_failed",
+                    "reportable"
+                ]
+            }
+        },
+        {
+            "name": "priority-raised",
+            "source": "schedule_exit",
+            "meta": [],
+            "existing": {
+                "source": "http_5xx",
+                "sources": [
+                    "reportable"
+                ]
+            },
+            "output": {
+                "source": "schedule_exit",
+                "sources": [
+                    "reportable",
+                    "http_5xx",
+                    "schedule_exit"
+                ]
+            }
+        },
+        {
+            "name": "unknown-tie",
+            "source": "custom-next",
+            "meta": [],
+            "existing": {
+                "source": "custom-old",
+                "sources": [
+                    "custom-old"
+                ]
+            },
+            "output": {
+                "source": "custom-next",
+                "sources": [
+                    "custom-old",
+                    "custom-next"
+                ]
+            }
+        },
+        {
+            "name": "zero-source",
+            "source": "0",
+            "meta": [],
+            "existing": [],
+            "output": {
+                "source": "reportable",
+                "sources": [
+                    "reportable"
+                ]
+            }
+        },
+        {
+            "name": "fallback",
+            "source": "---",
+            "meta": {
+                "source": "fake-injected",
+                "sources": "fake"
+            },
+            "existing": [],
+            "output": {
+                "sources": [
+                    "reportable"
+                ],
+                "source": "reportable"
+            }
+        },
+        {
+            "name": "truncate-after-mask",
+            "source": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+            "meta": {
+                "long": "中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中",
+                "credential": "Bearer aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            },
+            "existing": [],
+            "output": {
+                "long": "中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中中",
+                "credential": "Bearer ***",
+                "source": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+                "sources": [
+                    "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+                ]
+            }
+        }
+    ],
+    "build": {
+        "hash": "3e4258636dd8",
+        "first_seen": "2026-10-29T12:34:56.789+08:00",
+        "last_seen": "2026-10-29T12:34:56.789+08:00",
+        "count": 1,
+        "daily": {
+            "date": "2026-10-29",
+            "count": 1
+        },
+        "status": "open",
+        "resolved_at": null,
+        "resolved_by": null,
+        "resolved_note": null,
+        "exception": {
+            "class": "FixedRecordException",
+            "code": "17",
+            "message": "select * from t where token=***",
+            "file": "app/fake.php",
+            "line": 41,
+            "previous": [
+                {
+                    "class": "FixedRecordException",
+                    "message": "previous 1 password=***",
+                    "file": "app/previous.php",
+                    "line": 1
+                },
+                {
+                    "class": "FixedRecordException",
+                    "message": "previous 2 password=***",
+                    "file": "app/previous.php",
+                    "line": 2
+                },
+                {
+                    "class": "FixedRecordException",
+                    "message": "previous 3 password=***",
+                    "file": "app/previous.php",
+                    "line": 3
+                }
+            ]
+        },
+        "request": {
+            "method": "CLI",
+            "url": null,
+            "ip": null,
+            "user_id": null,
+            "user_name": null,
+            "guard": null
+        },
+        "context": {
+            "env": "unknown",
+            "project": "unknown",
+            "php": "8.3.35",
+            "laravel": "",
+            "occurred_at": "2026-10-29T12:34:56.789+08:00"
+        },
+        "trace": {
+            "full": "#0 {main}",
+            "app_frames": []
+        },
+        "source_snippet": {
+            "file": "app/fake.php",
+            "line": 41,
+            "language": "php",
+            "code": ""
+        },
+        "payload": [],
+        "meta": {
+            "password": "***",
+            "attempt": 0,
+            "source": "http_5xx",
+            "sources": [
+                "http_5xx"
+            ]
+        }
+    },
+    "same_day_refresh": {
+        "hash": "3e4258636dd8",
+        "first_seen": "2026-10-29T12:34:56.789+08:00",
+        "last_seen": "2026-10-29T13:00:00.123+08:00",
+        "count": 5,
+        "daily": {
+            "date": "2026-10-29",
+            "count": 2
+        },
+        "status": "resolved",
+        "resolved_at": "2026-10-29T12:34:56.789+08:00",
+        "resolved_by": "fixture-actor",
+        "resolved_note": "fixture note",
+        "exception": {
+            "class": "FixedRecordException",
+            "code": "17",
+            "message": "select * from t where token=***",
+            "file": "app/fake.php",
+            "line": 41,
+            "previous": [
+                {
+                    "class": "FixedRecordException",
+                    "message": "previous 1 password=***",
+                    "file": "app/previous.php",
+                    "line": 1
+                },
+                {
+                    "class": "FixedRecordException",
+                    "message": "previous 2 password=***",
+                    "file": "app/previous.php",
+                    "line": 2
+                },
+                {
+                    "class": "FixedRecordException",
+                    "message": "previous 3 password=***",
+                    "file": "app/previous.php",
+                    "line": 3
+                }
+            ]
+        },
+        "request": {
+            "method": "CLI",
+            "url": null,
+            "ip": null,
+            "user_id": null,
+            "user_name": null,
+            "guard": null
+        },
+        "context": {
+            "env": "unknown",
+            "project": "unknown",
+            "php": "8.3.35",
+            "laravel": "",
+            "occurred_at": "2026-10-29T13:00:00.123+08:00"
+        },
+        "trace": {
+            "full": "#0 {main}",
+            "app_frames": []
+        },
+        "source_snippet": {
+            "file": "app/fake.php",
+            "line": 41,
+            "language": "php",
+            "code": ""
+        },
+        "payload": [],
+        "meta": {
+            "password": "***",
+            "attempt": 0,
+            "latest": "Bearer ***",
+            "source": "http_5xx",
+            "sources": [
+                "http_5xx",
+                "reportable"
+            ]
+        }
+    },
+    "next_day_refresh": {
+        "hash": "3e4258636dd8",
+        "first_seen": "2026-10-29T12:34:56.789+08:00",
+        "last_seen": "2026-10-30T00:00:00.001+08:00",
+        "count": 6,
+        "daily": {
+            "date": "2026-10-30",
+            "count": 1
+        },
+        "status": "resolved",
+        "resolved_at": "2026-10-29T12:34:56.789+08:00",
+        "resolved_by": "fixture-actor",
+        "resolved_note": "fixture note",
+        "exception": {
+            "class": "FixedRecordException",
+            "code": "17",
+            "message": "select * from t where token=***",
+            "file": "app/fake.php",
+            "line": 41,
+            "previous": [
+                {
+                    "class": "FixedRecordException",
+                    "message": "previous 1 password=***",
+                    "file": "app/previous.php",
+                    "line": 1
+                },
+                {
+                    "class": "FixedRecordException",
+                    "message": "previous 2 password=***",
+                    "file": "app/previous.php",
+                    "line": 2
+                },
+                {
+                    "class": "FixedRecordException",
+                    "message": "previous 3 password=***",
+                    "file": "app/previous.php",
+                    "line": 3
+                }
+            ]
+        },
+        "request": {
+            "method": "CLI",
+            "url": null,
+            "ip": null,
+            "user_id": null,
+            "user_name": null,
+            "guard": null
+        },
+        "context": {
+            "env": "unknown",
+            "project": "unknown",
+            "php": "8.3.35",
+            "laravel": "",
+            "occurred_at": "2026-10-30T00:00:00.001+08:00"
+        },
+        "trace": {
+            "full": "#0 {main}",
+            "app_frames": []
+        },
+        "source_snippet": {
+            "file": "app/fake.php",
+            "line": 41,
+            "language": "php",
+            "code": ""
+        },
+        "payload": [],
+        "meta": {
+            "password": "***",
+            "attempt": 0,
+            "latest": "Bearer ***",
+            "source": "queue_failed",
+            "sources": [
+                "http_5xx",
+                "reportable",
+                "queue_failed"
+            ]
+        }
+    }
+}
