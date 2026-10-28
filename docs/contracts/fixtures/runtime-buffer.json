@@ -1,0 +1,412 @@
+{
+    "evidence": "fixed fake source buffer in exclusive owned temp; five source declarations; restricted YAML PSR4; in-memory FakeCache; no Host/record/bootstrap/DB/Cloud",
+    "source_commit": "28d424e286222c391b7e64cfb5643e788dfcc456",
+    "source_sha256": "0d7bfffdd9965d684b32aac9d95011561a1d21ba13db95bd410c32c84b47d23b",
+    "bucketed_sha256": "4a2b15884d70e59b99d305cb76d16601d3dac8883d180649a4f7003c6bc5013b",
+    "php_version": "8.3.35",
+    "yaml_version": "v7.4.18",
+    "yaml_classes_sha256": {
+        "Dumper.php": "ea80cb19592ef6bf0300ff425d9d4a45e9bce1d9f44353ca2ffb25e7450748e4",
+        "Escaper.php": "b291de104c4744fbc2d3807632f9532b233ac907deb50e6bb64491f102b9a335",
+        "Inline.php": "85b0c6f5dc0bfb5d8199dcd2ebe6a06f94a63e401105247b52329a8832ff800a",
+        "Parser.php": "ac3efb19eca3abc94620dd7a96df8560fb938bb8f6ce5ed6b85783d93fbc28b1",
+        "ParserState.php": "f136b525befb7758f8f1bf86e6b13ab1ee3cea6ac3fb33209cfe84c398399428",
+        "Unescaper.php": "0ce2d0dde74b2474acea3fcc7353d6369c2fbe1a4de8be1007aca40fb8f0a3b7",
+        "Yaml.php": "635090027fb78b25bd2bc99820c3304e513774f88aea6408aaf87cf9ad952e29"
+    },
+    "capacity_result": null,
+    "new_yaml": "hash: 3e8692528f15\nfirst_seen: '2026-10-29T12:00:00.123+08:00'\nlast_seen: '2026-10-29T12:00:00.123+08:00'\ncount: 1\ndaily:\n  date: '2026-10-29'\n  count: 1\nstatus: open\nresolved_at: ~\nresolved_by: ~\nresolved_note: ~\nexception:\n  class: BufferFakeException\n  code: '0'\n  message: 'fixture failure 123'\n  file: app/fake.php\n  line: 17\nrequest:\n  method: CLI\n  url: ~\n  ip: ~\n  user_id: ~\n  user_name: ~\n  guard: ~\ncontext:\n  env: unknown\n  project: unknown\n  php: 8.3.35\n  laravel: ''\n  occurred_at: '2026-10-29T12:00:00.123+08:00'\ntrace:\n  full: '#0 {main}'\n  app_frames: {  }\nsource_snippet:\n  file: app/fake.php\n  line: 17\n  language: php\n  code: ''\npayload: {  }\nmeta:\n  source: reportable\n  sources:\n    - reportable\n  updated_at: '2026-10-29T12:00:00.123+08:00'\n",
+    "frozen_yaml": "hash: 3e8692528f15\nfirst_seen: '2026-10-29T12:00:00.123+08:00'\nlast_seen: '2026-10-29T12:00:00.123+08:00'\ncount: 2\ndaily:\n  date: '2026-10-29'\n  count: 2\nstatus: open\nresolved_at: ~\nresolved_by: ~\nresolved_note: ~\nexception:\n  class: BufferFakeException\n  code: '0'\n  message: 'fixture failure 123'\n  file: app/fake.php\n  line: 17\nrequest:\n  method: CLI\n  url: ~\n  ip: ~\n  user_id: ~\n  user_name: ~\n  guard: ~\ncontext:\n  env: unknown\n  project: unknown\n  php: 8.3.35\n  laravel: ''\n  occurred_at: '2026-10-29T12:00:00.123+08:00'\ntrace:\n  full: '#0 {main}'\n  app_frames: {  }\nsource_snippet:\n  file: app/fake.php\n  line: 17\n  language: php\n  code: ''\npayload: {  }\nmeta:\n  updated_at: '2026-10-29T12:00:00.123+08:00'\n  source: reportable\n  sources:\n    - reportable\n",
+    "steps": [
+        {
+            "name": "new",
+            "hash": "3e8692528f15",
+            "buckets": [
+                "open"
+            ],
+            "record": {
+                "hash": "3e8692528f15",
+                "first_seen": "2026-10-29T12:00:00.123+08:00",
+                "last_seen": "2026-10-29T12:00:00.123+08:00",
+                "count": 1,
+                "daily": {
+                    "date": "2026-10-29",
+                    "count": 1
+                },
+                "status": "open",
+                "resolved_at": null,
+                "resolved_by": null,
+                "resolved_note": null,
+                "exception": {
+                    "class": "BufferFakeException",
+                    "code": "0",
+                    "message": "fixture failure 123",
+                    "file": "app/fake.php",
+                    "line": 17
+                },
+                "request": {
+                    "method": "CLI",
+                    "url": null,
+                    "ip": null,
+                    "user_id": null,
+                    "user_name": null,
+                    "guard": null
+                },
+                "context": {
+                    "env": "unknown",
+                    "project": "unknown",
+                    "php": "8.3.35",
+                    "laravel": "",
+                    "occurred_at": "2026-10-29T12:00:00.123+08:00"
+                },
+                "trace": {
+                    "full": "#0 {main}",
+                    "app_frames": []
+                },
+                "source_snippet": {
+                    "file": "app/fake.php",
+                    "line": 17,
+                    "language": "php",
+                    "code": ""
+                },
+                "payload": [],
+                "meta": {
+                    "source": "reportable",
+                    "sources": [
+                        "reportable"
+                    ],
+                    "updated_at": "2026-10-29T12:00:00.123+08:00"
+                }
+            },
+            "count_all": 1,
+            "count_open": 1,
+            "rows": [
+                {
+                    "status": "open",
+                    "first_seen": "2026-10-29T12:00:00.123+08:00",
+                    "last_seen": "2026-10-29T12:00:00.123+08:00",
+                    "count": 1,
+                    "class": "BufferFakeException",
+                    "message_first_line": "fixture failure 123",
+                    "file": "app/fake.php",
+                    "line": 17,
+                    "url": null,
+                    "method": "CLI",
+                    "hash": "3e8692528f15"
+                }
+            ]
+        },
+        {
+            "name": "five-same-day-cap-two",
+            "hash": "3e8692528f15",
+            "buckets": [
+                "open"
+            ],
+            "record": {
+                "hash": "3e8692528f15",
+                "first_seen": "2026-10-29T12:00:00.123+08:00",
+                "last_seen": "2026-10-29T12:00:00.123+08:00",
+                "count": 2,
+                "daily": {
+                    "date": "2026-10-29",
+                    "count": 2
+                },
+                "status": "open",
+                "resolved_at": null,
+                "resolved_by": null,
+                "resolved_note": null,
+                "exception": {
+                    "class": "BufferFakeException",
+                    "code": "0",
+                    "message": "fixture failure 123",
+                    "file": "app/fake.php",
+                    "line": 17
+                },
+                "request": {
+                    "method": "CLI",
+                    "url": null,
+                    "ip": null,
+                    "user_id": null,
+                    "user_name": null,
+                    "guard": null
+                },
+                "context": {
+                    "env": "unknown",
+                    "project": "unknown",
+                    "php": "8.3.35",
+                    "laravel": "",
+                    "occurred_at": "2026-10-29T12:00:00.123+08:00"
+                },
+                "trace": {
+                    "full": "#0 {main}",
+                    "app_frames": []
+                },
+                "source_snippet": {
+                    "file": "app/fake.php",
+                    "line": 17,
+                    "language": "php",
+                    "code": ""
+                },
+                "payload": [],
+                "meta": {
+                    "updated_at": "2026-10-29T12:00:00.123+08:00",
+                    "source": "reportable",
+                    "sources": [
+                        "reportable"
+                    ]
+                }
+            },
+            "count_all": 1,
+            "count_open": 1,
+            "rows": [
+                {
+                    "status": "open",
+                    "first_seen": "2026-10-29T12:00:00.123+08:00",
+                    "last_seen": "2026-10-29T12:00:00.123+08:00",
+                    "count": 2,
+                    "class": "BufferFakeException",
+                    "message_first_line": "fixture failure 123",
+                    "file": "app/fake.php",
+                    "line": 17,
+                    "url": null,
+                    "method": "CLI",
+                    "hash": "3e8692528f15"
+                }
+            ]
+        },
+        {
+            "name": "next-day-backfill",
+            "hash": "3e8692528f15",
+            "buckets": [
+                "open"
+            ],
+            "record": {
+                "hash": "3e8692528f15",
+                "first_seen": "2026-10-29T12:00:00.123+08:00",
+                "last_seen": "2026-10-30T00:00:00.001+08:00",
+                "count": 6,
+                "daily": {
+                    "date": "2026-10-30",
+                    "count": 1
+                },
+                "status": "open",
+                "resolved_at": null,
+                "resolved_by": null,
+                "resolved_note": null,
+                "exception": {
+                    "class": "BufferFakeException",
+                    "code": "0",
+                    "message": "fixture failure 123",
+                    "file": "app/fake.php",
+                    "line": 17
+                },
+                "request": {
+                    "method": "CLI",
+                    "url": null,
+                    "ip": null,
+                    "user_id": null,
+                    "user_name": null,
+                    "guard": null
+                },
+                "context": {
+                    "env": "unknown",
+                    "project": "unknown",
+                    "php": "8.3.35",
+                    "laravel": "",
+                    "occurred_at": "2026-10-30T00:00:00.001+08:00"
+                },
+                "trace": {
+                    "full": "#0 {main}",
+                    "app_frames": []
+                },
+                "source_snippet": {
+                    "file": "app/fake.php",
+                    "line": 17,
+                    "language": "php",
+                    "code": ""
+                },
+                "payload": [],
+                "meta": {
+                    "updated_at": "2026-10-30T00:00:00.001+08:00",
+                    "source": "reportable",
+                    "sources": [
+                        "reportable"
+                    ]
+                }
+            },
+            "count_all": 1,
+            "count_open": 1,
+            "rows": [
+                {
+                    "status": "open",
+                    "first_seen": "2026-10-29T12:00:00.123+08:00",
+                    "last_seen": "2026-10-30T00:00:00.001+08:00",
+                    "count": 6,
+                    "class": "BufferFakeException",
+                    "message_first_line": "fixture failure 123",
+                    "file": "app/fake.php",
+                    "line": 17,
+                    "url": null,
+                    "method": "CLI",
+                    "hash": "3e8692528f15"
+                }
+            ]
+        },
+        {
+            "name": "resolved-recurs",
+            "hash": "3e8692528f15",
+            "buckets": [
+                "open"
+            ],
+            "record": {
+                "hash": "3e8692528f15",
+                "first_seen": "2026-10-29T12:00:00.123+08:00",
+                "last_seen": "2026-10-30T00:00:00.001+08:00",
+                "count": 7,
+                "daily": {
+                    "date": "2026-10-30",
+                    "count": 2
+                },
+                "status": "open",
+                "resolved_at": null,
+                "resolved_by": null,
+                "resolved_note": null,
+                "exception": {
+                    "class": "BufferFakeException",
+                    "code": "0",
+                    "message": "fixture failure 123",
+                    "file": "app/fake.php",
+                    "line": 17
+                },
+                "request": {
+                    "method": "CLI",
+                    "url": null,
+                    "ip": null,
+                    "user_id": null,
+                    "user_name": null,
+                    "guard": null
+                },
+                "context": {
+                    "env": "unknown",
+                    "project": "unknown",
+                    "php": "8.3.35",
+                    "laravel": "",
+                    "occurred_at": "2026-10-30T00:00:00.001+08:00"
+                },
+                "trace": {
+                    "full": "#0 {main}",
+                    "app_frames": []
+                },
+                "source_snippet": {
+                    "file": "app/fake.php",
+                    "line": 17,
+                    "language": "php",
+                    "code": ""
+                },
+                "payload": [],
+                "meta": {
+                    "updated_at": "2026-10-30T00:00:00.001+08:00",
+                    "source": "reportable",
+                    "sources": [
+                        "reportable"
+                    ]
+                }
+            },
+            "count_all": 1,
+            "count_open": 1,
+            "rows": [
+                {
+                    "status": "open",
+                    "first_seen": "2026-10-29T12:00:00.123+08:00",
+                    "last_seen": "2026-10-30T00:00:00.001+08:00",
+                    "count": 7,
+                    "class": "BufferFakeException",
+                    "message_first_line": "fixture failure 123",
+                    "file": "app/fake.php",
+                    "line": 17,
+                    "url": null,
+                    "method": "CLI",
+                    "hash": "3e8692528f15"
+                }
+            ]
+        },
+        {
+            "name": "deleted-recurs",
+            "hash": "3e8692528f15",
+            "buckets": [
+                "open"
+            ],
+            "record": {
+                "hash": "3e8692528f15",
+                "first_seen": "2026-10-29T12:00:00.123+08:00",
+                "last_seen": "2026-10-30T00:00:00.001+08:00",
+                "count": 8,
+                "daily": {
+                    "date": "2026-10-30",
+                    "count": 3
+                },
+                "status": "open",
+                "resolved_at": null,
+                "resolved_by": null,
+                "resolved_note": null,
+                "exception": {
+                    "class": "BufferFakeException",
+                    "code": "0",
+                    "message": "fixture failure 123",
+                    "file": "app/fake.php",
+                    "line": 17
+                },
+                "request": {
+                    "method": "CLI",
+                    "url": null,
+                    "ip": null,
+                    "user_id": null,
+                    "user_name": null,
+                    "guard": null
+                },
+                "context": {
+                    "env": "unknown",
+                    "project": "unknown",
+                    "php": "8.3.35",
+                    "laravel": "",
+                    "occurred_at": "2026-10-30T00:00:00.001+08:00"
+                },
+                "trace": {
+                    "full": "#0 {main}",
+                    "app_frames": []
+                },
+                "source_snippet": {
+                    "file": "app/fake.php",
+                    "line": 17,
+                    "language": "php",
+                    "code": ""
+                },
+                "payload": [],
+                "meta": {
+                    "updated_at": "2026-10-30T00:00:00.001+08:00",
+                    "source": "reportable",
+                    "sources": [
+                        "reportable"
+                    ]
+                }
+            },
+            "count_all": 1,
+            "count_open": 1,
+            "rows": [
+                {
+                    "status": "open",
+                    "first_seen": "2026-10-29T12:00:00.123+08:00",
+                    "last_seen": "2026-10-30T00:00:00.001+08:00",
+                    "count": 8,
+                    "class": "BufferFakeException",
+                    "message_first_line": "fixture failure 123",
+                    "file": "app/fake.php",
+                    "line": 17,
+                    "url": null,
+                    "method": "CLI",
+                    "hash": "3e8692528f15"
+                }
+            ]
+        }
+    ]
+}

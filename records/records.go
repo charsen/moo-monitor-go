@@ -29,54 +29,54 @@ type Builder struct {
 }
 
 type Previous struct {
-	Class   string `json:"class"`
-	Message string `json:"message"`
-	File    string `json:"file"`
-	Line    int    `json:"line"`
+	Class   string `json:"class" yaml:"class"`
+	Message string `json:"message" yaml:"message"`
+	File    string `json:"file" yaml:"file"`
+	Line    int    `json:"line" yaml:"line"`
 }
 
 type Exception struct {
-	Class    string     `json:"class"`
-	Code     string     `json:"code"`
-	Message  string     `json:"message"`
-	File     string     `json:"file"`
-	Line     int        `json:"line"`
-	Previous []Previous `json:"previous,omitempty"`
+	Class    string     `json:"class" yaml:"class"`
+	Code     string     `json:"code" yaml:"code"`
+	Message  string     `json:"message" yaml:"message"`
+	File     string     `json:"file" yaml:"file"`
+	Line     int        `json:"line" yaml:"line"`
+	Previous []Previous `json:"previous,omitempty" yaml:"previous,omitempty"`
 }
 
 type Request struct {
-	Method   string  `json:"method"`
-	URL      *string `json:"url"`
-	IP       *string `json:"ip"`
-	UserID   *string `json:"user_id"`
-	UserName *string `json:"user_name"`
-	Guard    *string `json:"guard"`
+	Method   string  `json:"method" yaml:"method"`
+	URL      *string `json:"url" yaml:"url"`
+	IP       *string `json:"ip" yaml:"ip"`
+	UserID   *string `json:"user_id" yaml:"user_id"`
+	UserName *string `json:"user_name" yaml:"user_name"`
+	Guard    *string `json:"guard" yaml:"guard"`
 }
 
 type GoContext struct {
-	Env        string `json:"env"`
-	Project    string `json:"project"`
-	Go         string `json:"go"`
-	Goravel    string `json:"goravel"`
-	OccurredAt string `json:"occurred_at"`
+	Env        string `json:"env" yaml:"env"`
+	Project    string `json:"project" yaml:"project"`
+	Go         string `json:"go" yaml:"go"`
+	Goravel    string `json:"goravel" yaml:"goravel"`
+	OccurredAt string `json:"occurred_at" yaml:"occurred_at"`
 }
 
 type Frame struct {
-	File     string `json:"file"`
-	Line     int    `json:"line"`
-	Function string `json:"function"`
+	File     string `json:"file" yaml:"file"`
+	Line     int    `json:"line" yaml:"line"`
+	Function string `json:"function" yaml:"function"`
 }
 
 type Trace struct {
-	Full   string  `json:"full"`
-	Frames []Frame `json:"app_frames"`
+	Full   string  `json:"full" yaml:"full"`
+	Frames []Frame `json:"app_frames" yaml:"app_frames"`
 }
 
 type Snippet struct {
-	File     string `json:"file"`
-	Line     int    `json:"line"`
-	Language string `json:"language"`
-	Code     string `json:"code"`
+	File     string `json:"file" yaml:"file"`
+	Line     int    `json:"line" yaml:"line"`
+	Language string `json:"language" yaml:"language"`
+	Code     string `json:"code" yaml:"code"`
 }
 
 type Snapshot struct {
@@ -91,27 +91,27 @@ type Snapshot struct {
 }
 
 type Daily struct {
-	Date  string `json:"date"`
-	Count int64  `json:"count"`
+	Date  string `json:"date" yaml:"date"`
+	Count int64  `json:"count" yaml:"count"`
 }
 
 type Record struct {
-	Hash         string         `json:"hash"`
-	FirstSeen    string         `json:"first_seen"`
-	LastSeen     string         `json:"last_seen"`
-	Count        int64          `json:"count"`
-	Daily        Daily          `json:"daily"`
-	Status       string         `json:"status"`
-	ResolvedAt   *string        `json:"resolved_at"`
-	ResolvedBy   *string        `json:"resolved_by"`
-	ResolvedNote *string        `json:"resolved_note"`
-	Exception    Exception      `json:"exception"`
-	Request      Request        `json:"request"`
-	Context      GoContext      `json:"context"`
-	Trace        Trace          `json:"trace"`
-	Snippet      Snippet        `json:"source_snippet"`
-	Payload      any            `json:"payload"`
-	Meta         map[string]any `json:"meta"`
+	Hash         string         `json:"hash" yaml:"hash"`
+	FirstSeen    string         `json:"first_seen" yaml:"first_seen"`
+	LastSeen     string         `json:"last_seen" yaml:"last_seen"`
+	Count        int64          `json:"count" yaml:"count"`
+	Daily        Daily          `json:"daily" yaml:"daily"`
+	Status       string         `json:"status" yaml:"status"`
+	ResolvedAt   *string        `json:"resolved_at" yaml:"resolved_at"`
+	ResolvedBy   *string        `json:"resolved_by" yaml:"resolved_by"`
+	ResolvedNote *string        `json:"resolved_note" yaml:"resolved_note"`
+	Exception    Exception      `json:"exception" yaml:"exception"`
+	Request      Request        `json:"request" yaml:"request"`
+	Context      GoContext      `json:"context" yaml:"context"`
+	Trace        Trace          `json:"trace" yaml:"trace"`
+	Snippet      Snippet        `json:"source_snippet" yaml:"source_snippet"`
+	Payload      any            `json:"payload" yaml:"payload"`
+	Meta         map[string]any `json:"meta" yaml:"meta"`
 }
 
 func New(config Config) (*Builder, error) {

@@ -10,4 +10,6 @@
 - [ ] 完成[第02课](docs/lessons/02-sql-masker.md)固定假SQL预测、两阶段与语法盲区复述，代理fixture一致性不代做用户练习。
 - [ ] 完成[第03课](docs/lessons/03-bounded-payload.md)共享预算/截断形状/map原序差异与类型边界练习，代理验证不代做学习验收。
 - [ ] 完成[第04课](docs/lessons/04-runtime-records.md)hash归一顺序、count/daily与Snapshot采集边界练习，代理源fixture通过不代做学习验收。
-- [ ] 继续M02采集/Dispatcher、M08持久化聚合与M07未知请求表示/Host适配；坏JSON原日志预防与M18接入另行设计，有限Masker不等于全面脱敏。
+- [ ] 继续M02采集/Dispatcher、M08缓冲的后续Cloud回执/维护策略与M07未知请求表示/Host适配；坏JSON原日志预防与M18接入另行设计，有限Masker不等于全面脱敏。
+
+- [ ] 完成[第05课](docs/lessons/05-runtime-buffer.md)cap/overflow、journal最终图像、结果未知与私有scope练习，代理定向恢复测试不代做用户验收。
