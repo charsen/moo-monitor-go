@@ -180,31 +180,31 @@ func decodePayload(node *yaml.Node, depth int) (any, error) {
 	return nil, errors.New("unsupported YAML payload node")
 }
 
-func (b *Buffer) readRecord(bucket, hash string) (*records.Record, error) {
+func (b *store[R, S, V]) readRecord(bucket, hash string) (*R, error) {
 	if !knownBucket(bucket) || !validHash.MatchString(hash) {
-		return nil, errors.New("invalid runtime record location")
+		return nil, errors.New("invalid buffer record location")
 	}
 	data, exists, err := b.read(bucket + "/" + hash + ".yaml")
 	if err != nil || !exists {
 		return nil, err
 	}
-	return decodeRecord(data, hash)
+	return b.builder.Decode(data, hash)
 }
-func (b *Buffer) writeRecord(bucket string, record records.Record) error {
-	if !knownBucket(bucket) || !validHash.MatchString(record.Hash) {
-		return errors.New("invalid runtime record location")
+func (b *store[R, S, V]) writeRecord(bucket string, record R) error {
+	if !knownBucket(bucket) || !validHash.MatchString(b.builder.State(record).Hash) {
+		return errors.New("invalid buffer record location")
 	}
-	data, err := encodeRecord(record)
+	data, err := b.builder.Encode(record)
 	if err != nil {
 		return err
 	}
-	return b.atomicWrite(bucket+"/"+record.Hash+".yaml", data)
+	return b.atomicWrite(bucket+"/"+b.builder.State(record).Hash+".yaml", data)
 }
-func (b *Buffer) find(hash string) (*records.Record, string, error) {
+func (b *store[R, S, V]) find(hash string) (*R, string, error) {
 	if !validHash.MatchString(hash) {
 		return nil, "", errors.New("invalid buffer hash")
 	}
-	var first *records.Record
+	var first *R
 	var found string
 	for _, bucket := range buckets {
 		record, err := b.readRecord(bucket, hash)
@@ -217,7 +217,7 @@ func (b *Buffer) find(hash string) (*records.Record, string, error) {
 	}
 	return first, found, nil
 }
-func (b *Buffer) readOverflow(hash string) (int64, error) {
+func (b *store[R, S, V]) readOverflow(hash string) (int64, error) {
 	data, exists, err := b.read("overflow/" + hash + ".yaml")
 	if err != nil || !exists {
 		return 0, err
@@ -228,7 +228,7 @@ func (b *Buffer) readOverflow(hash string) (int64, error) {
 	}
 	return value, nil
 }
-func (b *Buffer) writeOverflow(hash string, value int64) error {
+func (b *store[R, S, V]) writeOverflow(hash string, value int64) error {
 	if value < 0 || !validHash.MatchString(hash) {
 		return errors.New("invalid buffer overflow")
 	}

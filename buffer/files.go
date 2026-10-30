@@ -39,7 +39,7 @@ func ensureDirectory(root *os.Root, name string) error {
 	return nil
 }
 
-func (b *Buffer) prepareFiles() error {
+func (b *store[R, S, V]) prepareFiles() error {
 	for _, dir := range append(append([]string{}, buckets...), "overflow") {
 		if err := ensureDirectory(b.root, dir); err != nil {
 			return err
@@ -65,7 +65,7 @@ func (b *Buffer) prepareFiles() error {
 	return b.syncDirectory(".")
 }
 
-func (b *Buffer) safe(name string, missing bool) error {
+func (b *store[R, S, V]) safe(name string, missing bool) error {
 	if name == "" || path.IsAbs(name) || path.Clean(name) != name || name == ".." || strings.HasPrefix(name, "../") {
 		return errors.New("invalid buffer relative path")
 	}
@@ -93,7 +93,7 @@ func (b *Buffer) safe(name string, missing bool) error {
 	return nil
 }
 
-func (b *Buffer) read(name string) ([]byte, bool, error) {
+func (b *store[R, S, V]) read(name string) ([]byte, bool, error) {
 	if err := b.safe(name, true); err != nil {
 		return nil, false, err
 	}
@@ -111,7 +111,7 @@ func (b *Buffer) read(name string) ([]byte, bool, error) {
 	return data, true, nil
 }
 
-func (b *Buffer) atomicWrite(name string, data []byte) error {
+func (b *store[R, S, V]) atomicWrite(name string, data []byte) error {
 	if err := b.safe(name, true); err != nil {
 		return err
 	}
@@ -152,7 +152,7 @@ func (b *Buffer) atomicWrite(name string, data []byte) error {
 	return b.syncDirectory(path.Dir(name))
 }
 
-func (b *Buffer) syncDirectory(name string) error {
+func (b *store[R, S, V]) syncDirectory(name string) error {
 	if err := b.check("sync:" + name); err != nil {
 		return fmt.Errorf("cannot sync buffer directory: %w", err)
 	}
@@ -167,7 +167,7 @@ func (b *Buffer) syncDirectory(name string) error {
 	return nil
 }
 
-func (b *Buffer) remove(name string) error {
+func (b *store[R, S, V]) remove(name string) error {
 	if err := b.safe(name, true); err != nil {
 		return err
 	}
@@ -184,7 +184,7 @@ func (b *Buffer) remove(name string) error {
 	return b.syncDirectory(path.Dir(name))
 }
 
-func (b *Buffer) entries(bucket string) ([]string, error) {
+func (b *store[R, S, V]) entries(bucket string) ([]string, error) {
 	if err := b.safe(bucket, false); err != nil {
 		return nil, err
 	}
@@ -222,7 +222,7 @@ func (b *Buffer) entries(bucket string) ([]string, error) {
 	return names, nil
 }
 
-func (b *Buffer) count(status string) (int, error) {
+func (b *store[R, S, V]) count(status string) (int, error) {
 	total := 0
 	for _, bucket := range buckets {
 		if status != "all" && status != bucket {
@@ -237,8 +237,12 @@ func (b *Buffer) count(status string) (int, error) {
 	return total, nil
 }
 
-func (b *Buffer) list(status string, limit int) ([]Row, error) {
-	rows := []Row{}
+func (b *store[R, S, V]) list(status string, limit int) ([]V, error) {
+	type datedRow struct {
+		value    V
+		lastSeen string
+	}
+	rows := []datedRow{}
 	for _, bucket := range buckets {
 		if status != "all" && status != bucket {
 			continue
@@ -255,30 +259,20 @@ func (b *Buffer) list(status string, limit int) ([]Row, error) {
 			if record == nil {
 				return nil, errors.New("buffer record disappeared while locked")
 			}
-			message := record.Exception.Message
-			token := strings.TrimLeft(message, "\n")
-			if newline := strings.IndexByte(token, '\n'); newline >= 0 {
-				token = token[:newline]
-			}
-			if token != "" && token != "0" {
-				message = token
-			} // PHP strtok(...) ?: original, including false "0".
-
-			message = strings.Trim(message, " \t\n\r\v\x00")
-			if len(message) > 160 {
-				message = message[:160]
-			}
-			rows = append(rows, Row{Hash: hash, Status: bucket, FirstSeen: record.FirstSeen, LastSeen: record.LastSeen, Count: record.Count, Class: record.Exception.Class, MessageFirstLine: message, File: record.Exception.File, Line: record.Exception.Line, URL: record.Request.URL, Method: record.Request.Method})
+			state := b.builder.State(*record)
+			rows = append(rows, datedRow{value: b.builder.Row(bucket, *record), lastSeen: state.LastSeen})
 		}
 	}
-	sort.SliceStable(rows, func(i, j int) bool { return rows[i].LastSeen > rows[j].LastSeen })
+	sort.SliceStable(rows, func(i, j int) bool { return rows[i].lastSeen > rows[j].lastSeen })
 	if limit < 0 {
 		limit = max(0, len(rows)+limit)
-	} // PHP array_slice(...,0,negative) excludes tail.
+	}
 	if limit < len(rows) {
 		rows = rows[:limit]
 	}
-	return rows, nil
+	result := make([]V, 0, len(rows))
+	for _, row := range rows {
+		result = append(result, row.value)
+	}
+	return result, nil
 }
-
-// I/O errors deliberately contain no YAML, journal or payload values.

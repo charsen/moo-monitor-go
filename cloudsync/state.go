@@ -14,7 +14,6 @@ import (
 	"time"
 	"unicode/utf8"
 
-	"gitee.com/charsen/moo-go-monitor/buffer"
 	"github.com/gofrs/flock"
 )
 
@@ -35,7 +34,9 @@ type state struct {
 var hashPattern = regexp.MustCompile(`^[a-f0-9]{12}$`)
 var digestPattern = regexp.MustCompile(`^[a-f0-9]{64}$`)
 
-func openStateRoot(store *buffer.Buffer) (*os.Root, string, error) {
+func openStateRoot(store interface {
+	ScopeRoot() (string, os.FileInfo, error)
+}) (*os.Root, string, error) {
 	path, anchored, err := store.ScopeRoot()
 	if err != nil {
 		return nil, "", err
@@ -56,7 +57,7 @@ func openStateRoot(store *buffer.Buffer) (*os.Root, string, error) {
 	return root, path, nil
 }
 
-func (s *Syncer) safe(name string, missing bool) error {
+func (s *synchronizer[R]) safe(name string, missing bool) error {
 	info, err := s.root.Lstat(name)
 	if errors.Is(err, os.ErrNotExist) && missing {
 		return nil
@@ -66,13 +67,13 @@ func (s *Syncer) safe(name string, missing bool) error {
 	}
 	return nil
 }
-func (s *Syncer) prepareLock() error {
-	if err := s.safe(lockFile, true); err != nil {
+func (s *synchronizer[R]) prepareLock() error {
+	if err := s.safe(s.lockName, true); err != nil {
 		return err
 	}
-	file, err := s.root.OpenFile(lockFile, os.O_RDWR|os.O_CREATE|os.O_EXCL, 0600)
+	file, err := s.root.OpenFile(s.lockName, os.O_RDWR|os.O_CREATE|os.O_EXCL, 0600)
 	if errors.Is(err, os.ErrExist) {
-		return s.safe(lockFile, false)
+		return s.safe(s.lockName, false)
 	}
 	if err != nil {
 		return errors.New("cannot create sync lock")
@@ -87,30 +88,30 @@ func (s *Syncer) prepareLock() error {
 	}
 	return s.syncDirectory()
 }
-func (s *Syncer) lock() (*flock.Flock, bool, error) {
-	if err := s.safe(lockFile, false); err != nil {
+func (s *synchronizer[R]) lock() (*flock.Flock, bool, error) {
+	if err := s.safe(s.lockName, false); err != nil {
 		return nil, false, err
 	}
-	lock := flock.New(filepath.Join(s.path, lockFile), flock.SetFlag(syncLockFlags()), flock.SetPermissions(0600))
+	lock := flock.New(filepath.Join(s.path, s.lockName), flock.SetFlag(syncLockFlags()), flock.SetPermissions(0600))
 	ok, err := lock.TryLock()
 	if err != nil || !ok {
 		lock.Close()
 		return nil, ok, err
 	}
 	held, err := lock.Stat()
-	rooted, rootErr := s.root.Stat(lockFile)
+	rooted, rootErr := s.root.Stat(s.lockName)
 	if err != nil || rootErr != nil || !os.SameFile(held, rooted) {
 		lock.Close()
 		return nil, false, errors.New("sync lock identity changed")
 	}
 	return lock, true, nil
 }
-func (s *Syncer) load() (state, error) {
+func (s *synchronizer[R]) load() (state, error) {
 	empty := state{Version: 1, Confirmed: map[string]Confirmed{}}
-	if err := s.safe(stateFile, true); err != nil {
+	if err := s.safe(s.stateName, true); err != nil {
 		return state{}, err
 	}
-	data, err := s.root.ReadFile(stateFile)
+	data, err := s.root.ReadFile(s.stateName)
 	if errors.Is(err, os.ErrNotExist) {
 		return empty, nil
 	}
@@ -166,19 +167,19 @@ func (s *Syncer) load() (state, error) {
 	return result, nil
 }
 
-func (s *Syncer) save(value state) error {
+func (s *synchronizer[R]) save(value state) error {
 	data, err := json.Marshal(value)
 	if err != nil {
 		return errors.New("cannot encode sync state")
 	}
-	if err = s.safe(stateFile, true); err != nil {
+	if err = s.safe(s.stateName, true); err != nil {
 		return err
 	}
 	var suffix [8]byte
 	if _, err = rand.Read(suffix[:]); err != nil {
 		return err
 	}
-	temp := stateFile + ".tmp-" + hex.EncodeToString(suffix[:])
+	temp := s.stateName + ".tmp-" + hex.EncodeToString(suffix[:])
 	file, err := s.root.OpenFile(temp, os.O_RDWR|os.O_CREATE|os.O_EXCL, 0600)
 	if err != nil {
 		return errors.New("cannot create sync state temporary file")
@@ -207,12 +208,12 @@ func (s *Syncer) save(value state) error {
 			return err
 		}
 	}
-	if err = s.root.Rename(temp, stateFile); err != nil {
+	if err = s.root.Rename(temp, s.stateName); err != nil {
 		return fmt.Errorf("cannot replace sync state: %w", err)
 	}
 	return s.syncDirectory()
 }
-func (s *Syncer) syncDirectory() error {
+func (s *synchronizer[R]) syncDirectory() error {
 	if s.fault != nil {
 		if err := s.fault("sync-directory"); err != nil {
 			return err

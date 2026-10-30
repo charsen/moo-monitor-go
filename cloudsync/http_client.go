@@ -131,25 +131,33 @@ func (c *HTTPClient) Send(ctx context.Context, batch []buffer.Snapshot) (Receipt
 
 // DiscardLocalNoise only sends the Cloud protocol. It never deletes local buffer state.
 func (c *HTTPClient) DiscardLocalNoise(ctx context.Context) (int64, error) {
+	return c.discardLocal(ctx, runtimeDiscardPath, "discard local")
+}
+func (c *HTTPClient) discardLocal(ctx context.Context, path, operation string) (int64, error) {
 	body, err := encodeDiscardBody(c.token)
 	if err != nil {
-		return 0, &HTTPError{Operation: "discard local", category: ErrWire, cause: err}
+		return 0, &HTTPError{Operation: operation, category: ErrWire, cause: err}
 	}
-	data, status, attempt, err := c.post(ctx, runtimeDiscardPath, body, 2, 100*time.Millisecond)
+	data, status, attempt, err := c.post(ctx, path, body, 2, 100*time.Millisecond)
 	if err != nil {
 		return 0, err
 	}
 	deleted, err := decodeDiscard(data)
 	if err != nil {
-		return 0, &HTTPError{Operation: "discard local", Status: status, Attempt: attempt, category: ErrHTTPReceipt, cause: err}
+		return 0, &HTTPError{Operation: operation, Status: status, Attempt: attempt, category: ErrHTTPReceipt, cause: err}
 	}
 	return deleted, nil
 }
 
 func (c *HTTPClient) post(ctx context.Context, path string, body []byte, attempts int, delay time.Duration) ([]byte, int, int, error) {
 	operation := "runtime intake"
-	if path == runtimeDiscardPath {
+	switch path {
+	case runtimeDiscardPath:
 		operation = "discard local"
+	case slowIntakePath:
+		operation = "slow-query intake"
+	case slowDiscardPath:
+		operation = "discard slow-query local"
 	}
 	if ctx == nil {
 		return nil, 0, 0, &HTTPError{Operation: operation, category: ErrHTTPConfig}

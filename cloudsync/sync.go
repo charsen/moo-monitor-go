@@ -9,6 +9,7 @@ import (
 	"time"
 
 	"gitee.com/charsen/moo-go-monitor/buffer"
+	"gitee.com/charsen/moo-go-monitor/records"
 )
 
 type Client interface {
@@ -23,20 +24,40 @@ type Result struct {
 	Cursor                                     string
 }
 
-var ErrPending = errors.New("runtime snapshots remain pending")
+var ErrPending = errors.New("snapshots remain pending")
 
-type Syncer struct {
-	gate      chan struct{}
-	root      *os.Root
-	path      string
-	store     *buffer.Buffer
-	client    Client
-	batchSize int
-	fault     func(string) error
-	writeTest func(*os.File, []byte) (int, error)
+type Syncer struct{ *synchronizer[records.Record] }
+type snapshotStore[R any] interface {
+	Snapshot(context.Context) ([]buffer.VersionedSnapshot[R], error)
+	Compare(context.Context, buffer.VersionedSnapshot[R], buffer.Decision) (bool, error)
+	ScopeRoot() (string, os.FileInfo, error)
+}
+type snapshotClient[R any] interface {
+	Send(context.Context, []buffer.VersionedSnapshot[R]) (Receipt, error)
+}
+type synchronizer[R any] struct {
+	gate                chan struct{}
+	root                *os.Root
+	path                string
+	store               snapshotStore[R]
+	client              snapshotClient[R]
+	batchSize           int
+	stateName, lockName string
+	fault               func(string) error
+	writeTest           func(*os.File, []byte) (int, error)
 }
 
 func New(store *buffer.Buffer, client Client, config Config) (*Syncer, error) {
+	if store == nil || client == nil {
+		return nil, errors.New("sync requires explicit buffer and client")
+	}
+	common, err := newSynchronizer[records.Record](store, client, config, stateFile, lockFile)
+	if err != nil {
+		return nil, err
+	}
+	return &Syncer{common}, nil
+}
+func newSynchronizer[R any](store snapshotStore[R], client snapshotClient[R], config Config, stateName, lockName string) (*synchronizer[R], error) {
 	if store == nil || client == nil {
 		return nil, errors.New("sync requires explicit buffer and client")
 	}
@@ -44,7 +65,7 @@ func New(store *buffer.Buffer, client Client, config Config) (*Syncer, error) {
 	if err != nil {
 		return nil, err
 	}
-	syncer := &Syncer{gate: make(chan struct{}, 1), root: root, path: path, store: store, client: client, batchSize: 100}
+	syncer := &synchronizer[R]{stateName: stateName, lockName: lockName, gate: make(chan struct{}, 1), root: root, path: path, store: store, client: client, batchSize: 100}
 	syncer.gate <- struct{}{}
 	if config.BatchSize != nil {
 		syncer.batchSize = max(1, *config.BatchSize)
@@ -55,7 +76,7 @@ func New(store *buffer.Buffer, client Client, config Config) (*Syncer, error) {
 	}
 	return syncer, nil
 }
-func (s *Syncer) Close() error {
+func (s *synchronizer[R]) Close() error {
 	<-s.gate
 	defer func() { s.gate <- struct{}{} }()
 	if s.root == nil {
@@ -67,7 +88,7 @@ func (s *Syncer) Close() error {
 }
 
 // Sync never holds the buffer's hot lock during Send. A separate nonblocking lock owns the ledger.
-func (s *Syncer) Sync(ctx context.Context) (Result, error) {
+func (s *synchronizer[R]) Sync(ctx context.Context) (Result, error) {
 	result := Result{Rejected: []Rejected{}}
 	if ctx == nil {
 		return result, errors.New("sync requires context")
@@ -103,7 +124,7 @@ func (s *Syncer) Sync(ctx context.Context) (Result, error) {
 		return result, err
 	}
 	result.Scanned = len(snapshots)
-	live := map[string]buffer.Snapshot{}
+	live := map[string]buffer.VersionedSnapshot[R]{}
 	for _, snapshot := range snapshots {
 		live[snapshot.Hash] = snapshot
 	}
@@ -113,7 +134,7 @@ func (s *Syncer) Sync(ctx context.Context) (Result, error) {
 			delete(ledger.Confirmed, hash)
 		}
 	}
-	pending := []buffer.Snapshot{}
+	pending := []buffer.VersionedSnapshot[R]{}
 	for _, snapshot := range snapshots {
 		if !matches(ledger.Confirmed[snapshot.Hash], snapshot) {
 			pending = append(pending, snapshot)
@@ -133,7 +154,7 @@ func (s *Syncer) Sync(ctx context.Context) (Result, error) {
 		receipt, err := s.client.Send(ctx, batch)
 		result.Sent += len(batch)
 		if err != nil {
-			return result, fmt.Errorf("send runtime snapshots: %w", err)
+			return result, fmt.Errorf("send snapshots: %w", err)
 		}
 		if err = validate(receipt, batch); err != nil {
 			return result, err
@@ -181,7 +202,7 @@ func (s *Syncer) Sync(ctx context.Context) (Result, error) {
 			}
 		}
 		if err = s.save(ledger); err != nil {
-			return result, fmt.Errorf("persist runtime acknowledgements: %w", err)
+			return result, fmt.Errorf("persist acknowledgements: %w", err)
 		}
 		result.Cursor = ledger.Cursor
 	}
@@ -190,13 +211,13 @@ func (s *Syncer) Sync(ctx context.Context) (Result, error) {
 	}
 	return result, nil
 }
-func matches(value Confirmed, snapshot buffer.Snapshot) bool {
+func matches[R any](value Confirmed, snapshot buffer.VersionedSnapshot[R]) bool {
 	return value.Digest == snapshot.Digest && value.Timestamp == snapshot.Timestamp && value.Bucket == snapshot.Bucket
 }
 
 // A timestamp group with any hole blocks that group; fingerprints, never time alone, select sends.
-func safeCursor(previous string, snapshots []buffer.Snapshot, confirmed map[string]Confirmed) string {
-	ordered := append([]buffer.Snapshot{}, snapshots...)
+func safeCursor[R any](previous string, snapshots []buffer.VersionedSnapshot[R], confirmed map[string]Confirmed) string {
+	ordered := append([]buffer.VersionedSnapshot[R]{}, snapshots...)
 	sort.Slice(ordered, func(i, j int) bool {
 		left, _ := time.Parse(time.RFC3339Nano, ordered[i].Timestamp)
 		right, _ := time.Parse(time.RFC3339Nano, ordered[j].Timestamp)

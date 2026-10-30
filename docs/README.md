@@ -14,5 +14,6 @@
 | 08 | [显式runtime采集与日志旁路](lessons/08-runtime-capture.md) | EventScope/原子tag/真实Writer消费，未自动Cloud或替换Recover |
 | 09 | [HTTP生命周期与Recover委托](lessons/09-http-capture.md) | 请求scope/有限快照/5xx与显式owner回调，未改Host全局恢复 |
 | 10 | [Host本地运行时](lessons/10-host-runtime.md) | late identity与Host默认关闭资源接线，真实教学见Host41 |
+| 11 | [显式慢SQL完整链](lessons/11-slow-query-pipeline.md) | 独立typed SQL/共享durable内核与SQL Cloud协议；无自动DB hook |
 
 [完整复现计划](port-plan.md) · [PHP源码入口](php-surface-inventory.md)

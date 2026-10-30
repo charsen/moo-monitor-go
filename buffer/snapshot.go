@@ -16,12 +16,14 @@ import (
 	"gitee.com/charsen/moo-go-monitor/records"
 )
 
-type Snapshot struct {
+type Snapshot = VersionedSnapshot[records.Record]
+
+type VersionedSnapshot[R any] struct {
 	Hash      string
 	Bucket    string
 	Timestamp string
 	Digest    string
-	Record    records.Record
+	Record    R
 }
 
 type Disposition string
@@ -37,7 +39,7 @@ type Decision struct {
 }
 
 // ScopeRoot exposes the fixed scope location and anchored inode to the real sync consumer.
-func (b *Buffer) ScopeRoot() (string, os.FileInfo, error) {
+func (b *store[R, S, V]) ScopeRoot() (string, os.FileInfo, error) {
 	if err := b.enter(context.Background()); err != nil {
 		return "", nil, err
 	}
@@ -53,7 +55,7 @@ func (b *Buffer) ScopeRoot() (string, os.FileInfo, error) {
 }
 
 // Snapshot reads immutable values under the hot lock, then releases it before any transport call.
-func (b *Buffer) Snapshot(ctx context.Context) ([]Snapshot, error) {
+func (b *store[R, S, V]) Snapshot(ctx context.Context) ([]VersionedSnapshot[R], error) {
 	if err := b.enter(ctx); err != nil {
 		return nil, err
 	}
@@ -66,7 +68,7 @@ func (b *Buffer) Snapshot(ctx context.Context) ([]Snapshot, error) {
 	if err = b.recover(); err != nil {
 		return nil, err
 	}
-	snapshots := []Snapshot{}
+	snapshots := []VersionedSnapshot[R]{}
 	seen := map[string]bool{}
 	for _, bucket := range []string{"open", "resolved"} {
 		hashes, err := b.entries(bucket)
@@ -85,16 +87,18 @@ func (b *Buffer) Snapshot(ctx context.Context) ([]Snapshot, error) {
 			if !exists {
 				return nil, errors.New("buffer snapshot disappeared while locked")
 			}
-			record, err := decodeRecord(data, hash)
+			record, err := b.builder.Decode(data, hash)
 			if err != nil {
 				return nil, err
 			}
-			timestamp, err := recordTimestamp(*record)
+			timestamp, err := stateTimestamp(b.builder.State(*record))
 			if err != nil {
 				return nil, err
 			}
-			record.Status = bucket
-			snapshots = append(snapshots, Snapshot{Hash: hash, Bucket: bucket, Timestamp: timestamp, Digest: contentDigest(data), Record: *record})
+			state := b.builder.State(*record)
+			state.Status = bucket
+			b.builder.Apply(record, state)
+			snapshots = append(snapshots, VersionedSnapshot[R]{Hash: hash, Bucket: bucket, Timestamp: timestamp, Digest: contentDigest(data), Record: *record})
 		}
 	}
 	sort.Slice(snapshots, func(i, j int) bool {
@@ -109,6 +113,10 @@ func (b *Buffer) Snapshot(ctx context.Context) ([]Snapshot, error) {
 }
 
 func recordTimestamp(record records.Record) (string, error) {
+	return stateTimestamp(runtimeFamily{}.State(record))
+}
+
+func stateTimestamp(record lifecycle) (string, error) {
 	timestamp := record.LastSeen
 	if value, exists := record.Meta["updated_at"]; exists && value != nil {
 		text, ok := value.(string)
@@ -148,7 +156,7 @@ type rejectionReceipt struct {
 }
 
 // Compare rechecks actual storage bytes. A stale acknowledgement never removes a newer version.
-func (b *Buffer) Compare(ctx context.Context, snapshot Snapshot, decision Decision) (bool, error) {
+func (b *store[R, S, V]) Compare(ctx context.Context, snapshot VersionedSnapshot[R], decision Decision) (bool, error) {
 	if err := b.enter(ctx); err != nil {
 		return false, err
 	}
@@ -172,11 +180,11 @@ func (b *Buffer) Compare(ctx context.Context, snapshot Snapshot, decision Decisi
 	if err != nil || !exists {
 		return false, err
 	}
-	record, err := decodeRecord(data, snapshot.Hash)
+	record, err := b.builder.Decode(data, snapshot.Hash)
 	if err != nil {
 		return false, err
 	}
-	timestamp, err := recordTimestamp(*record)
+	timestamp, err := stateTimestamp(b.builder.State(*record))
 	if err != nil {
 		return false, err
 	}

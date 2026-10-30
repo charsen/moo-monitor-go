@@ -95,3 +95,7 @@ PHP 包当前 TODO 中的容量恢复、记录版本/坏 YAML、心跳健康语�
 ## 10局部进展
 
 [Host本地运行时](lessons/10-host-runtime.md)消费SDK，默认关闭、不自动Cloud；实际认证要求Identity(context.Context)在事件时刻复制当前身份，SDK不保存原请求。Host41的Provider/日志stack/私有Buffer与响应证据单列，未把workspace接入当发布解析。自动payload/完整采集矩阵与真实Cloud仍待完成。
+
+## 11局部进展
+
+[显式慢SQL链](lessons/11-slow-query-pipeline.md)已有typed ReportSlowQuery、源hash/绑定/舍入fixture、批准的双SQL持久脱敏/真UTF8 byte长度/有效截断、共享私有store聚合恢复及SQL typed Cloud同步/HTTP。Runtime外壳与TagSource保留，SQL不伪装异常；新旧必要消费者已定向验证。没有自动数据库hook或真实Cloud/SQL执行，语法脱敏盲区/云端提示边界及发布解析仍待。

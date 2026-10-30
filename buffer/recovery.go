@@ -10,12 +10,14 @@ import (
 	"go.yaml.in/yaml/v3"
 )
 
-type intent struct {
+type typedIntent[R any] struct {
 	Version      int
 	Hash, Target string
-	Record       *records.Record
+	Record       *R
 	Overflow     int64
 }
+
+type intent = typedIntent[records.Record]
 
 type diskIntent struct {
 	Version  int       `yaml:"version"`
@@ -25,10 +27,10 @@ type diskIntent struct {
 	Overflow int64     `yaml:"overflow"`
 }
 
-func (b *Buffer) writeIntent(change intent) error {
+func (b *store[R, S, V]) writeIntent(change typedIntent[R]) error {
 	disk := diskIntent{Version: change.Version, Hash: change.Hash, Target: change.Target, Overflow: change.Overflow}
 	if change.Record != nil {
-		data, err := encodeRecord(*change.Record)
+		data, err := b.builder.Encode(*change.Record)
 		if err != nil {
 			return err
 		}
@@ -46,7 +48,7 @@ func (b *Buffer) writeIntent(change intent) error {
 }
 
 // recover replays one fixed final image; it never invokes Build, Refresh or increments.
-func (b *Buffer) recover() error {
+func (b *store[R, S, V]) recover() error {
 	data, exists, err := b.read("intent.yaml")
 	if err != nil || !exists {
 		return err
@@ -114,11 +116,12 @@ func (b *Buffer) recover() error {
 		if err != nil {
 			return errors.New("invalid buffer intent record")
 		}
-		final, err := decodeRecord(encoded, disk.Hash)
+		final, err := b.builder.Decode(encoded, disk.Hash)
 		if err != nil {
 			return errors.New("invalid buffer intent record")
 		}
-		if !knownBucket(final.Status) || final.Status != disk.Target {
+		state := b.builder.State(*final)
+		if !knownBucket(state.Status) || state.Status != disk.Target {
 			return errors.New("invalid buffer intent status")
 		}
 		if err = b.writeRecord(disk.Target, *final); err != nil {

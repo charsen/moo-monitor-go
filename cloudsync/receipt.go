@@ -28,6 +28,9 @@ type Receipt struct {
 
 // DecodeReceipt validates actual HTTP status and exact wire field presence/types, without I/O.
 func DecodeReceipt(status int, data []byte, batch []buffer.Snapshot) (Receipt, error) {
+	return decodeReceipt(status, data, batch)
+}
+func decodeReceipt[R any](status int, data []byte, batch []buffer.VersionedSnapshot[R]) (Receipt, error) {
 	invalid := errors.New("invalid Cloud intake receipt")
 	if status < 200 || status >= 300 || !utf8.Valid(data) {
 		return Receipt{}, invalid
@@ -114,7 +117,7 @@ func decodeJSON(data []byte, target any) error {
 	return nil
 }
 
-func validate(receipt Receipt, batch []buffer.Snapshot) error {
+func validate[R any](receipt Receipt, batch []buffer.VersionedSnapshot[R]) error {
 	invalid := errors.New("invalid Cloud intake receipt")
 	if receipt.Saved < 0 || receipt.Filtered < 0 || receipt.Skipped < 0 || receipt.Saved > math.MaxInt64-receipt.Filtered || receipt.Saved+receipt.Filtered > math.MaxInt64-receipt.Skipped || receipt.Saved+receipt.Filtered+receipt.Skipped != int64(len(batch)) {
 		return invalid

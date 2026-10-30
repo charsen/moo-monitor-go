@@ -1,6 +1,6 @@
 # 第10课：SDK与Host本地资源所有权
 
-[上一课：09](09-http-capture.md) · [课程目录](../README.md)
+[上一课：09](09-http-capture.md) · [课程目录](../README.md) · [下一课：11](11-slow-query-pipeline.md)
 
 完整接线教学在[Host第41课](../../../go-moo-engine-skeleton/docs/lessons/41-monitor-runtime.md)，本课只记录SDK边界。计划见[第10步](../plans/10-host-runtime.md)。
 

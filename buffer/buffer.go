@@ -1,4 +1,4 @@
-// Package buffer stores explicitly supplied runtime snapshots in a private local scope.
+// Package buffer stores typed runtime and slow-query snapshots in a private local scope.
 package buffer
 
 import (
@@ -18,8 +18,8 @@ import (
 )
 
 var (
-	ErrFull           = errors.New("runtime open buffer is full")
-	ErrOutcomeUnknown = errors.New("runtime buffer outcome unknown; recover before retrying")
+	ErrFull           = errors.New("open buffer is full")
+	ErrOutcomeUnknown = errors.New("buffer outcome unknown; recover before retrying")
 	validHash         = regexp.MustCompile(`^[a-f0-9]{12}$`)
 	nonSlug           = regexp.MustCompile(`[^a-z0-9]+`)
 	buckets           = []string{"open", "resolved", "deleted"}
@@ -31,10 +31,15 @@ type Config struct {
 }
 
 type Buffer struct {
+	*store[records.Record, records.Snapshot, Row]
+	builder *records.Builder
+}
+
+type store[R, S, V any] struct {
 	gate              chan struct{}
 	root              *os.Root
 	path              string
-	builder           *records.Builder
+	builder           family[R, S, V]
 	maxOpen, dailyCap int
 	// Tests inject at real file-operation boundaries; no public failure switches.
 	fault     func(string) error
@@ -57,6 +62,22 @@ type Row struct {
 
 // New requires an existing private root owned by the caller. No Host directory is inferred.
 func New(config Config, builder *records.Builder) (*Buffer, error) {
+	if builder == nil {
+		return nil, errors.New("buffer requires runtime builder")
+	}
+	common, err := newStore(config, runtimeFamily{builder}, "go-runtime-buffer")
+	if err != nil {
+		return nil, err
+	}
+	return &Buffer{store: common, builder: builder}, nil
+}
+
+// Record preserves the runtime collection API; SQL has a separate validated ReportSlowQuery entry.
+func (b *Buffer) Record(ctx context.Context, input records.Snapshot, now time.Time) (string, error) {
+	return b.store.record(ctx, input, now)
+}
+
+func newStore[R, S, V any](config Config, builder family[R, S, V], stem string) (*store[R, S, V], error) {
 	if runtime.GOOS != "darwin" && runtime.GOOS != "linux" {
 		return nil, errors.New("buffer currently supports Darwin and Linux only")
 	}
@@ -77,7 +98,7 @@ func New(config Config, builder *records.Builder) (*Buffer, error) {
 		return nil, errors.New("cannot open buffer root")
 	}
 	scope := normalizeScope(config.Scope)
-	name := "go-runtime-buffer"
+	name := stem
 	if scope != "" {
 		name += "--" + scope
 	}
@@ -96,7 +117,7 @@ func New(config Config, builder *records.Builder) (*Buffer, error) {
 		scoped.Close()
 		return nil, errors.New("cannot locate private buffer root")
 	}
-	b := &Buffer{gate: make(chan struct{}, 1), root: scoped, path: filepath.Join(canonical, name), builder: builder, maxOpen: 500, dailyCap: 10}
+	b := &store[R, S, V]{gate: make(chan struct{}, 1), root: scoped, path: filepath.Join(canonical, name), builder: builder, maxOpen: 500, dailyCap: 10}
 	b.gate <- struct{}{}
 	if config.MaxOpen != nil {
 		b.maxOpen = *config.MaxOpen
@@ -126,7 +147,7 @@ func normalizeScope(value string) string {
 	return slug
 }
 
-func (b *Buffer) Close() error {
+func (b *store[R, S, V]) Close() error {
 	if err := b.enter(context.Background()); err != nil {
 		return err
 	}
@@ -140,7 +161,7 @@ func (b *Buffer) Close() error {
 }
 
 // Record serializes one scope, recovers its intent, decides the change and commits a final image.
-func (b *Buffer) Record(ctx context.Context, snapshot records.Snapshot, now time.Time) (string, error) {
+func (b *store[R, S, V]) record(ctx context.Context, snapshot S, now time.Time) (string, error) {
 	if err := b.enter(ctx); err != nil {
 		return "", err
 	}
@@ -153,7 +174,7 @@ func (b *Buffer) Record(ctx context.Context, snapshot records.Snapshot, now time
 	if err = b.recover(); err != nil {
 		return "", err
 	}
-	hash := b.builder.Hash(snapshot.Exception)
+	hash := b.builder.Hash(snapshot)
 	existing, bucket, err := b.find(hash)
 	if err != nil {
 		return "", err
@@ -163,7 +184,11 @@ func (b *Buffer) Record(ctx context.Context, snapshot records.Snapshot, now time
 		return "", err
 	}
 	finalOverflow := int64(0)
-	var final *records.Record
+	var final *R
+	var existingState lifecycle
+	if existing != nil {
+		existingState = b.builder.State(*existing)
+	}
 	if existing == nil {
 		open, err := b.count("open")
 		if err != nil {
@@ -176,7 +201,7 @@ func (b *Buffer) Record(ctx context.Context, snapshot records.Snapshot, now time
 		if err != nil {
 			return "", err
 		}
-	} else if bucket == "open" && b.dailyCap > 0 && existing.Daily.Date == now.Format("2006-01-02") && existing.Daily.Count >= int64(b.dailyCap) {
+	} else if bucket == "open" && b.dailyCap > 0 && existingState.DailyDate == now.Format("2006-01-02") && existingState.DailyCount >= int64(b.dailyCap) {
 		if overflow == math.MaxInt64 {
 			return "", errors.New("buffer overflow counter exhausted")
 		}
@@ -184,10 +209,11 @@ func (b *Buffer) Record(ctx context.Context, snapshot records.Snapshot, now time
 		// A frozen record remains byte-for-byte untouched; only overflow is committed.
 	} else {
 		if bucket != "open" {
-			existing.Status = "open"
-			existing.ResolvedAt = nil
-			existing.ResolvedBy = nil
-			existing.ResolvedNote = nil
+			existingState.Status = "open"
+			existingState.ResolvedAt = nil
+			existingState.ResolvedBy = nil
+			existingState.ResolvedNote = nil
+			b.builder.Apply(existing, existingState)
 		}
 		final, err = b.builder.Refresh(*existing, snapshot, now, overflow)
 		if err != nil {
@@ -195,10 +221,15 @@ func (b *Buffer) Record(ctx context.Context, snapshot records.Snapshot, now time
 		}
 	}
 	if final != nil {
-		final.Status = "open"
-		final.Meta["updated_at"] = iso(now)
+		state := b.builder.State(*final)
+		state.Status = "open"
+		if state.Meta == nil {
+			state.Meta = map[string]any{}
+		}
+		state.Meta["updated_at"] = iso(now)
+		b.builder.Apply(final, state)
 	}
-	intent := intent{Version: 1, Hash: hash, Target: "open", Record: final, Overflow: finalOverflow}
+	intent := typedIntent[R]{Version: 1, Hash: hash, Target: "open", Record: final, Overflow: finalOverflow}
 	// Intent contains a fixed final image, never an operation that increments during replay.
 	if err = b.writeIntent(intent); err != nil {
 		return "", fmt.Errorf("%w: persist intent: %w", ErrOutcomeUnknown, err)
@@ -242,7 +273,7 @@ func iso(now time.Time) string {
 	return value
 }
 
-func (b *Buffer) Get(ctx context.Context, hash string) (*records.Record, error) {
+func (b *store[R, S, V]) Get(ctx context.Context, hash string) (*R, error) {
 	if err := b.enter(ctx); err != nil {
 		return nil, err
 	}
@@ -260,12 +291,14 @@ func (b *Buffer) Get(ctx context.Context, hash string) (*records.Record, error) 
 	}
 	record, bucket, err := b.find(hash)
 	if record != nil {
-		record.Status = bucket
+		state := b.builder.State(*record)
+		state.Status = bucket
+		b.builder.Apply(record, state)
 	}
 	return record, err
 }
 
-func (b *Buffer) Count(ctx context.Context, status string) (int, error) {
+func (b *store[R, S, V]) Count(ctx context.Context, status string) (int, error) {
 	if err := b.enter(ctx); err != nil {
 		return 0, err
 	}
@@ -284,7 +317,7 @@ func (b *Buffer) Count(ctx context.Context, status string) (int, error) {
 	return b.count(status)
 }
 
-func (b *Buffer) List(ctx context.Context, status string, limit int) ([]Row, error) {
+func (b *store[R, S, V]) List(ctx context.Context, status string, limit int) ([]V, error) {
 	if err := b.enter(ctx); err != nil {
 		return nil, err
 	}
@@ -306,14 +339,14 @@ func (b *Buffer) List(ctx context.Context, status string, limit int) ([]Row, err
 func knownBucket(value string) bool {
 	return value == "open" || value == "resolved" || value == "deleted"
 }
-func (b *Buffer) check(stage string) error {
+func (b *store[R, S, V]) check(stage string) error {
 	if b.fault != nil {
 		return b.fault(stage)
 	}
 	return nil
 }
 
-func (b *Buffer) lock(ctx context.Context) (*flock.Flock, error) {
+func (b *store[R, S, V]) lock(ctx context.Context) (*flock.Flock, error) {
 	if b.root == nil {
 		return nil, errors.New("buffer is closed")
 	}
@@ -330,7 +363,7 @@ func (b *Buffer) lock(ctx context.Context) (*flock.Flock, error) {
 		if ctx.Err() != nil {
 			return nil, ctx.Err()
 		}
-		return nil, errors.New("cannot lock runtime buffer")
+		return nil, errors.New("cannot lock buffer")
 	}
 	rooted, err := b.root.Stat(".buffer.lock")
 	held, heldErr := lock.Stat()
@@ -341,7 +374,7 @@ func (b *Buffer) lock(ctx context.Context) (*flock.Flock, error) {
 	return lock, nil
 }
 
-func (b *Buffer) enter(ctx context.Context) error {
+func (b *store[R, S, V]) enter(ctx context.Context) error {
 	if ctx == nil {
 		return errors.New("buffer requires context")
 	}
@@ -356,4 +389,4 @@ func (b *Buffer) enter(ctx context.Context) error {
 		return nil
 	}
 }
-func (b *Buffer) leave() { b.gate <- struct{}{} }
+func (b *store[R, S, V]) leave() { b.gate <- struct{}{} }

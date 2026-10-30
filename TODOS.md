@@ -26,3 +26,6 @@
 - [ ] 在后续Host接线保留现GinLogSafety/认证与原Recover行为，核请求自动payload过滤、queue最终失败/schedule退出及慢SQL真实扩展点；09未覆盖这些能力。
 
 - [ ] 完成[第10课](docs/lessons/10-host-runtime.md)late identity/Host所有权与workspace验证差异练习；真实Cloud/部署解析仍待，代理验收不代做学习。
+
+- [ ] 完成[第11课](docs/lessons/11-slow-query-pipeline.md)原raw身份/双mask安全差异、字节与码点、cap峰值/overflow、共享typed内核与同ms确认练习；代理参考验证不代做学习。
+- [ ] 核真实Goravel SQL Trace公开注入/上游扩展方案，接自动SQL采集前保原日志/执行结果及M18失败隔离；11仅显式ReportSlowQuery。
