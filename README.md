@@ -19,3 +19,5 @@ Go 业务系统必需的独立监控采集 SDK，全业务复刻 PHP 监控包�
 [第06课](docs/lessons/06-incremental-sync.md)解释发送中同毫秒更新、确认账本与永久拒收旁车；仅显式fake Client/httptest验证，不含远端鉴权或真实推送。
 
 [第07课](docs/lessons/07-cloud-http-client.md)提供显式HTTPClient，默认验证TLS并拒重定向，坏UTF8编码前失败。仅在调用时联网；当前验证只本机httptest假服务，不含真实Cloud、自动采集或本地discard协调器。
+
+[第08课](docs/lessons/08-runtime-capture.md)接显式Capture与Goravel日志Handler，复用Builder/Buffer及有界EventScope；只本地落盘，不自动推送或替换Host Recover。原delegate不改写，旁路故障以安全OnError/Status观察。

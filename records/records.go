@@ -318,7 +318,7 @@ func SourceRank(source string) int {
 	return 0
 }
 
-func normalizeSource(source string) string {
+func NormalizeSource(source string) string {
 	var normalized strings.Builder
 	for _, char := range []byte(source) {
 		if char >= 'A' && char <= 'Z' {
@@ -346,7 +346,7 @@ func normalizeSource(source string) string {
 }
 
 func (b *Builder) runtimeMeta(source string, incoming, existing map[string]any) (map[string]any, error) {
-	source = normalizeSource(source)
+	source = NormalizeSource(source)
 	current, _ := existing["source"].(string)
 	sources := []string{}
 	addSource := func(value string) {
@@ -450,4 +450,102 @@ func (b *Builder) runtimeMeta(source string, incoming, existing map[string]any) 
 	}
 	clean["sources"] = sources
 	return clean, nil
+}
+
+// TagMetadata reuses runtime sanitization without refreshing occurrence fields or counters.
+func (b *Builder) TagMetadata(existing Record, source string, meta map[string]any) (*Record, bool, error) {
+	clean, err := b.runtimeMeta(source, meta, existing.Meta)
+	if err != nil {
+		return nil, false, err
+	}
+	if sameMetadata(existing.Meta, clean) {
+		return &existing, false, nil
+	}
+	existing.Meta = clean
+	return &existing, true, nil
+}
+
+func sameMetadata(left, right map[string]any) bool {
+	count := 0
+	for key := range left {
+		if key != "updated_at" {
+			count++
+		}
+	}
+	other := 0
+	for key := range right {
+		if key != "updated_at" {
+			other++
+		}
+	}
+	if count != other {
+		return false
+	}
+	for key, want := range right {
+		if key == "updated_at" {
+			continue
+		}
+		got, exists := left[key]
+		if !exists {
+			return false
+		}
+		switch value := want.(type) {
+		case string:
+			if actual, ok := got.(string); !ok || actual != value {
+				return false
+			}
+		case bool:
+			if actual, ok := got.(bool); !ok || actual != value {
+				return false
+			}
+		case int64:
+			switch actual := got.(type) {
+			case int:
+				if int64(actual) != value {
+					return false
+				}
+			case int64:
+				if actual != value {
+					return false
+				}
+			default:
+				return false
+			}
+		case float64:
+			if actual, ok := got.(float64); !ok || actual != value {
+				return false
+			}
+		case nil:
+			if got != nil {
+				return false
+			}
+		case []string:
+			switch actual := got.(type) {
+			case []string:
+				if len(actual) != len(value) {
+					return false
+				}
+				for i := range value {
+					if actual[i] != value[i] {
+						return false
+					}
+				}
+			case []any:
+				if len(actual) != len(value) {
+					return false
+				}
+				for i := range value {
+					item, ok := actual[i].(string)
+					if !ok || item != value[i] {
+						return false
+					}
+				}
+			default:
+				return false
+			}
+		default:
+			return false
+		}
+	}
+	return true
 }

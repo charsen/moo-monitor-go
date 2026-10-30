@@ -83,3 +83,7 @@ PHP 包当前 TODO 中的容量恢复、记录版本/坏 YAML、心跳健康语�
 按相同业务场景对照两端的记录结果、计数/状态、过滤/脱敏、scope、逐条回执、失败恢复及 MCP/Cloud 行为。Go 等价适配须保留完整业务能力；任何取消、收缩或业务含义变化由用户明确确认，不能借性能、语言差异或阶段结束自行降级交付要求。
 
 验证选择相关单元测试及定向接口/集成；跨系统完整流程、浏览器/E2E、真实云端写入、真实消息与生产部署按明确授权执行。协议替身通过不代表真实 Cloud 兼容已经完成。
+
+## 08局部进展
+
+[显式采集与日志旁路](lessons/08-runtime-capture.md)已有Capture/LogMessage→Builder/Buffer，有限EventScope/EventID与原子TagSource，真实Goravel1.18.0 Writer消费和安全OnError/Status。低rank不改、不同ID正常累加、unknown不盲重试；不声称等价于所有PHP Throwable对象自动识别。未接Host全局Recover/HTTP500/queue/schedule，不自动联网；M02/M18其余条目仍待完成。

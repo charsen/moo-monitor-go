@@ -98,7 +98,7 @@ func (b *Buffer) recover() error {
 	if err = decoder.Decode(&tail); err != io.EOF {
 		return errors.New("buffer intent must contain one document")
 	}
-	if disk.Version != 1 || !validHash.MatchString(disk.Hash) || disk.Target != "open" || disk.Overflow < 0 {
+	if disk.Version != 1 || !validHash.MatchString(disk.Hash) || !knownBucket(disk.Target) || disk.Overflow < 0 {
 		return errors.New("invalid buffer intent identity")
 	}
 	// Never overwrite malformed current files merely because an intent exists.
@@ -118,18 +118,21 @@ func (b *Buffer) recover() error {
 		if err != nil {
 			return errors.New("invalid buffer intent record")
 		}
-		if final.Status != "open" {
+		if !knownBucket(final.Status) || final.Status != disk.Target {
 			return errors.New("invalid buffer intent status")
 		}
-		if err = b.writeRecord("open", *final); err != nil {
+		if err = b.writeRecord(disk.Target, *final); err != nil {
 			return fmt.Errorf("buffer recovery incomplete; intent retained: %w", err)
 		}
-		for _, old := range []string{"resolved", "deleted"} {
+		for _, old := range buckets {
+			if old == disk.Target {
+				continue
+			}
 			if err = b.remove(old + "/" + disk.Hash + ".yaml"); err != nil {
 				return fmt.Errorf("buffer recovery incomplete; intent retained: %w", err)
 			}
 		}
-	} else if existing == nil || bucket != "open" || disk.Overflow == 0 {
+	} else if existing == nil || bucket != "open" || disk.Target != "open" || disk.Overflow == 0 {
 		return errors.New("frozen buffer intent lacks open record")
 	}
 	if err = b.writeOverflow(disk.Hash, disk.Overflow); err != nil {

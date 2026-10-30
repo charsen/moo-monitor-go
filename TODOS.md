@@ -18,3 +18,6 @@
 - [ ] 在获准范围验证07 HTTPClient与真实Cloud Go字段/回执兼容，并设计Discard成功后的本地pending清理协调；本机httptest不等于远端兼容。
 
 - [ ] 完成[第07课](docs/lessons/07-cloud-http-client.md)timeout/caller取消、body token重定向、wire失败与传输/确认边界练习，代理HTTP测试不代做学习验收。
+
+- [ ] 完成[第08课](docs/lessons/08-runtime-capture.md)事件身份/unknown标记/来源升级/安全诊断练习；代理Writer与race验证不代做学习验收。
+- [ ] 后续接真实Host生命周期、panic/HTTP500/queue/schedule钩子与完整过滤策略；08仅显式Capture和日志适配，不替现GinLogSafety。

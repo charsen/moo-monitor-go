@@ -1,6 +1,6 @@
 # 第07课：显式HTTP传输、字节策略与有限重试
 
-[上一课：06](06-incremental-sync.md) · [课程目录](../README.md)
+[上一课：06](06-incremental-sync.md) · [课程目录](../README.md) · [下一课：08](08-runtime-capture.md)
 
 06有增量同步与严格回执，但只通过Client接口和替身发送。本课新增[HTTPClient](../../cloudsync/http_client.go)，把真实本机HTTP请求接入同一个Sync；不连接真实Cloud，不自动采集或调度。范围见[本步计划](../plans/07-cloud-http-client.md)。
 
