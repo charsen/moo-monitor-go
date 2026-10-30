@@ -1,6 +1,6 @@
 # 第16课：让Host真实Schedule消费调度观察器
 
-[上一课：15](15-host-queue-owner.md) · [课程目录](../README.md)
+[上一课：15](15-host-queue-owner.md) · [课程目录](../README.md) · [下一课：17](17-cloud-push-owner.md)
 
 本课对应模板Host第46课的真实采用；第14课已有适配器，当前一步处理谁创建Schedule、事件何时注册、谁等待任务关闭。SDK没有新生产API，也不复制cron。第15课已独立提交；Host采用以模板第46课课号定位，与SDK独立提交顺序分开。[本课计划](../plans/16-host-schedule.md)记录范围。
 

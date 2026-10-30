@@ -20,6 +20,7 @@
 | 14 | [队列最终失败与调度完成](lessons/14-queue-schedule.md) | 真实Worker/成熟DB Driver/cron，显式owner；当时Host采用待接，现见15/16 |
 | 15 | [Host队列Owner生命周期](lessons/15-host-queue-owner.md) | 单Run/首N屏障/可重试关闭/DisableCapture，Host45实证 |
 | 16 | [Host受管理Schedule](lessons/16-host-schedule.md) | 原生单实例/专用Artisan与Event观察、可取消排空，Host46采用 |
+| 17 | [显式与周期增量推送](lessons/17-cloud-push-owner.md) | 原ACK/type锁、显式命令与首tick Owner；完整M13未完 |
 
 
 [完整复现计划](port-plan.md) · [PHP源码入口](php-surface-inventory.md)

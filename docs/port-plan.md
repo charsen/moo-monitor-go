@@ -121,3 +121,7 @@ PHP 包当前 TODO 中的容量恢复、记录版本/坏 YAML、心跳健康语�
 ## 16：Host定时任务采用与本轮暂停
 
 [计划16](plans/16-host-schedule.md)对应Host46原Schedule单实例、专用观察Artisan/具名Event与原生日志窄保护；关闭必须原生job排空和Run done同时成立。无SDK生产API或依赖变化，Host开发workspace证据与SDK独立发布解析分开。两功能完成后暂停，不启动第三块；自动payload过滤、跨无ctx业务日志事件身份、真实os.Exit、其它DB路径/真实Cloud与发布解析仍是明确未验边界。
+
+## 17：显式与周期增量采用
+
+见[计划17](plans/17-cloud-push-owner.md)：复用原逐version ACK/type gate+flock，借Buffer、独立HTTP所有权与首tick后推送。SDK四项race1.657，Host两项race1.645/六模式9.873；无真实Cloud。完整all/dry-run/retention及目标兼容仍待，本轮第二功能仅健康检查后暂停。
