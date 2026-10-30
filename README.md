@@ -6,7 +6,7 @@ Go 业务系统必需的独立监控采集 SDK，全业务复刻 PHP 监控包�
 
 本包负责运行时错误、慢 SQL、聚合脱敏、可恢复本地缓冲、云端同步、心跳、自检及 MCP 接入；不提供业务页面或研发工作台。业务 Host 可以独立安装它，`go-moo-scaffold` 只消费其状态与公开接口。
 
-已建立独立Go module。M07脱敏、M02显式记录构建与M08私有本地缓冲已有真实PHP纯组件fixture及定向恢复验证；06已有显式Client的增量快照、严格回执、部分确认和持久指纹账本。07已有runtime intake/discard显式HTTP传输；未知请求表示/Host适配、自动采集与真实Cloud兼容仍待完成。最低Go1.26.0，本机实测Go1.27.3；不加入Host workspace、不依赖scaffold。
+已建立独立Go module。M07脱敏、M02显式记录构建与M08私有本地缓冲已有真实PHP纯组件fixture及定向恢复验证；06已有显式Client的增量快照、严格回执、部分确认和持久指纹账本。07已有runtime intake/discard显式HTTP传输；未知请求表示/Host适配、自动采集与真实Cloud兼容仍待完成。最低Go1.26.0，本机实测Go1.27.3；SDK可GOWORK=off独立运行，Host开发以忽略的workspace联调；不依赖scaffold。
 
 - [有序课程入口](docs/README.md)
 
@@ -27,3 +27,5 @@ Go 业务系统必需的独立监控采集 SDK，全业务复刻 PHP 监控包�
 [第11课](docs/lessons/11-slow-query-pipeline.md)提供显式ReportSlowQuery与独立SQL记录，复用同一durable store和确认协调器；固定SQL intake/discard传输仅本机替身验证。未自动安装数据库hook，未执行SQL或连接真实Cloud。
 
 [第12课](docs/lessons/12-gorm-slow-query.md)提供已存在SQLite Goravel实例的显式GORM插件，复用慢SQL落盘；原日志调用保留，同步采集会增加原Trace观测耗时。未自动发现连接，DB façade不在覆盖内，Host生产预热接线单独验收。
+
+[第13课](docs/lessons/13-host-slow-query.md)补真实Host所需的当前请求标量与原生数值/已知日期类型，分别验证Food目标INSERT/UPDATE；原框架默认DB启动与显式预热动作分清，未连接真实Cloud。

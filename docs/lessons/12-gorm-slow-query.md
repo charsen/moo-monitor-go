@@ -1,8 +1,10 @@
 # 第12课：在真实 GORM 执行窗口采集慢 SQL
 
-[上一课：11](11-slow-query-pipeline.md) · [课程目录](../README.md)
+[上一课：11](11-slow-query-pipeline.md) · [课程目录](../README.md) · [下一课：13](13-host-slow-query.md)
 
 第11课已能把显式 SQL 输入聚合、落盘、同步。本课将已存在的 Goravel ORM 实例接到这条链：执行成功的 SQL 在 GORM 回调内转成窄 Input，再交 SlowBuffer。SDK 不构造业务连接，不解析日志，也不连接 Cloud。[计划](../plans/12-gorm-slow-query.md)记录设计与实际验证。
+
+后续第13课已按真实Host补原生数值宽度、标准Carbon/DeletedAt及当前请求入口；以下第12课验证记录保留原提交时点。
 
 ## 先区分实例能力与框架契约
 

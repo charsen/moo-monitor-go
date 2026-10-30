@@ -102,4 +102,8 @@ PHP 包当前 TODO 中的容量恢复、记录版本/坏 YAML、心跳健康语�
 
 ## 12 SDK局部进展
 
-[真实GORM慢SQL回调](lessons/12-gorm-slow-query.md)可显式安装到已存在SQLite Goravel Query，六core后同步复制SQL/Vars，不改业务结果/原Trace调用次数；启动失败回滚/有限Close/安全诊断/真实并发已定向验证。DB façade sqlx、未安装连接、Fresh、其它driver和Rows后续迭代未自动覆盖。Host独立显式业务预热与allowlist接线正在设计，不以测试Attach冒充生产完整接入；不连接真实Cloud。
+[真实GORM慢SQL回调](lessons/12-gorm-slow-query.md)可显式安装到已存在SQLite Goravel Query，六core后同步复制SQL/Vars，不改业务结果/原Trace调用次数；启动失败回滚/有限Close/安全诊断/真实并发已定向验证。DB façade sqlx、未安装连接、Fresh、其它driver和Rows后续迭代未自动覆盖。Host独立显式业务预热与allowlist接线续见13，不以测试Attach冒充全连接覆盖；不连接真实Cloud。
+
+## 13局部进展
+
+[Host慢SQL消费边界](lessons/13-host-slow-query.md)新增现生命周期只读标量入口与原生数值/锁定Carbon/DeletedAt适配，不调用任意Valuer。真实Host认证Food逐动作INSERT/UPDATE/SELECT目标验证，与SDK单module/race证据分列。Host独立业务预热默认空，按源原生默认DB基线解释，不把监控开关当连接创建器；关闭可重试与真实Cloud/发布解析仍分界。

@@ -2,6 +2,7 @@ package gormcapture_test
 
 import (
 	"context"
+	"database/sql/driver"
 	"errors"
 	"fmt"
 	"strings"
@@ -288,5 +289,37 @@ func TestGoravelDBFacadeIsOutsideGORM(t *testing.T) {
 	}
 	if p.Status().Captured != before {
 		t.Fatal("sqlx DB facade unexpectedly used GORM plugin")
+	}
+}
+
+type businessValue struct{ calls *atomic.Int64 }
+
+func (v businessValue) Value() (driver.Value, error) {
+	v.calls.Add(1)
+	return "fixed-business-value", nil
+}
+func TestUnknownValuerDoesNotChangeSQL(t *testing.T) {
+	store, q, db, _, clock := setup(t, "unknown-binding", 0)
+	var calls atomic.Int64
+	if err := db.Exec("INSERT INTO items(name) VALUES (?)", businessValue{&calls}).Error; err != nil {
+		t.Fatal(err)
+	}
+	baseline := calls.Load()
+	p := plugin(t, store, "unknown-binding", clock)
+	if err := observer.Install(q, p); err != nil {
+		t.Fatal(err)
+	}
+	if _, err := q.Exec("INSERT INTO items(name) VALUES (?)", businessValue{&calls}); err != nil {
+		t.Fatal("unknown collection binding changed SQL", err)
+	}
+	if calls.Load()-baseline != baseline {
+		t.Fatal("monitor invoked Valuer beyond native driver/logger behavior")
+	}
+	if p.Status().Failures != 1 || p.Status().Last.Kind != observer.FailureInput {
+		t.Fatal("unknown binding not safely diagnosed")
+	}
+	var count int64
+	if err := db.WithContext(capture.InternalContext(context.Background())).Raw("SELECT COUNT(*) FROM items WHERE name=?", "fixed-business-value").Row().Scan(&count); err != nil || count != 2 {
+		t.Fatal("business SQL value changed", err)
 	}
 }

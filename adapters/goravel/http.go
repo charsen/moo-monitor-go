@@ -290,3 +290,9 @@ func copiedHTTPRequest(ctx context.Context) (request records.Request, exists boo
 	request.Guard = copyText(values.Guard)
 	return request, true, nil
 }
+
+// HTTPRequestSnapshot returns only the active lifecycle's copied scalar values.
+// Non-HTTP contexts and closed scopes have no snapshot. It never reads a raw request.
+func HTTPRequestSnapshot(ctx context.Context) (records.Request, bool, error) {
+	return copiedHTTPRequest(ctx)
+}

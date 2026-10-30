@@ -336,3 +336,49 @@ func TestHTTPLateIdentity(t *testing.T) {
 		})
 	}
 }
+
+func TestHTTPRequestSnapshotForSQL(t *testing.T) {
+	collector, _ := setup(t)
+	type userKey struct{}
+	h, err := adapter.NewHTTP(collector, adapter.HTTPConfig{Identity: func(ctx context.Context) (adapter.HTTPIdentity, error) {
+		id, _ := ctx.Value(userKey{}).(string)
+		if id == "" {
+			return adapter.HTTPIdentity{}, nil
+		}
+		name := "current actor"
+		return adapter.HTTPIdentity{ID: &id, Name: &name}, nil
+	}})
+	if err != nil {
+		t.Fatal(err)
+	}
+	if _, exists, err := adapter.HTTPRequestSnapshot(context.Background()); err != nil || exists {
+		t.Fatal("non-HTTP context guessed")
+	}
+	route := httpRoute(t, h)
+	var held context.Context
+	route.Get("/sql-snapshot", func(ctx contractshttp.Context) contractshttp.Response {
+		before, exists, err := adapter.HTTPRequestSnapshot(ctx.Context())
+		if err != nil || !exists || before.UserID != nil {
+			t.Fatal("anonymous snapshot wrong")
+		}
+		ctx.WithContext(context.WithValue(ctx.Context(), userKey{}, "typed-actor"))
+		held = ctx.Context()
+		after, exists, err := adapter.HTTPRequestSnapshot(held)
+		if err != nil || !exists || after.Method != "GET" || after.URL == nil || !strings.Contains(*after.URL, "/sql-snapshot") || after.UserID == nil || *after.UserID != "typed-actor" || after.UserName == nil || *after.UserName != "current actor" {
+			t.Fatal("late scalar snapshot missing")
+		}
+		*after.UserID = "mutated copy"
+		again, _, err := adapter.HTTPRequestSnapshot(held)
+		if err != nil || again.UserID == nil || *again.UserID != "typed-actor" {
+			t.Fatal("snapshot aliases mutable values")
+		}
+		return ctx.Response().String(200, "original")
+	})
+	response := request(route, "GET", "/sql-snapshot", "")
+	if response.Code != 200 || response.Body.String() != "original" {
+		t.Fatal("snapshot changed response")
+	}
+	if _, exists, err := adapter.HTTPRequestSnapshot(held); err != nil || exists {
+		t.Fatal("closed lifecycle retained request")
+	}
+}
