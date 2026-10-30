@@ -1,6 +1,6 @@
 # 第08课：显式错误采集、事件身份与Goravel日志旁路
 
-[上一课：07](07-cloud-http-client.md) · [课程目录](../README.md)
+[上一课：07](07-cloud-http-client.md) · [课程目录](../README.md) · [下一课：09](09-http-capture.md)
 
 本课把显式error和真实Goravel日志送入已有Builder与Buffer。采集结果落本地，构造和Capture都不自动推送Cloud；07的HTTP传输与06的Sync仍由owner显式调用。范围见[计划](../plans/08-runtime-capture.md)。
 

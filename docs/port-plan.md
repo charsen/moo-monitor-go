@@ -87,3 +87,7 @@ PHP 包当前 TODO 中的容量恢复、记录版本/坏 YAML、心跳健康语�
 ## 08局部进展
 
 [显式采集与日志旁路](lessons/08-runtime-capture.md)已有Capture/LogMessage→Builder/Buffer，有限EventScope/EventID与原子TagSource，真实Goravel1.18.0 Writer消费和安全OnError/Status。低rank不改、不同ID正常累加、unknown不盲重试；不声称等价于所有PHP Throwable对象自动识别。未接Host全局Recover/HTTP500/queue/schedule，不自动联网；M02/M18其余条目仍待完成。
+
+## 09局部进展
+
+[HTTP生命周期](lessons/09-http-capture.md)已有独立请求scope、有限method/url/ip/显式身份快照、明确终态ID关联及5xx合成观察；显式owner Recover组合保证原callback执行，未配置时交原框架。真实内存Gin定向含已提交响应、旁路故障与并发隔离。未改Host、未注册全局Recover、不主动读body、不自动Cloud；payload/完整过滤及queue/schedule/slowSQL矩阵仍待后续实现。
