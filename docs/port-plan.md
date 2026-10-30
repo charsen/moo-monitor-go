@@ -91,3 +91,7 @@ PHP 包当前 TODO 中的容量恢复、记录版本/坏 YAML、心跳健康语�
 ## 09局部进展
 
 [HTTP生命周期](lessons/09-http-capture.md)已有独立请求scope、有限method/url/ip/显式身份快照、明确终态ID关联及5xx合成观察；显式owner Recover组合保证原callback执行，未配置时交原框架。真实内存Gin定向含已提交响应、旁路故障与并发隔离。未改Host、未注册全局Recover、不主动读body、不自动Cloud；payload/完整过滤及queue/schedule/slowSQL矩阵仍待后续实现。
+
+## 10局部进展
+
+[Host本地运行时](lessons/10-host-runtime.md)消费SDK，默认关闭、不自动Cloud；实际认证要求Identity(context.Context)在事件时刻复制当前身份，SDK不保存原请求。Host41的Provider/日志stack/私有Buffer与响应证据单列，未把workspace接入当发布解析。自动payload/完整采集矩阵与真实Cloud仍待完成。

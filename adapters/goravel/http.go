@@ -23,7 +23,7 @@ type HTTPConfig struct {
 	MaxEvents int
 	OnError   OnError
 	Recover   Recover
-	Identity  func(contractshttp.Context) (HTTPIdentity, error)
+	Identity  func(context.Context) (HTTPIdentity, error)
 }
 type HTTP struct {
 	collector   *capture.Collector
@@ -38,12 +38,13 @@ type httpEvent struct {
 	frames []records.Frame
 }
 type httpState struct {
-	mu      sync.Mutex
-	owner   *HTTP
-	scope   *capture.EventScope
-	request records.Request
-	marked  *httpEvent
-	closed  bool
+	mu       sync.Mutex
+	owner    *HTTP
+	scope    *capture.EventScope
+	request  records.Request
+	marked   *httpEvent
+	closed   bool
+	identity func(context.Context) (HTTPIdentity, error)
 }
 
 func NewHTTP(collector *capture.Collector, config HTTPConfig) (*HTTP, error) {
@@ -63,7 +64,7 @@ func (h *HTTP) Status() Status    { return h.diagnostics.Status() }
 
 func (h *HTTP) Handle(ctx contractshttp.Context) {
 	scope, _ := capture.NewEventScope(h.config.MaxEvents)
-	state := &httpState{owner: h, scope: scope}
+	state := &httpState{owner: h, scope: scope, identity: h.config.Identity}
 	ctx.WithContext(context.WithValue(ctx.Context(), httpKey{}, state))
 	// The same defer owns observation, explicit recovery and final scope cleanup.
 	defer func() {
@@ -72,6 +73,7 @@ func (h *HTTP) Handle(ctx contractshttp.Context) {
 			state.closed = true
 			state.marked = nil
 			state.request = records.Request{}
+			state.identity = nil
 			state.mu.Unlock()
 			scope.Close()
 		}()
@@ -159,7 +161,11 @@ func (h *HTTP) capturePanic(ctx contractshttp.Context, value any) {
 	if state != nil && state.owner == h {
 		options.Scope = state.scope
 		options.EventID = id
-		options.Request = state.request
+		request, _, identityErr := copiedHTTPRequest(ctx.Context())
+		options.Request = request
+		if identityErr != nil {
+			h.report(ctx.Context(), identityErr)
+		}
 	}
 	event, ok := value.(error)
 	if !ok {
@@ -202,7 +208,11 @@ func (h *HTTP) observe(ctx contractshttp.Context, state *httpState) {
 	if status < 500 {
 		return
 	}
-	options := capture.Options{Scope: state.scope, Source: "http_5xx", Request: state.request, Meta: map[string]any{"http_status": int64(status)}}
+	request, _, identityErr := copiedHTTPRequest(ctx.Context())
+	if identityErr != nil {
+		h.report(ctx.Context(), identityErr)
+	}
+	options := capture.Options{Scope: state.scope, Source: "http_5xx", Request: request, Meta: map[string]any{"http_status": int64(status)}}
 	state.mu.Lock()
 	marked := state.marked
 	state.mu.Unlock()
@@ -229,15 +239,6 @@ func (h *HTTP) requestSnapshot(ctx contractshttp.Context) (snapshot records.Requ
 	request := ctx.Request()
 	url, ip := request.FullUrl(), request.Ip()
 	snapshot = records.Request{Method: request.Method(), URL: &url, IP: &ip}
-	if h.config.Identity != nil {
-		identity, err := h.config.Identity(ctx)
-		if err != nil {
-			return snapshot, err
-		}
-		snapshot.UserID = copyText(identity.ID)
-		snapshot.UserName = copyText(identity.Name)
-		snapshot.Guard = copyText(identity.Guard)
-	}
 	return snapshot, nil
 }
 func copyText(value *string) *string {
@@ -252,24 +253,40 @@ func (h *HTTP) report(ctx context.Context, err error) {
 }
 
 // copiedHTTPRequest consumes only the lifecycle's scalar snapshot, not a framework request.
-func copiedHTTPRequest(ctx context.Context) (records.Request, bool) {
+func copiedHTTPRequest(ctx context.Context) (request records.Request, exists bool, failure error) {
 	if ctx == nil {
-		return records.Request{}, false
+		return records.Request{}, false, nil
 	}
 	state, _ := ctx.Value(httpKey{}).(*httpState)
 	if state == nil {
-		return records.Request{}, false
+		return records.Request{}, false, nil
 	}
 	state.mu.Lock()
-	defer state.mu.Unlock()
 	if state.closed {
-		return records.Request{}, false
+		state.mu.Unlock()
+		return records.Request{}, false, nil
 	}
-	request := state.request
+	request = state.request
+	identity := state.identity
 	request.URL = copyText(request.URL)
 	request.IP = copyText(request.IP)
-	request.UserID = copyText(request.UserID)
-	request.UserName = copyText(request.UserName)
-	request.Guard = copyText(request.Guard)
-	return request, true
+	state.mu.Unlock()
+	exists = true
+	if identity == nil {
+		return request, true, nil
+	}
+	// Resolve at the event, after authentication; retain no framework request or closure over it.
+	defer func() {
+		if recover() != nil {
+			failure = ErrAdapter
+		}
+	}()
+	values, err := identity(ctx)
+	if err != nil {
+		return request, true, err
+	}
+	request.UserID = copyText(values.ID)
+	request.UserName = copyText(values.Name)
+	request.Guard = copyText(values.Guard)
+	return request, true, nil
 }

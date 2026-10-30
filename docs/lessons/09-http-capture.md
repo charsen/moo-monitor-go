@@ -1,6 +1,6 @@
 # 第09课：HTTP生命周期、明确事件关联与Recover委托
 
-[上一课：08](08-runtime-capture.md) · [课程目录](../README.md)
+[上一课：08](08-runtime-capture.md) · [课程目录](../README.md) · [下一课：10](10-host-runtime.md)
 
 08能显式Capture及接收日志，但没有请求生命周期。本课在monitor内提供Goravel HTTP中间件，以真实内存Gin路由验证scope、请求快照、5xx和panic委托。没有修改Host、注册全局Recover或连接Cloud；[计划](../plans/09-http-capture.md)列出接口和范围。
 
@@ -105,3 +105,5 @@ cpuid2.4.0明确对齐31已审生态兼容基线，不宣称2.3在本路径存�
 
 
 最终实际验证（2026-10-30）：补强后仅本课8项HTTP及必要5项Writer执行定向race，PASS3.399s。命令与实际覆盖见[计划最终记录](../plans/09-http-capture.md)。此前6项HTTP普通测试1.583s是早轮证据。所有记录使用私有临时Buffer和真实内存路由，没有监听外部服务或连接Cloud。
+
+后续演进：第10步实际Host认证消费者要求Identity(context.Context)在事件时刻解析，09首次实现的eager身份模型已被替换；原始测试记录保留，当前API/接线见[第10课](10-host-runtime.md)。

@@ -24,3 +24,5 @@
 
 - [ ] 完成[第09课](docs/lessons/09-http-capture.md)请求scope/终态事件关联/Recover时序/已提交响应练习；代理内存路由测试不代做学习验收。
 - [ ] 在后续Host接线保留现GinLogSafety/认证与原Recover行为，核请求自动payload过滤、queue最终失败/schedule退出及慢SQL真实扩展点；09未覆盖这些能力。
+
+- [ ] 完成[第10课](docs/lessons/10-host-runtime.md)late identity/Host所有权与workspace验证差异练习；真实Cloud/部署解析仍待，代理验收不代做学习。

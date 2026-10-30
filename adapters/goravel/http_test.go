@@ -3,6 +3,7 @@ package goravel_test
 import (
 	"context"
 	"errors"
+	"fmt"
 	"io"
 	"net/http"
 	"net/http/httptest"
@@ -45,7 +46,7 @@ func TestHTTPLifecycle(t *testing.T) {
 		t.Run(http.StatusText(status), func(t *testing.T) {
 			collector, store := setup(t)
 			userID := "actor"
-			middleware, err := adapter.NewHTTP(collector, adapter.HTTPConfig{Identity: func(contractshttp.Context) (adapter.HTTPIdentity, error) {
+			middleware, err := adapter.NewHTTP(collector, adapter.HTTPConfig{Identity: func(context.Context) (adapter.HTTPIdentity, error) {
 				return adapter.HTTPIdentity{ID: &userID}, nil
 			}})
 			if err != nil {
@@ -84,7 +85,7 @@ func TestHTTPLifecycle(t *testing.T) {
 					t.Fatal("missing5xx")
 				}
 				record := snapshots[0].Record
-				if record.Exception.Class != "goravel.HTTPStatus" || record.Meta["source"] != "http_5xx" || *record.Request.UserID != "actor" || !strings.Contains(*record.Request.URL, "token=***") {
+				if record.Exception.Class != "goravel.HTTPStatus" || record.Meta["source"] != "http_5xx" || *record.Request.UserID != "mutated after snapshot" || !strings.Contains(*record.Request.URL, "token=***") {
 					t.Fatal("HTTP snapshot")
 				}
 				if payload, ok := record.Payload.([]any); !ok || len(payload) != 0 {
@@ -173,7 +174,7 @@ func TestHTTPFailureIsolation(t *testing.T) {
 			if mode == "collector" {
 				store.Close()
 			} else {
-				config.Identity = func(contractshttp.Context) (adapter.HTTPIdentity, error) {
+				config.Identity = func(context.Context) (adapter.HTTPIdentity, error) {
 					return adapter.HTTPIdentity{}, errors.New("fake-token")
 				}
 			}
@@ -276,5 +277,62 @@ func TestHTTPCommittedResponsePanic(t *testing.T) {
 	snapshots, err := store.Snapshot(context.Background())
 	if err != nil || len(snapshots) != 1 || snapshots[0].Record.Count != 1 || snapshots[0].Record.Meta["source"] != "reportable" {
 		t.Fatal("panic capture or actual final status observation", err)
+	}
+}
+
+type lateHTTPIdentityKey struct{}
+
+func TestHTTPLateIdentity(t *testing.T) {
+	for _, authenticated := range []bool{false, true} {
+		t.Run(fmt.Sprint(authenticated), func(t *testing.T) {
+			collector, store := setup(t)
+			calls := 0
+			middleware, _ := adapter.NewHTTP(collector, adapter.HTTPConfig{Identity: func(ctx context.Context) (adapter.HTTPIdentity, error) {
+				calls++
+				value, ok := ctx.Value(lateHTTPIdentityKey{}).(adapter.HTTPIdentity)
+				if !ok {
+					return adapter.HTTPIdentity{}, nil
+				}
+				return value, nil
+			}})
+			driver, _ := adapter.NewDriver(collector, &delegate{}, nil)
+			route := httpRoute(t, middleware)
+			event := errors.New("late HTTP event")
+			route.Get("/late", func(ctx contractshttp.Context) contractshttp.Response {
+				if calls != 0 {
+					t.Fatal("identity resolved before authentication")
+				}
+				if authenticated {
+					id, name, guard := "fixture-id", "fixture-name", "admin"
+					ctx.WithValue(lateHTTPIdentityKey{}, adapter.HTTPIdentity{ID: &id, Name: &name, Guard: &guard})
+				}
+				bound, err := middleware.EventContext(ctx.Context(), "terminal")
+				if err != nil {
+					t.Fatal(err)
+				}
+				writer(t, bound, driver).With(map[string]any{adapter.ExceptionKey: event, adapter.FramesKey: fixedFrames}).Error("late event")
+				first, err := store.Snapshot(context.Background())
+				if err != nil || len(first) != 1 {
+					t.Fatal(err)
+				}
+				identity := first[0].Record.Request
+				if authenticated {
+					if identity.UserID == nil || *identity.UserID != "fixture-id" || identity.UserName == nil || *identity.UserName != "fixture-name" || identity.Guard == nil || *identity.Guard != "admin" {
+						t.Fatal("first log missing late identity")
+					}
+				} else if identity.UserID != nil || identity.UserName != nil || identity.Guard != nil {
+					t.Fatal("anonymous identity fabricated")
+				}
+				if err = middleware.MarkError(ctx.Context(), "terminal", event, fixedFrames); err != nil {
+					t.Fatal(err)
+				}
+				return ctx.Response().String(503, "business")
+			})
+			response := request(route, "GET", "/late", "")
+			final, err := store.Snapshot(context.Background())
+			if response.Code != 503 || err != nil || len(final) != 1 || final[0].Record.Count != 1 || final[0].Record.Meta["source"] != "http_5xx" || calls != 2 {
+				t.Fatal("late resolver lifecycle", err)
+			}
+		})
 	}
 }
