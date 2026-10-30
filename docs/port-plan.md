@@ -125,3 +125,7 @@ PHP 包当前 TODO 中的容量恢复、记录版本/坏 YAML、心跳健康语�
 ## 17：显式与周期增量采用
 
 见[计划17](plans/17-cloud-push-owner.md)：复用原逐version ACK/type gate+flock，借Buffer、独立HTTP所有权与首tick后推送。SDK四项race1.657，Host两项race1.645/六模式9.873；无真实Cloud。完整all/dry-run/retention及目标兼容仍待，本轮第二功能仅健康检查后暂停。
+
+## 18：健康心跳与saved级自检
+
+见[计划18](plans/18-health-check.md)：心跳typed白名单及每轮独立结果、现Builder固定样本、精确逐条saved与实际命令退出。SDK健康早轮race1.487、实际推送心跳补项1.317、稳定身份/时间补断言1.409；Host10模式真实CLI race5.459，受影响旧推送五项race8.950/metadata配置0.437另列计划。只本机httptest，无真实Cloud；Go版本consumer兼容、summary、resolve/MCP与完整M14/M15余项仍待。两功能完成后暂停，下一范围由用户决定。

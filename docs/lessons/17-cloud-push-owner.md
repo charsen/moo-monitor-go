@@ -1,6 +1,6 @@
 # 第17课：显式推送与周期Owner
 
-[上一课：16](16-host-schedule.md) · [课程目录](../README.md)
+[上一课：16](16-host-schedule.md) · [课程目录](../README.md) · [下一课：18](18-health-check.md)
 
 本课将已有HTTP/ACK内核交给真实消费者，未新建同步账本。范围见[计划](../plans/17-cloud-push-owner.md)，Host对应第47课。
 

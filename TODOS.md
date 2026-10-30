@@ -35,10 +35,12 @@
 - [ ] 完成[第13课](docs/lessons/13-host-slow-query.md)请求快照/标准日期与任意Valuer边界、目标写链断言、原生DB启动baseline/预热及关闭重试练习；代理验证不代做学习。
 
 - [ ] 完成[第14课](docs/lessons/14-queue-schedule.md)最终重试/原失败持久化、未知exit/真实panic、scope与原生日志边界练习；代理race不代做学习。
-- [ ] **当前本轮**：17显式/周期推送与18健康检查完成后暂停，不自动开启第三块；15/16为上轮已交付。其余按矩阵确认剩余范围：无ctx业务日志身份、自动payload过滤、真实os.Exit/Cloud与目标部署解析仍未完成，全局Artisan仍不替换。
+- [ ] **本轮收口后暂停**：17显式/周期推送与18健康检查参考已交付，不自动开启第三块；15/16为上轮已交付。其余按矩阵确认剩余范围：无ctx业务日志身份、自动payload过滤、真实os.Exit/Cloud与目标部署解析仍未完成，全局Artisan仍不替换。
 
 - [ ] 完成[第15课](docs/lessons/15-host-queue-owner.md)单Run/首轮屏障/在途关闭与DisableCapture练习；Host45参考已接，15/16已参考交付，当前暂停。
 
 - [ ] 完成[第16课](docs/lessons/16-host-schedule.md)双开关/原callback元信息、未知exit与真实回执、Shutdown排空和安全内部诊断练习；代理验证不代做学习。
 
 - [ ] 完成[第17课](docs/lessons/17-cloud-push-owner.md)双类partial/Busy/关闭与无变化练习；继续all/dry-run/retention、真实Cloud及部署解析，不把当前增量采用当完整M13。
+
+- [ ] 完成[第18课](docs/lessons/18-health-check.md)心跳与saved双证据、clamp/caller取消、重复样本max语义及显式自检副作用练习；继续真实Cloud字段/权限、summary/resolve及部署解析，不能把本机参考验收写为M14/M15全部完成。
