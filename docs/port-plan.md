@@ -99,3 +99,7 @@ PHP 包当前 TODO 中的容量恢复、记录版本/坏 YAML、心跳健康语�
 ## 11局部进展
 
 [显式慢SQL链](lessons/11-slow-query-pipeline.md)已有typed ReportSlowQuery、源hash/绑定/舍入fixture、批准的双SQL持久脱敏/真UTF8 byte长度/有效截断、共享私有store聚合恢复及SQL typed Cloud同步/HTTP。Runtime外壳与TagSource保留，SQL不伪装异常；新旧必要消费者已定向验证。没有自动数据库hook或真实Cloud/SQL执行，语法脱敏盲区/云端提示边界及发布解析仍待。
+
+## 12 SDK局部进展
+
+[真实GORM慢SQL回调](lessons/12-gorm-slow-query.md)可显式安装到已存在SQLite Goravel Query，六core后同步复制SQL/Vars，不改业务结果/原Trace调用次数；启动失败回滚/有限Close/安全诊断/真实并发已定向验证。DB façade sqlx、未安装连接、Fresh、其它driver和Rows后续迭代未自动覆盖。Host独立显式业务预热与allowlist接线正在设计，不以测试Attach冒充生产完整接入；不连接真实Cloud。

@@ -29,3 +29,5 @@
 
 - [ ] 完成[第11课](docs/lessons/11-slow-query-pipeline.md)原raw身份/双mask安全差异、字节与码点、cap峰值/overflow、共享typed内核与同ms确认练习；代理参考验证不代做学习。
 - [ ] 核真实Goravel SQL Trace公开注入/上游扩展方案，接自动SQL采集前保原日志/执行结果及M18失败隔离；11仅显式ReportSlowQuery。
+
+- [ ] 完成[第12课](docs/lessons/12-gorm-slow-query.md)回调窗口/安装回滚/原Trace观测开销、事务语义与连接覆盖练习，代理真实ORM验证不代做学习。

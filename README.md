@@ -25,3 +25,5 @@ Go 业务系统必需的独立监控采集 SDK，全业务复刻 PHP 监控包�
 [第09课](docs/lessons/09-http-capture.md)提供HTTP请求scope、有限标量快照与5xx观察，以及显式owner Recover委托；SDK不主动读取body、不注册全局Recover，采集失败不改响应。已通过真实内存Gin路由定向验证，Host接线和自动payload仍待完成。
 
 [第11课](docs/lessons/11-slow-query-pipeline.md)提供显式ReportSlowQuery与独立SQL记录，复用同一durable store和确认协调器；固定SQL intake/discard传输仅本机替身验证。未自动安装数据库hook，未执行SQL或连接真实Cloud。
+
+[第12课](docs/lessons/12-gorm-slow-query.md)提供已存在SQLite Goravel实例的显式GORM插件，复用慢SQL落盘；原日志调用保留，同步采集会增加原Trace观测耗时。未自动发现连接，DB façade不在覆盖内，Host生产预热接线单独验收。

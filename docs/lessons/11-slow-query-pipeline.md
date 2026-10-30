@@ -1,6 +1,6 @@
 # 第11课：显式慢SQL、同一持久内核与独立Cloud协议
 
-[上一课：10](10-host-runtime.md) · [课程目录](../README.md)
+[上一课：10](10-host-runtime.md) · [课程目录](../README.md) · [下一课：12](12-gorm-slow-query.md)
 
 本课完成显式ReportSlowQuery→过滤/脱敏/hash→聚合与可恢复Buffer→SQL typed同步/HTTP协议。没有安装Goravel数据库hook、执行SQL或连接真实Cloud。[计划](../plans/11-slow-query-pipeline.md)记录范围和验证。
 

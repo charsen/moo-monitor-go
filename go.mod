@@ -11,7 +11,9 @@ require (
 require (
 	github.com/goravel/framework v1.18.0
 	github.com/goravel/gin v1.18.0
+	github.com/goravel/sqlite v1.18.0
 	github.com/stretchr/testify v1.12.1
+	gorm.io/gorm v1.31.2
 )
 
 require (
@@ -83,6 +85,9 @@ require (
 	github.com/muesli/ansi v0.0.0-20230316100256-276c6243b2f6 // indirect
 	github.com/muesli/cancelreader v0.2.2 // indirect
 	github.com/muesli/termenv v0.16.0 // indirect
+	github.com/ncruces/go-sqlite3 v0.25.0 // indirect
+	github.com/ncruces/go-sqlite3/gormlite v0.24.0 // indirect
+	github.com/ncruces/julianday v1.0.0 // indirect
 	github.com/pelletier/go-toml/v2 v2.2.4 // indirect
 	github.com/pterm/pterm v0.12.83 // indirect
 	github.com/quic-go/qpack v0.6.0 // indirect
@@ -101,6 +106,7 @@ require (
 	github.com/spf13/viper v1.21.0 // indirect
 	github.com/stretchr/objx v0.5.3 // indirect
 	github.com/subosito/gotenv v1.6.0 // indirect
+	github.com/tetratelabs/wazero v1.9.0 // indirect
 	github.com/twitchyliquid64/golang-asm v0.15.1 // indirect
 	github.com/ugorji/go/codec v1.3.1 // indirect
 	github.com/unrolled/secure v1.17.0 // indirect
@@ -142,5 +148,5 @@ require (
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20260526163538-3dc84a4a5aaa // indirect
 	google.golang.org/grpc v1.81.1 // indirect
 	google.golang.org/protobuf v1.36.11 // indirect
-	gorm.io/gorm v1.31.2 // indirect
+	gorm.io/plugin/dbresolver v1.6.2 // indirect
 )
