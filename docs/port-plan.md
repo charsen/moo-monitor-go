@@ -8,13 +8,13 @@
 
 本包是 headless 监控 SDK：采集、脱敏、聚合、可恢复缓冲、增量同步和运维接口由它负责。Goravel 适配与通用记录/传输能力保持明确边界，是否拆 module 在实现时决定。业务 Host 可以不安装 scaffold 而单独使用 monitor；monitor 不依赖研发 UI。
 
-PHP 复核基线为本机 `moo-monitor-laravel` 提交 `28d424e`。现阶段已盘点入口、阅读关键采集/存储/同步契约，已实现M07纯脱敏与M02显式快照构建部分，并运行受控PHP纯组件probe；M08已有私有scope本地运行时缓冲与intent恢复；06已有显式Client的增量快照/严格回执/持久确认，07已有runtime intake/discard HTTP传输，真实采集/Cloud兼容仍待接。
+PHP 复核基线为本机 `moo-monitor-laravel` 提交 `28d424e`。现阶段已盘点入口、阅读关键采集/存储/同步契约，已实现M07纯脱敏与M02显式快照构建部分，并运行受控PHP纯组件probe；M08已有私有scope本地运行时缓冲与intent恢复；06已有显式Client的增量快照/严格回执/持久确认，07已有runtime intake/discard HTTP传输，HTTP/日志及已安装SQLite ORM已有真实Host消费，14提供显式队列/调度owner；默认Host采用与其余驱动/事件、真实Cloud兼容仍待。
 
 依据：[PHP README](../../moo-monitor-laravel/README.md)、[Cloud 契约](../../moo-monitor-laravel/docs/cloud-api-contract.md)、[Provider](../../moo-monitor-laravel/src/MooeenMonitorLaravelServiceProvider.php)、[源码与测试索引](php-surface-inventory.md)。
 
 ## 完整能力对照
 
-以下编号是能力分类，复核发现的遗漏继续补入。M07-A已有[基础脱敏](lessons/01-sensitive-masker.md)，M07-B已有[SQL值侧有限算法](lessons/02-sql-masker.md)，M07-C已有[递归payload与截断](lessons/03-bounded-payload.md)及各自源fixture；M02已有[运行时记录构建与刷新](lessons/04-runtime-records.md)，覆盖显式输入、脱敏/hash/count/daily/source优先级，该课未自动采集/落盘；M08已在[第05课](lessons/05-runtime-buffer.md)接本地缓冲/cap/持久overflow/重开与恢复。M11/12已有[第06课](lessons/06-incremental-sync.md)指纹确认账本与替身传输验证，07已补[显式HTTP传输](lessons/07-cloud-http-client.md)，仅本机假服务验证，未接真实Cloud。未知请求表示/Host适配与其余条目仍待逐项完成。PHP 特有路径需核实 Go 对应能力；平台限制记为待解决缺口，提出替代方案并说明业务影响，不能自行删项或视为完成，也不宣称捕获所有错误。
+以下编号是能力分类，复核发现的遗漏继续补入。M07-A已有[基础脱敏](lessons/01-sensitive-masker.md)，M07-B已有[SQL值侧有限算法](lessons/02-sql-masker.md)，M07-C已有[递归payload与截断](lessons/03-bounded-payload.md)及各自源fixture；M02已有[运行时记录构建与刷新](lessons/04-runtime-records.md)，覆盖显式输入、脱敏/hash/count/daily/source优先级，该课未自动采集/落盘；M08已在[第05课](lessons/05-runtime-buffer.md)接本地缓冲/cap/持久overflow/重开与恢复。M11/12已有[第06课](lessons/06-incremental-sync.md)指纹确认账本与替身传输验证，07已补[显式HTTP传输](lessons/07-cloud-http-client.md)，仅本机假服务验证，未接真实Cloud。Host已接本地HTTP/日志与显式预热SQLite ORM；未知请求表示/其它driver、queue/schedule默认Host采用与其余条目仍待逐项完成。PHP 特有路径需核实 Go 对应能力；平台限制记为待解决缺口，提出替代方案并说明业务影响，不能自行删项或视为完成，也不宣称捕获所有错误。
 
 | 编号 | PHP 能力与现码入口 | Go 目标及验证重点 |
 | --- | --- | --- |
@@ -107,3 +107,9 @@ PHP 包当前 TODO 中的容量恢复、记录版本/坏 YAML、心跳健康语�
 ## 13局部进展
 
 [Host慢SQL消费边界](lessons/13-host-slow-query.md)新增现生命周期只读标量入口与原生数值/锁定Carbon/DeletedAt适配，不调用任意Valuer。真实Host认证Food逐动作INSERT/UPDATE/SELECT目标验证，与SDK单module/race证据分列。Host独立业务预热默认空，按源原生默认DB基线解释，不把监控开关当连接创建器；关闭可重试与真实Cloud/发布解析仍分界。
+
+## 14局部进展与暂停恢复
+
+[队列最终失败与调度完成](lessons/14-queue-schedule.md)已有真实Worker末次策略旁路、原成熟Database Driver私有SQLite采用、Schedule专用Artisan/回调/显式code回执，实际定向race7.333。保原重试/删除/失败落盘/cron恢复，不解析日志。终态观察先于TaskToJson，原failed日志仍可能含payload，Job无ctx不自动贯通日志同ID；未知exit不造1，真实os.Exit不可拦。
+
+本轮14收尾后暂停，不启动新块。恢复时先设计Host显式QueueWorker/ScheduledArtisan owner配置、默认关闭、生命周期与真实业务采用，审原FailedJob日志和事件身份关联；默认Host Worker/全局Artisan当前未替换。详细交接见14计划，用户自主练习待完成，真实Cloud/MCP与其余矩阵继续保留未完成。

@@ -17,5 +17,6 @@
 | 11 | [显式慢SQL完整链](lessons/11-slow-query-pipeline.md) | 独立typed SQL/共享durable内核与SQL Cloud协议；无自动DB hook |
 | 12 | [真实GORM慢SQL回调](lessons/12-gorm-slow-query.md) | 已存在SQLite实例显式安装、六core窗口与旁路隔离；Host预热接线后续 |
 | 13 | [Host慢SQL消费边界](lessons/13-host-slow-query.md) | 当前请求标量/标准类型、真实Food目标写链与Host启动边界 |
+| 14 | [队列最终失败与调度完成](lessons/14-queue-schedule.md) | 真实Worker/成熟DB Driver/cron，显式owner；默认Host采用待接 |
 
 [完整复现计划](port-plan.md) · [PHP源码入口](php-surface-inventory.md)

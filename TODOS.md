@@ -1,7 +1,7 @@
 # TODOS
 
 - [ ] 按 [复现计划](docs/port-plan.md)核对 PHP 每项采集来源、配置、缓冲格式、Cloud 与 MCP 契约，补齐对应 Go 行为设计。
-- [ ] 接入 Goravel 前核实所选版本的异常、日志、SQL、队列和调度接入点，记录覆盖与盲区。
+- [ ] 按当前已支持HTTP/日志/显式安装SQLite ORM与14队列/调度owner边界继续补未覆盖驱动、真实默认Host采用及其它事件；不把已实现入口笼统记为全部待接。
 - [ ] 核对 Cloud 心跳字段白名单、SDK 版本诊断和 runtime/慢 SQL 数据格式对 Go 的兼容缺口；先制定增量兼容方案，不伪装成 PHP SDK。
 
 - [ ] 在首个实现阶段落实[代码设计标准](../go-moo-engine-skeleton/docs/code-design.md)：审查参考业务调用链、文件职责、抽象必要性及生成/手写协作；文档制定不等于代码验收。
@@ -33,3 +33,6 @@
 - [ ] 完成[第12课](docs/lessons/12-gorm-slow-query.md)回调窗口/安装回滚/原Trace观测开销、事务语义与连接覆盖练习，代理真实ORM验证不代做学习。
 
 - [ ] 完成[第13课](docs/lessons/13-host-slow-query.md)请求快照/标准日期与任意Valuer边界、目标写链断言、原生DB启动baseline/预热及关闭重试练习；代理验证不代做学习。
+
+- [ ] 完成[第14课](docs/lessons/14-queue-schedule.md)最终重试/原失败持久化、未知exit/真实panic、scope与原生日志边界练习；代理race不代做学习。
+- [ ] **暂停恢复入口**：先做Host显式QueueWorker/ScheduledArtisan owner采用与独立配置/启动关闭/真实业务消费，核FailedJob原日志含payload、无ctx业务日志同ID缺口；默认Host Worker/全局Artisan未替换。参见[14计划](docs/plans/14-queue-schedule.md)，本轮不实施下一块。

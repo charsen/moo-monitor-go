@@ -1,6 +1,6 @@
 # 第13课：真实Host暴露的慢SQL适配边界
 
-[上一课：12](12-gorm-slow-query.md) · [课程目录](../README.md)
+[上一课：12](12-gorm-slow-query.md) · [课程目录](../README.md) · [下一课：14](14-queue-schedule.md)
 
 第12课证明了显式安装的SQLite实例可观察后续SQL。本课让真实Host业务消费它，并补实际需要的请求快照与标准模型类型；Host完整教学为第43课，SDK先提交，所以这里不链接尚未进HEAD的Host课文。[计划](../plans/13-host-slow-query.md)记录两仓证据。
 
