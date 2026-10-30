@@ -113,3 +113,7 @@ PHP 包当前 TODO 中的容量恢复、记录版本/坏 YAML、心跳健康语�
 [队列最终失败与调度完成](lessons/14-queue-schedule.md)已有真实Worker末次策略旁路、原成熟Database Driver私有SQLite采用、Schedule专用Artisan/回调/显式code回执，实际定向race7.333。保原重试/删除/失败落盘/cron恢复，不解析日志。终态观察先于TaskToJson，原failed日志仍可能含payload，Job无ctx不自动贯通日志同ID；未知exit不造1，真实os.Exit不可拦。
 
 本轮14收尾后暂停，不启动新块。恢复时先设计Host显式QueueWorker/ScheduledArtisan owner配置、默认关闭、生命周期与真实业务采用，审原FailedJob日志和事件身份关联；默认Host Worker/全局Artisan当前未替换。详细交接见14计划，用户自主练习待完成，真实Cloud/MCP与其余矩阵继续保留未完成。
+
+## 15：Host队列Owner生命周期
+
+显式DisableCapture、单Run与Shutdown、首N Pop/单Receive屏障已见[计划15](plans/15-host-queue-owner.md)。最终TestQueue范围race9.924s，Host四模式真实Bootstrap/官方SQLite队列表6.600s；queue-only日志代理不覆盖SQL日志。随后仅schedule Host采用，完成两功能暂停；其余事件/Cloud/目标部署仍待。

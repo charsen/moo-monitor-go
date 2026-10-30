@@ -20,3 +20,5 @@
 | 14 | [队列最终失败与调度完成](lessons/14-queue-schedule.md) | 真实Worker/成熟DB Driver/cron，显式owner；默认Host采用待接 |
 
 [完整复现计划](port-plan.md) · [PHP源码入口](php-surface-inventory.md)
+
+| 15 | [Host队列Owner生命周期](lessons/15-host-queue-owner.md) | 单Run/首N屏障/可重试关闭/DisableCapture，Host45实证 |

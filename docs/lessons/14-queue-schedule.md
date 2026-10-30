@@ -1,8 +1,8 @@
 # 第14课：队列最终失败与调度完成
 
-[上一课：13](13-host-slow-query.md) · [课程目录](../README.md)
+[上一课：13](13-host-slow-query.md) · [课程目录](../README.md) · [下一课：15](15-host-queue-owner.md)
 
-本课使用真实 Goravel Worker、成熟 Database Driver 和原 cron/Artisan，接入队列最终失败与调度结果；不是每次 Handle 失败就上报。只显式 owner 构造会启用，Host 默认 Worker/全局 Artisan 尚未替换。[计划](../plans/14-queue-schedule.md)列明本轮收尾与暂停恢复入口。
+本课使用真实 Goravel Worker、成熟 Database Driver 和原 cron/Artisan，接入队列最终失败与调度结果；不是每次 Handle 失败就上报。只显式 owner 构造会启用，本课当时Host采用尚未接线；队列显式Owner后续见第15课，全局Artisan仍不替换。[计划](../plans/14-queue-schedule.md)列明本轮收尾与暂停恢复入口。
 
 ## 先找到真正的最终失败
 

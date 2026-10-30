@@ -29,18 +29,23 @@ type WorkerConfig struct {
 	Context                      context.Context
 	CaptureTimeout               time.Duration
 	OnError                      OnError
+	DisableCapture               bool
 }
 type QueueWorker struct {
-	worker      queue.Worker
+	lifecycle   *workerLifecycle
 	observation *lifecycleCapture
 }
 
 // NewQueueWorker constructs the normal backend once and gives that same instance
 // to a real Goravel Worker. Borrowed database/cache/logger resources are not closed.
 func NewQueueWorker(deps WorkerDependencies, config WorkerConfig) (*QueueWorker, error) {
-	observation, err := newLifecycleCapture(config.Collector, config.CaptureTimeout, config.OnError)
-	if err != nil {
-		return nil, err
+	var observation *lifecycleCapture
+	var err error
+	if !config.DisableCapture {
+		observation, err = newLifecycleCapture(config.Collector, config.CaptureTimeout, config.OnError)
+		if err != nil {
+			return nil, err
+		}
 	}
 	if deps.Config == nil || deps.Jobs == nil || deps.JSON == nil || deps.Log == nil {
 		return nil, capture.ErrCaptureInput
@@ -60,10 +65,10 @@ func NewQueueWorker(deps WorkerDependencies, config WorkerConfig) (*QueueWorker,
 	if config.Concurrent < 1 {
 		return nil, capture.ErrCaptureInput
 	}
-	if config.MaxEvents == 0 {
+	if !config.DisableCapture && config.MaxEvents == 0 {
 		config.MaxEvents = 64
 	}
-	if config.MaxEvents < 1 || config.MaxEvents > 4096 {
+	if !config.DisableCapture && (config.MaxEvents < 1 || config.MaxEvents > 4096) {
 		return nil, capture.ErrCaptureInput
 	}
 	backend, err := frameworkqueue.NewDriverCreator(deps.Config, deps.Cache, deps.DB, deps.Jobs, deps.JSON, deps.Log).Create(config.Connection)
@@ -73,9 +78,11 @@ func NewQueueWorker(deps WorkerDependencies, config WorkerConfig) (*QueueWorker,
 	if backend == nil {
 		return nil, capture.ErrCaptureInput
 	}
-	wrapper := &queueDriver{backend: backend, observation: observation, config: config}
+	gate := newPollStart(config.Concurrent)
+	wrapper := &queueDriver{backend: backend, observation: observation, config: config, start: gate}
 	var driver queue.Driver = wrapper
 	if receiver, ok := backend.(queue.DriverWithReceive); ok {
+		gate.target = 1
 		driver = &queueReceiveDriver{queueDriver: wrapper, receiver: receiver}
 	}
 	localConfig := workerConfig{Config: deps.Config, connection: config.Connection, driver: driver}
@@ -83,11 +90,19 @@ func NewQueueWorker(deps WorkerDependencies, config WorkerConfig) (*QueueWorker,
 	if err != nil {
 		return nil, err
 	}
-	return &QueueWorker{worker: native, observation: observation}, nil
+	return &QueueWorker{lifecycle: newWorkerLifecycle(native, gate.started), observation: observation}, nil
 }
-func (w *QueueWorker) Run() error      { return w.worker.Run() }
-func (w *QueueWorker) Shutdown() error { return w.worker.Shutdown() }
-func (w *QueueWorker) Status() Status  { return w.observation.diagnostics.Status() }
+func (w *QueueWorker) Run() error                                { return w.lifecycle.run() }
+func (w *QueueWorker) Shutdown() error                           { return w.lifecycle.stop(context.Background()) }
+func (w *QueueWorker) ShutdownContext(ctx context.Context) error { return w.lifecycle.stop(ctx) }
+func (w *QueueWorker) Started() <-chan struct{}                  { return w.lifecycle.started }
+func (w *QueueWorker) State() WorkerState                        { return w.lifecycle.state() }
+func (w *QueueWorker) Status() Status {
+	if w.observation == nil {
+		return Status{}
+	}
+	return w.observation.diagnostics.Status()
+}
 
 type workerConfig struct {
 	queue.Config
@@ -112,6 +127,7 @@ type queueDriver struct {
 	backend     queue.Driver
 	observation *lifecycleCapture
 	config      WorkerConfig
+	start       *pollStart
 }
 
 func (d *queueDriver) Driver() string { return d.backend.Driver() }
@@ -119,6 +135,7 @@ func (d *queueDriver) Driver() string { return d.backend.Driver() }
 // Push delegates untouched; only already-reserved tasks are observed.
 func (d *queueDriver) Push(task queue.Task, name string) error { return d.backend.Push(task, name) }
 func (d *queueDriver) Pop(name string) (queue.ReservedJob, error) {
+	d.start.enter()
 	reserved, err := d.backend.Pop(name)
 	if err != nil || reserved == nil {
 		return reserved, err
@@ -126,6 +143,9 @@ func (d *queueDriver) Pop(name string) (queue.ReservedJob, error) {
 	return d.wrap(reserved), nil
 }
 func (d *queueDriver) wrap(reserved queue.ReservedJob) queue.ReservedJob {
+	if d.observation == nil {
+		return reserved
+	}
 	scope, _ := capture.NewEventScope(d.config.MaxEvents) // Constructor validated the bound.
 	return &queueReservation{ReservedJob: reserved, driver: d, scope: scope}
 }
@@ -136,6 +156,7 @@ type queueReceiveDriver struct {
 }
 
 func (d *queueReceiveDriver) Receive(ctx context.Context, name string, count int) ([]queue.ReservedJob, error) {
+	d.start.enter()
 	jobs, err := d.receiver.Receive(ctx, name, count)
 	if err != nil {
 		return jobs, err

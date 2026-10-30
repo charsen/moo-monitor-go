@@ -36,3 +36,5 @@
 
 - [ ] 完成[第14课](docs/lessons/14-queue-schedule.md)最终重试/原失败持久化、未知exit/真实panic、scope与原生日志边界练习；代理race不代做学习。
 - [ ] **暂停恢复入口**：先做Host显式QueueWorker/ScheduledArtisan owner采用与独立配置/启动关闭/真实业务消费，核FailedJob原日志含payload、无ctx业务日志同ID缺口；默认Host Worker/全局Artisan未替换。参见[14计划](docs/plans/14-queue-schedule.md)，本轮不实施下一块。
+
+- [ ] 完成[第15课](docs/lessons/15-host-queue-owner.md)单Run/首轮屏障/在途关闭与DisableCapture练习；Host45参考已接，本轮随后仅schedule采用后暂停。
