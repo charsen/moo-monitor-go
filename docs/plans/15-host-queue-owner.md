@@ -1,6 +1,6 @@
 # 15：Host队列Owner生命周期
 
-已实现等待终验提交；[详课](../lessons/15-host-queue-owner.md)。只深化SDK14明确工厂与生命周期，不复制原worker或自动开Host业务。
+已验收独立提交；[详课](../lessons/15-host-queue-owner.md)。只深化SDK14明确工厂与生命周期，不复制原worker或自动开Host业务。
 
 WorkerConfig.DisableCapture仅显式true允许nil collector且不建observer/scope；原nil仍拒。Managed Run一次、preRun关闭、首N Pop/单Receive屏障、sync done早返、native Shutdown至多一次与重试等待均由queue_lifecycle.go协调。Started与Running含义不同；取消仅停止等待，不承诺中断原Pop/Job/retry sleep。借用资源不Close。
 

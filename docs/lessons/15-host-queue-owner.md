@@ -1,6 +1,6 @@
 # 第15课：队列Owner怎样安全启动和关闭
 
-[上一课：14](14-queue-schedule.md) · [课程目录](../README.md)
+[上一课：14](14-queue-schedule.md) · [课程目录](../README.md) · [下一课：16](16-host-schedule.md)
 
 SDK14已有真实Worker工厂，本课增加它被Host长期拥有时必需的窄生命周期。设计与实际验证见[计划](../plans/15-host-queue-owner.md)。
 

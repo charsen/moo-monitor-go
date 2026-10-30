@@ -35,6 +35,8 @@
 - [ ] 完成[第13课](docs/lessons/13-host-slow-query.md)请求快照/标准日期与任意Valuer边界、目标写链断言、原生DB启动baseline/预热及关闭重试练习；代理验证不代做学习。
 
 - [ ] 完成[第14课](docs/lessons/14-queue-schedule.md)最终重试/原失败持久化、未知exit/真实panic、scope与原生日志边界练习；代理race不代做学习。
-- [ ] **暂停恢复入口**：先做Host显式QueueWorker/ScheduledArtisan owner采用与独立配置/启动关闭/真实业务消费，核FailedJob原日志含payload、无ctx业务日志同ID缺口；默认Host Worker/全局Artisan未替换。参见[14计划](docs/plans/14-queue-schedule.md)，本轮不实施下一块。
+- [ ] **本轮收口后暂停**：Host队列与定时任务显式owner采用见15/16；不自动开启第三块。恢复后先由设计按矩阵确认剩余范围：无ctx业务日志身份、自动payload过滤、真实os.Exit/Cloud与目标部署解析仍未完成，全局Artisan仍不替换。
 
-- [ ] 完成[第15课](docs/lessons/15-host-queue-owner.md)单Run/首轮屏障/在途关闭与DisableCapture练习；Host45参考已接，本轮随后仅schedule采用后暂停。
+- [ ] 完成[第15课](docs/lessons/15-host-queue-owner.md)单Run/首轮屏障/在途关闭与DisableCapture练习；Host45参考已接，15/16已参考交付，当前暂停。
+
+- [ ] 完成[第16课](docs/lessons/16-host-schedule.md)双开关/原callback元信息、未知exit与真实回执、Shutdown排空和安全内部诊断练习；代理验证不代做学习。

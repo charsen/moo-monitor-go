@@ -30,6 +30,8 @@ Go 业务系统必需的独立监控采集 SDK，全业务复刻 PHP 监控包�
 
 [第13课](docs/lessons/13-host-slow-query.md)补真实Host所需的当前请求标量与原生数值/已知日期类型，分别验证Food目标INSERT/UPDATE；原框架默认DB启动与显式预热动作分清，未连接真实Cloud。
 
-[第14课](docs/lessons/14-queue-schedule.md)提供真实Worker末次策略旁路、成熟Database Driver与专用调度完成入口，保原重试/删除/失败持久化/cron恢复。默认Host Worker和全局Artisan尚未替换；本轮收口后暂停，下一块是明确Host owner采用与原失败日志安全边界。
+[第14课](docs/lessons/14-queue-schedule.md)提供真实Worker末次策略旁路、成熟Database Driver与专用调度完成入口，保原重试/删除/失败持久化/cron恢复。该课当时的Host采用待办已由15/16接续：显式owner开关默认关闭，全局Artisan仍不替换；原失败日志仅在专用边界静态保护，不概括所有日志安全。
 
 第15步已补显式QueueWorker单次Run/幂等关闭、Started屏障与DisableCapture，Host45已在本地四模式采用；不是所有Host默认worker都被SDK替换。见[Owner讲义](docs/lessons/15-host-queue-owner.md)。
+
+[第16课](docs/lessons/16-host-schedule.md)在Host采用原Schedule/Artisan/cron单实例，业务owner与观察开关独立，事件默认空；原Shutdown与Run双条件排空，不拦真实os.Exit。Host46最终bootstrap证据见该课计划；本轮两功能收口后暂停，不自动开启后续功能。
