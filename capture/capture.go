@@ -12,16 +12,27 @@ import (
 
 	"gitee.com/charsen/moo-go-monitor/buffer"
 	"gitee.com/charsen/moo-go-monitor/records"
+	"gitee.com/charsen/moo-go-monitor/sourcecontext"
 )
 
 var ErrExtraction = errors.New("capture error extraction panicked")
+
+// ErrSourceContext reports auxiliary display enrichment failure; a nonempty hash may already be saved.
+var ErrSourceContext = errors.New("capture source context unavailable")
 var ErrCaptureInput = errors.New("invalid capture input")
 
 type Config struct {
 	Env, Project, GoVersion, GoravelVersion string
 	Clock                                   func() time.Time
 	Filter                                  *FilterConfig
+	SourceReader                            SourceReader
 }
+
+// SourceReader is borrowed; its owner closes it after capture users stop.
+type SourceReader interface {
+	Read(context.Context, []records.Frame) (sourcecontext.Details, error)
+}
+
 type Options struct {
 	Scope           *EventScope
 	EventID, Source string
@@ -142,6 +153,7 @@ func (c *Collector) capture(ctx context.Context, event error, message string, op
 	if err != nil {
 		return "", err
 	}
+	sourceErr := c.enrichSource(ctx, &snapshot)
 	now := c.config.Clock()
 	if options.Scope != nil {
 		options.Scope.entries[options.EventID] = scopeEntry{uncertain: true}
@@ -158,7 +170,30 @@ func (c *Collector) capture(ctx context.Context, event error, message string, op
 			delete(options.Scope.entries, options.EventID)
 		}
 	}
+	if sourceErr != nil {
+		return hash, errors.Join(err, sourceErr)
+	}
 	return hash, err
+}
+
+// Enrichment happens only after exception identity and original trace are fixed.
+func (c *Collector) enrichSource(ctx context.Context, snapshot *records.Snapshot) (failure error) {
+	if c.config.SourceReader == nil {
+		return nil
+	}
+	frames := append([]records.Frame(nil), snapshot.Trace.Frames...)
+	defer func() {
+		if recover() != nil {
+			failure = ErrSourceContext
+		}
+	}()
+	details, err := c.config.SourceReader.Read(ctx, frames)
+	if err != nil {
+		return ErrSourceContext
+	}
+	snapshot.Trace.Frames = details.Frames
+	snapshot.Snippet = details.Snippet
+	return nil
 }
 
 func (c *Collector) snapshot(event error, message, source string, options Options) (records.Snapshot, error) {

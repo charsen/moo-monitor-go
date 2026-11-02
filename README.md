@@ -62,4 +62,6 @@ Go 业务系统必需的独立监控采集 SDK，全业务复刻 PHP 监控包�
 
 [第29课](docs/lessons/29-filtered-http-payload.md)新增能力化事件过滤和默认关闭的HTTP payload快照；不读原body/上传内容，使用既有mask预算，Host57明确启用，预算不等于请求防火墙。
 
-[第31课](docs/lessons/31-postgres-slow-query.md)扩展Postgres展示SQL与真实GORM回调的sqlmock验证；原raw/hash不变，不代表实际PG连接已验。30源码上下文并行，提交后补数字导航。
+[第31课](docs/lessons/31-postgres-slow-query.md)扩展Postgres展示SQL与真实GORM回调的sqlmock验证；原raw/hash不变，不代表实际PG连接已验。30源码上下文原为并行开发，现数字导航已补齐。
+
+[第30课](docs/lessons/30-source-context.md)在显式根与固定预算内附加源码展示，保原异常身份；辅助失败仍保存原事件，Host58默认关闭。31先并行提交，当前导航已按数字补齐。

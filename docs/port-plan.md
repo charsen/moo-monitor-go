@@ -177,3 +177,7 @@ PHP 包当前 TODO 中的容量恢复、记录版本/坏 YAML、心跳健康语�
 ## 31：Postgres展示SQL
 
 [计划31](plans/31-postgres-slow-query.md)用成熟dialector和sqlmock分层验证，固定依赖与原SQLite/Slow消费者定向证据见课文；未连接真实PG。
+
+## 30：有界源码上下文
+
+[计划30](plans/30-source-context.md)保存原身份后附加显示，Reader/Capture新race1.271/1.419、旧scope2.124；失败保原Frames修正单项0.815（race修前）。Host58 Runtime1.715/真实bootstrap5.422，均自有fixture且无网络。
