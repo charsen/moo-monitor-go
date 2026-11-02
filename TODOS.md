@@ -64,3 +64,5 @@
 - [ ] 完成[28课](docs/lessons/28-host-mcp-entry.md)专用环境变量、stdout隔离与stdin/SIGTERM所有权练习；继续29过滤/payload及monitor余项，真实MCP不能借健康自检授权自动调用。
 
 - [ ] 完成[25课](docs/lessons/25-legacy-record-import.md)来源固定副本、完整typed转换、源集合/摘要漂移、新scope归属及部分续作练习；真实迁移/legacy Cloud字段验证仍需对应授权，后续按持续队列执行。
+
+- [ ] 完成[29课](docs/lessons/29-filtered-http-payload.md)单unwrap/Join过滤、入口脱敏副本与HTTP/Builder同cap练习；30源码Reader按设计继续，真实token配置不进入本地测试。

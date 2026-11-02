@@ -169,3 +169,7 @@ PHP 包当前 TODO 中的容量恢复、记录版本/坏 YAML、心跳健康语�
 ## 25：受控转换与新scope导入
 
 [计划25](plans/25-legacy-record-import.md)保hash/累计/时间/桶及真实PHP上下文，未知类型整Plan拒绝；SQL共享双mask，显式键无静默默认。离线Plan封印源集合/全文和目标镜像；Apply只新scope，同plan同bytes可续，不冒领活动ACK状态，源不删/cursor不转ACK。Apply首测1.043；必要race migration2.734/buffer1.751/records1.406/slow1.513，末tag/UTF8路径守卫仅0.071分栏。Host55十模式12.771，未真实迁移或legacy Cloud接入。
+
+## 29：明确过滤与可选HTTP payload
+
+[计划29](plans/29-filtered-http-payload.md)用能力接口/显式CLI标记过滤，不猜消息或Join整链；payload默认关闭，只取已解析All、5000预预算、上传静态类型和既有mask。修前race capture4.844/adapters5.278；终读小修0.630/0.338。Host七模式首包1.634因bad-json夹具失败，唯一修正子例0.900；统一HTTP/Builder cap后两新子例0.933，不写成七模式最后整组重跑通过。后续30源码上下文独立推进。

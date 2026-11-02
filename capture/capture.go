@@ -20,6 +20,7 @@ var ErrCaptureInput = errors.New("invalid capture input")
 type Config struct {
 	Env, Project, GoVersion, GoravelVersion string
 	Clock                                   func() time.Time
+	Filter                                  *FilterConfig
 }
 type Options struct {
 	Scope           *EventScope
@@ -28,6 +29,7 @@ type Options struct {
 	Payload         any
 	Meta            map[string]any
 	Frames          []records.Frame
+	CLIExperiment   bool
 }
 type Recorder interface {
 	Record(context.Context, records.Snapshot, time.Time) (string, error)
@@ -36,6 +38,7 @@ type Recorder interface {
 type Collector struct {
 	store  Recorder
 	config Config
+	filter FilterConfig
 }
 
 func New(store Recorder, config Config) (*Collector, error) {
@@ -48,7 +51,12 @@ func New(store Recorder, config Config) (*Collector, error) {
 	if config.Clock == nil {
 		config.Clock = time.Now
 	}
-	return &Collector{store: store, config: config}, nil
+	filter := FilterConfig{SkipConsoleInput: true, SkipCLIExperiment: true}
+	if config.Filter != nil {
+		filter = *config.Filter
+	}
+	config.Filter = nil
+	return &Collector{store: store, config: config, filter: filter}, nil
 }
 func (c *Collector) Capture(ctx context.Context, err error, options Options) (hash string, failure error) {
 	if ctx == nil || err == nil {
@@ -77,6 +85,9 @@ func (c *Collector) capture(ctx context.Context, event error, message string, op
 	}()
 	if err := ctx.Err(); err != nil {
 		return "", err
+	}
+	if c.shouldSkip(event, options) {
+		return "", nil
 	}
 	if options.Scope == nil && options.EventID == "" {
 		options.Scope, options.EventID = EventFromContext(ctx)

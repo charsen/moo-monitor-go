@@ -11,6 +11,7 @@ import (
 	"unicode/utf8"
 
 	"gitee.com/charsen/moo-go-monitor/capture"
+	"gitee.com/charsen/moo-go-monitor/mask"
 	"gitee.com/charsen/moo-go-monitor/records"
 	contractshttp "github.com/goravel/framework/contracts/http"
 )
@@ -21,15 +22,18 @@ type HTTPIdentity struct{ ID, Name, Guard *string }
 type Recover func(contractshttp.Context, any)
 type HTTPConfig struct {
 	MaxEvents int
+	Payload   *PayloadConfig
 	OnError   OnError
 	Recover   Recover
 	Identity  func(context.Context) (HTTPIdentity, error)
 }
 type HTTP struct {
-	collector   *capture.Collector
-	config      HTTPConfig
-	diagnostics *Handler
-	next        atomic.Uint64
+	collector     *capture.Collector
+	config        HTTPConfig
+	diagnostics   *Handler
+	next          atomic.Uint64
+	payloadMasker *mask.Masker
+	payloadLimit  int
 }
 type httpKey struct{}
 type httpEvent struct {
@@ -42,6 +46,7 @@ type httpState struct {
 	owner    *HTTP
 	scope    *capture.EventScope
 	request  records.Request
+	payload  any
 	marked   *httpEvent
 	closed   bool
 	identity func(context.Context) (HTTPIdentity, error)
@@ -57,7 +62,12 @@ func NewHTTP(collector *capture.Collector, config HTTPConfig) (*HTTP, error) {
 	if config.MaxEvents < 1 || config.MaxEvents > 4096 {
 		return nil, capture.ErrEventIdentity
 	}
-	return &HTTP{collector: collector, config: config, diagnostics: &Handler{onError: config.OnError}}, nil
+	masker, limit, err := payloadMasker(config.Payload)
+	if err != nil {
+		return nil, err
+	}
+	config.Payload = nil
+	return &HTTP{collector: collector, config: config, diagnostics: &Handler{onError: config.OnError}, payloadMasker: masker, payloadLimit: limit}, nil
 }
 func (h *HTTP) Signature() string { return "moo-monitor:http-capture" }
 func (h *HTTP) Status() Status    { return h.diagnostics.Status() }
@@ -73,6 +83,7 @@ func (h *HTTP) Handle(ctx contractshttp.Context) {
 			state.closed = true
 			state.marked = nil
 			state.request = records.Request{}
+			state.payload = nil
 			state.identity = nil
 			state.mu.Unlock()
 			scope.Close()
@@ -91,6 +102,11 @@ func (h *HTTP) Handle(ctx contractshttp.Context) {
 	state.request = request
 	if err != nil {
 		h.report(ctx.Context(), err)
+	}
+	payload, payloadErr := h.capturePayload(ctx, request.Method)
+	state.payload = payload
+	if payloadErr != nil {
+		h.report(ctx.Context(), payloadErr)
 	}
 	ctx.Request().Next()
 }
@@ -163,6 +179,7 @@ func (h *HTTP) capturePanic(ctx contractshttp.Context, value any) {
 		options.EventID = id
 		request, _, identityErr := copiedHTTPRequest(ctx.Context())
 		options.Request = request
+		options.Payload = copiedHTTPPayload(ctx.Context())
 		if identityErr != nil {
 			h.report(ctx.Context(), identityErr)
 		}
@@ -196,7 +213,8 @@ func (e HTTPPanic) Error() string { return e.Message }
 
 type HTTPStatus struct{ Status int }
 
-func (e HTTPStatus) Error() string { return fmt.Sprintf("HTTP response status %d", e.Status) }
+func (e HTTPStatus) HTTPStatusCode() int { return e.Status }
+func (e HTTPStatus) Error() string       { return fmt.Sprintf("HTTP response status %d", e.Status) }
 
 func (h *HTTP) observe(ctx contractshttp.Context, state *httpState) {
 	defer func() {
@@ -212,7 +230,7 @@ func (h *HTTP) observe(ctx contractshttp.Context, state *httpState) {
 	if identityErr != nil {
 		h.report(ctx.Context(), identityErr)
 	}
-	options := capture.Options{Scope: state.scope, Source: "http_5xx", Request: request, Meta: map[string]any{"http_status": int64(status)}}
+	options := capture.Options{Scope: state.scope, Source: "http_5xx", Request: request, Payload: copiedHTTPPayload(ctx.Context()), Meta: map[string]any{"http_status": int64(status)}}
 	state.mu.Lock()
 	marked := state.marked
 	state.mu.Unlock()

@@ -86,6 +86,7 @@ func (h *Handler) capture(entry log.Entry, ctx context.Context) (failure error) 
 	options := capture.Options{Source: "log_message", Meta: map[string]any{"log_level": int64(entry.Level()), "log_code": entry.Code(), "log_domain": entry.Domain()}}
 	if request, ok, err := copiedHTTPRequest(ctx); ok {
 		options.Request = request
+		options.Payload = copiedHTTPPayload(ctx)
 		if err != nil {
 			h.diagnose(ctx, Diagnostic{Stage: "http-identity", Failure: safeFailure(err)})
 		}

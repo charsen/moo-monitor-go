@@ -59,3 +59,5 @@ Go 业务系统必需的独立监控采集 SDK，全业务复刻 PHP 监控包�
 [第28课](docs/lessons/28-host-mcp-entry.md)记录Host独立stdio进程采用，不加载业务bootstrap/dotenv，默认关闭，仅显式MONITOR_MCP_*；真实MCP仍未授权验证。
 
 [第25课](docs/lessons/25-legacy-record-import.md)完成显式旧记录转换/封印Plan/冷scope幂等导入；源不删除、cursor不转ACK，SQL按显式敏感键重mask。此前26–28并行先交付，现课程导航按25补齐。
+
+[第29课](docs/lessons/29-filtered-http-payload.md)新增能力化事件过滤和默认关闭的HTTP payload快照；不读原body/上传内容，使用既有mask预算，Host57明确启用，预算不等于请求防火墙。

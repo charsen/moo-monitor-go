@@ -1,6 +1,6 @@
 # 第28课：让Host的MCP进程不启动业务系统
 
-[上一课：27](27-cloud-mcp-tools.md) · [课程目录](../README.md)
+[上一课：27](27-cloud-mcp-tools.md) · [下一课](29-filtered-http-payload.md) · [课程目录](../README.md)
 
 SDK26和27已有协议与工具，Host56新增独立engine/cmd/monitor-mcp实际入口。普通Artisan启动会先触发配置及Provider/Runner初始化，所以本步不假称注册了moo:cloud:mcp。[计划](../plans/28-host-mcp-entry.md)给出证据和限制。
 
