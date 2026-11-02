@@ -1,0 +1,84 @@
+{
+  "kind": "local-go-module-fixture-not-a-release",
+  "fixture_version": "v0.0.0-repro.20261102",
+  "status": "passed",
+  "source_commits": {
+    "monitor": "b369bbe6961dce5617078cc658c6b414fc28f26a",
+    "scaffold": "d4d3e509eb3219bab4e4bbd53a1e8f74169cf565",
+    "host": "5f686f4b7a8a4d892f66d421307ed148875f65ef"
+  },
+  "archive_sha256": {
+    "monitor": "8c56efba0283674c91758c556d60ead2ab800171eb22501123dc1a261cf42a3e",
+    "scaffold": "4299947ec65941ad07fa890ad87f8bd41a4d4dfa267751c32c7f007297fab79f",
+    "host": "1e8e088ed40404c094436784bd6a3c20ceb1d0e981ef2802ad16c0049b308e9b"
+  },
+  "commands": [
+    "toolchain",
+    "monitor-commit",
+    "archive-monitor",
+    "scaffold-commit",
+    "archive-scaffold",
+    "host-commit",
+    "archive-host",
+    "build-cached-modulezip-helper",
+    "zip-monitor",
+    "zip-scaffold",
+    "require-moo-go-monitor",
+    "require-go-moo-scaffold",
+    "load-production-graph",
+    "selected-monitor",
+    "selected-scaffold",
+    "build-host",
+    "build-monitor-mcp"
+  ],
+  "production_binaries_executed": false,
+  "network_proxy_sources": [
+    "owned-file-proxy",
+    "existing-file-cache-only"
+  ],
+  "remote_discovery_or_tags_verified": false,
+  "toolchain": {
+    "CC": "clang",
+    "CGO_ENABLED": "1",
+    "GOARCH": "arm64",
+    "GOOS": "darwin",
+    "GOVERSION": "go1.26.8"
+  },
+  "private_modules": [
+    {
+      "path": "gitee.com/charsen/moo-go-monitor",
+      "version": "v0.0.0-repro.20261102",
+      "sum": "h1:UACDhu/pwFoOCO3EN1z8qgaYkRRa58IQPkCe8XnXpBI=",
+      "go_mod_sum": "h1:9y8YOSYlc7JjJuPbbfj/oOtiAM0XlgPREa5R1SQSy9U=",
+      "replace": false,
+      "owned_module_cache": true
+    },
+    {
+      "path": "gitee.com/charsen/go-moo-scaffold",
+      "version": "v0.0.0-repro.20261102",
+      "sum": "h1:gpRwLNFBmeIplI/TgpoqQGUdgnKHDZEPF2vieSOapXM=",
+      "go_mod_sum": "h1:q4s/xAyoVSD7fr+NFwNkZF87UoWWgfaUvXDWHYm62R8=",
+      "replace": false,
+      "owned_module_cache": true
+    }
+  ],
+  "artifacts": [
+    {
+      "name": "host",
+      "bytes": 113411314,
+      "sha256": "de57bfe805ab4ba96c462fa4a850e80f143b6fe9643893fc053f7749d7f5fc68",
+      "executed": false
+    },
+    {
+      "name": "monitor-mcp",
+      "bytes": 9169218,
+      "sha256": "2d970ee65f3a8cf22838fd153c1a6d9f834b44bab90f0076685dfbc7b1f664b2",
+      "executed": false
+    }
+  ],
+  "temporary_host_manifest_diff": "--- HEAD/engine/go.mod\n+++ fixture/engine/go.mod\n@@ -18,6 +18,7 @@\n require (\n \tfilippo.io/edwards25519 v1.1.0 // indirect\n \tgithub.com/Masterminds/semver/v3 v3.5.0 // indirect\n+\tgithub.com/gofrs/flock v0.13.1 // indirect\n \tgithub.com/golang-sql/civil v0.0.0-20220223132316-b832511892a9 // indirect\n \tgithub.com/golang-sql/sqlexp v0.1.0 // indirect\n \tgithub.com/microsoft/go-mssqldb v1.9.1 // indirect\n@@ -32,6 +33,8 @@\n \tatomicgo.dev/cursor v0.2.0 // indirect\n \tatomicgo.dev/keyboard v0.2.9 // indirect\n \tatomicgo.dev/schedule v0.1.0 // indirect\n+\tgitee.com/charsen/go-moo-scaffold v0.0.0-repro.20261102\n+\tgitee.com/charsen/moo-go-monitor v0.0.0-repro.20261102\n \tgithub.com/Masterminds/squirrel v1.5.4 // indirect\n \tgithub.com/atotto/clipboard v0.1.4 // indirect\n \tgithub.com/aymanbagabas/go-osc52/v2 v2.0.1 // indirect\n@@ -167,7 +170,7 @@\n \tgolang.org/x/mod v0.37.0 // indirect\n \tgolang.org/x/net v0.56.0 // indirect\n \tgolang.org/x/sync v0.21.0 // indirect\n-\tgolang.org/x/sys v0.48.0 // indirect\n+\tgolang.org/x/sys v0.49.0\n \tgolang.org/x/term v0.44.0 // indirect\n \tgolang.org/x/text v0.38.0 // indirect\n \tgolang.org/x/tools v0.47.0 // indirect\n",
+  "temporary_host_go_sum_diff": "--- HEAD/engine/go.sum\n+++ fixture/engine/go.sum\n@@ -8,6 +8,10 @@\n atomicgo.dev/schedule v0.1.0/go.mod h1:xeUa3oAkiuHYh8bKiQBRojqAMq3PXXbJujjb0hw8pEU=\n filippo.io/edwards25519 v1.1.0 h1:FNf4tywRC1HmFuKW5xopWpigGjJKiJSV0Cqo0cJWDaA=\n filippo.io/edwards25519 v1.1.0/go.mod h1:BxyFTGdWcka3PhytdK4V28tE5sGfRvvvRV7EaN4VDT4=\n+gitee.com/charsen/go-moo-scaffold v0.0.0-repro.20261102 h1:gpRwLNFBmeIplI/TgpoqQGUdgnKHDZEPF2vieSOapXM=\n+gitee.com/charsen/go-moo-scaffold v0.0.0-repro.20261102/go.mod h1:q4s/xAyoVSD7fr+NFwNkZF87UoWWgfaUvXDWHYm62R8=\n+gitee.com/charsen/moo-go-monitor v0.0.0-repro.20261102 h1:UACDhu/pwFoOCO3EN1z8qgaYkRRa58IQPkCe8XnXpBI=\n+gitee.com/charsen/moo-go-monitor v0.0.0-repro.20261102/go.mod h1:9y8YOSYlc7JjJuPbbfj/oOtiAM0XlgPREa5R1SQSy9U=\n github.com/Azure/azure-sdk-for-go/sdk/azcore v1.7.0/go.mod h1:bjGvMhVMb+EEm3VRNQawDMUyMMjo+S5ewNjflkep/0Q=\n github.com/Azure/azure-sdk-for-go/sdk/azcore v1.7.1/go.mod h1:bjGvMhVMb+EEm3VRNQawDMUyMMjo+S5ewNjflkep/0Q=\n github.com/Azure/azure-sdk-for-go/sdk/azcore v1.11.1/go.mod h1:a6xsAQUZg+VsS3TJ05SRp524Hs4pZ/AeFSr5ENf0Yjo=\n@@ -154,6 +158,8 @@\n github.com/goccy/go-yaml v1.19.2/go.mod h1:XBurs7gK8ATbW4ZPGKgcbrY1Br56PdM69F7LkFRi1kA=\n github.com/goforj/godump v1.9.1 h1:9OGpb978Ytz3B59d5Yi2PzRYYLid6UkmhYDIDNiF15Y=\n github.com/goforj/godump v1.9.1/go.mod h1:JsuL6AEZfKIU+iR5ewL6iQ2fIuhvLtPmJDH47M9Ptrc=\n+github.com/gofrs/flock v0.13.1 h1:jjREztyBeSKBZYAC+mgc1laB+xsgy4kYMf3FbKF2UBo=\n+github.com/gofrs/flock v0.13.1/go.mod h1:sf4BFiHwnvgxa25DlQoDqXQnwRMEOwqxRq37P6MzzmE=\n github.com/golang-jwt/jwt/v5 v5.0.0/go.mod h1:pqrtFR0X4osieyHYxtmOUWsAWrfe1Q5UVIyoH402zdk=\n github.com/golang-jwt/jwt/v5 v5.2.1/go.mod h1:pqrtFR0X4osieyHYxtmOUWsAWrfe1Q5UVIyoH402zdk=\n github.com/golang-jwt/jwt/v5 v5.2.2/go.mod h1:pqrtFR0X4osieyHYxtmOUWsAWrfe1Q5UVIyoH402zdk=\n@@ -357,6 +363,7 @@\n github.com/stretchr/testify v1.10.0/go.mod h1:r2ic/lqez/lEtzL7wO/rwa5dbSLXVDPFyf8C91i36aY=\n github.com/stretchr/testify v1.11.1 h1:7s2iGBzp5EwR7/aIZr8ao5+dra3wiQyKjjFuvgVKu7U=\n github.com/stretchr/testify v1.11.1/go.mod h1:wZwfW3scLgRK+23gO65QZefKpKQRnfz6sD981Nm4B6U=\n+github.com/stretchr/testify v1.12.1 h1:EuwCh5fleGS7H32xRwO3wRGT7DxrDhLAT6FF8MpWDWE=\n github.com/stretchr/testify v1.12.1/go.mod h1:MDEgiDPPsNp5cuIrHPPCyornHKgEVbtFUmoNlxoYthg=\n github.com/subosito/gotenv v1.6.0 h1:9NlTDc1FTs4qu0DDq7AEtTPNw6SVm7uBMsUCUjABIf8=\n github.com/subosito/gotenv v1.6.0/go.mod h1:Dk4QP5c2W3ibzajGcXpNraDfq2IrhjMIvMSWPKKo0FU=\n@@ -444,6 +451,7 @@\n go.uber.org/mock v0.6.0/go.mod h1:KiVJ4BqZJaMj4svdfmHM0AUx4NJYO8ZNpPnZn1Z+BBU=\n go.yaml.in/yaml/v3 v3.0.4 h1:tfq32ie2Jv2UxXFdLJdh3jXuOzWiL1fo0bu/FbuKpbc=\n go.yaml.in/yaml/v3 v3.0.4/go.mod h1:DhzuOOF2ATzADvBadXxruRBLzYTpT36CKvDb3+aBEFg=\n+go.yaml.in/yaml/v3 v3.0.5 h1:N6y/pJk8buWs9NY5ERU2HSMfm+IuD/OtfdAnq6kESPw=\n go.yaml.in/yaml/v3 v3.0.5/go.mod h1:HVTZu1O7/Vkt2N+BFy8Zza+lnLsABggaTM2ZpNIGuKg=\n golang.org/x/arch v0.22.0 h1:c/Zle32i5ttqRXjdLyyHZESLD/bB90DCU1g9l/0YBDI=\n golang.org/x/arch v0.22.0/go.mod h1:dNHoOeKiyja7GTvF9NJS1l3Z2yntpQNzgrjh1cU103A=\n@@ -527,6 +535,8 @@\n golang.org/x/sys v0.46.0/go.mod h1:4GL1E5IUh+htKOUEOaiffhrAeqysfVGipDYzABqnCmw=\n golang.org/x/sys v0.48.0 h1:bbX/i/6MgT9BVLM9RT1thmxL04yeTAhbEz4SyadbXoo=\n golang.org/x/sys v0.48.0/go.mod h1:hNLxWAXmnKAxqDtdwIYC4bM9oQPEecfsnNMuSxOs3og=\n+golang.org/x/sys v0.49.0 h1:XbzkgYJHdqh/8m2Uu0W/dQv8nktxx4BFHp1M0gROTXA=\n+golang.org/x/sys v0.49.0/go.mod h1:hNLxWAXmnKAxqDtdwIYC4bM9oQPEecfsnNMuSxOs3og=\n golang.org/x/telemetry v0.0.0-20240228155512-f48c80bd79b2/go.mod h1:TeRTkGYfJXctD9OcfyVLyj2J3IxLnKwHJR8f4D8a3YE=\n golang.org/x/term v0.0.0-20201126162022-7de9c90e9dd1/go.mod h1:bj7SfCRtBDWHUb9snDiAeCFNEtKQo2Wmx5Cou7ajbmo=\n golang.org/x/term v0.0.0-20210220032956-6a3ed077a48d/go.mod h1:bj7SfCRtBDWHUb9snDiAeCFNEtKQo2Wmx5Cou7ajbmo=\n",
+  "explicit_fixture_require_diff": "--- HEAD/engine/go.mod\n+++ fixture-requires/engine/go.mod\n@@ -32,6 +32,8 @@\n \tatomicgo.dev/cursor v0.2.0 // indirect\n \tatomicgo.dev/keyboard v0.2.9 // indirect\n \tatomicgo.dev/schedule v0.1.0 // indirect\n+\tgitee.com/charsen/go-moo-scaffold v0.0.0-repro.20261102\n+\tgitee.com/charsen/moo-go-monitor v0.0.0-repro.20261102\n \tgithub.com/Masterminds/squirrel v1.5.4 // indirect\n \tgithub.com/atotto/clipboard v0.1.4 // indirect\n \tgithub.com/aymanbagabas/go-osc52/v2 v2.0.1 // indirect\n",
+  "dependency_graph_manifest_diff": "--- fixture-requires/engine/go.mod\n+++ resolved-fixture/engine/go.mod\n@@ -18,6 +18,7 @@\n require (\n \tfilippo.io/edwards25519 v1.1.0 // indirect\n \tgithub.com/Masterminds/semver/v3 v3.5.0 // indirect\n+\tgithub.com/gofrs/flock v0.13.1 // indirect\n \tgithub.com/golang-sql/civil v0.0.0-20220223132316-b832511892a9 // indirect\n \tgithub.com/golang-sql/sqlexp v0.1.0 // indirect\n \tgithub.com/microsoft/go-mssqldb v1.9.1 // indirect\n@@ -169,7 +170,7 @@\n \tgolang.org/x/mod v0.37.0 // indirect\n \tgolang.org/x/net v0.56.0 // indirect\n \tgolang.org/x/sync v0.21.0 // indirect\n-\tgolang.org/x/sys v0.48.0 // indirect\n+\tgolang.org/x/sys v0.49.0\n \tgolang.org/x/term v0.44.0 // indirect\n \tgolang.org/x/text v0.38.0 // indirect\n \tgolang.org/x/tools v0.47.0 // indirect\n",
+  "owned_root_removed": true
+}
