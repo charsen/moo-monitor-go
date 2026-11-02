@@ -294,17 +294,7 @@ func (p *Plugin) collect(ctx context.Context, tx *gorm.DB, begin time.Time) Fail
 	if elapsed < 0 {
 		return FailureClock
 	}
-	raw := tx.Statement.SQL.String()
-	var values []any
-	var rendered *string
-	var err error
-	if tx.Dialector.Name() == "postgres" {
-		var text string
-		text, err = postgresRendered(tx.Dialector, raw, tx.Statement.Vars)
-		rendered = &text
-	} else {
-		values, err = bindings(tx.Statement.Vars)
-	}
+	input, err := PrepareSQL(tx.Dialector, tx.Statement.SQL.String(), tx.Statement.Vars)
 	if err != nil {
 		return FailureInput
 	}
@@ -319,7 +309,12 @@ func (p *Plugin) collect(ctx context.Context, tx *gorm.DB, begin time.Time) Fail
 	}
 	file, line := p.config.Callsite()
 	connection := p.config.Connection
-	_, accepted, err := p.config.Recorder.ReportSlowQuery(captureCtx, slowquery.Input{Raw: raw, Bindings: values, RenderedSQL: rendered, TookMillis: float64(elapsed.Nanoseconds()) / 1e6, File: file, Line: line, Connection: &connection, Request: request}, now)
+	input.TookMillis = float64(elapsed.Nanoseconds()) / 1e6
+	input.File = file
+	input.Line = line
+	input.Connection = &connection
+	input.Request = request
+	_, accepted, err := p.config.Recorder.ReportSlowQuery(captureCtx, input, now)
 	if err != nil {
 		return FailureCapture
 	}

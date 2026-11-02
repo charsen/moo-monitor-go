@@ -1,7 +1,7 @@
 # TODOS
 
 - [ ] 按 [复现计划](docs/port-plan.md)核对 PHP 每项采集来源、配置、缓冲格式、Cloud 与 MCP 契约，补齐对应 Go 行为设计。
-- [ ] 按当前已支持HTTP/日志/显式安装SQLite ORM与14队列/调度owner边界继续补未覆盖驱动、真实默认Host采用及其它事件；不把已实现入口笼统记为全部待接。
+- [ ] 按当前HTTP/日志、SQLite/Postgres ORM与DB façade、Host队列/调度边界继续补矩阵余项；当前执行见32/34/35与执行队列，不把已交付默认关闭入口笼统列待接。
 - [ ] 核对 Cloud 心跳字段白名单、SDK 版本诊断和 runtime/慢 SQL 数据格式对 Go 的兼容缺口；先制定增量兼容方案，不伪装成 PHP SDK。
 
 - [ ] 在首个实现阶段落实[代码设计标准](../go-moo-engine-skeleton/docs/code-design.md)：审查参考业务调用链、文件职责、抽象必要性及生成/手写协作；文档制定不等于代码验收。
@@ -15,7 +15,7 @@
 - [ ] 完成[第05课](docs/lessons/05-runtime-buffer.md)cap/overflow、journal最终图像、结果未知与私有scope练习，代理定向恢复测试不代做用户验收。
 
 - [ ] 完成[第06课](docs/lessons/06-incremental-sync.md)同毫秒版本、四结果/失败洞、至少一次与扫描边界练习；参考race不代做学习验收。
-- [ ] 在获准范围验证07 HTTPClient与真实Cloud Go字段/回执兼容，并设计Discard成功后的本地pending清理协调；本机httptest不等于远端兼容。
+- [ ] 07当时的HTTPClient/Discard缺口已由19–24补本地运维；真实Cloud心跳/两saved已有授权实证，其余字段/MCP/生产按执行队列逐项授权。
 
 - [ ] 完成[第07课](docs/lessons/07-cloud-http-client.md)timeout/caller取消、body token重定向、wire失败与传输/确认边界练习，代理HTTP测试不代做学习验收。
 
@@ -53,13 +53,13 @@
 
 - [ ] 完成[第22课](docs/lessons/22-explicit-all-replay.md)模式选集/抑制重叠、Pending与Remaining、最终持久化error及Tick不变练习；用户学习待完成。确认resolved维护见23；全面Cloud/目标发布解析仍待，当前持续推进。
 
-- [ ] 当前持续推进：23维护→24只读迁移体检→后续设计按[执行队列](docs/execution-queue.md)；每功能验收commit，不再两项后自动暂停，不自动push。用户23自主练习待完成。
+- [ ] 当前持续推进：32 DB façade/34诊断导入/35Summary及后续设计按[执行队列](docs/execution-queue.md)；每功能验收commit，不再两项后自动暂停，不自动push。用户23自主练习待完成。
 
 - [ ] 完成[第24课](docs/lessons/24-migration-inspection.md)浅envelope/完整兼容、cursor非ACK与源保留练习；代理参考验证不代做用户学习。继续[当前执行队列](docs/execution-queue.md)的真实转换导入设计，不读取真实业务记录。
 
-- [ ] 完成[第26课](docs/lessons/26-mcp-stdio-loop.md)精确ID/生命周期、structured回退与owned输入取消练习；代理测试不代做学习。继续七Cloud工具与Host显式采用，不把协议loop当业务闭环完成。
+- [ ] 完成[第26课](docs/lessons/26-mcp-stdio-loop.md)精确ID/生命周期、structured回退与owned输入取消练习；代理测试不代做学习。七Cloud工具与Host显式采用已见27/28，继续执行队列，不把本地协议验证当真实MCP全兼容。
 
-- [ ] 完成[27课](docs/lessons/27-cloud-mcp-tools.md)七工具/分页闭合/图片与状态幂等练习；28隔离Host入口继续，真实MCP外部验证仍需授权。
+- [ ] 完成[27课](docs/lessons/27-cloud-mcp-tools.md)七工具/分页闭合/图片与状态幂等练习；28隔离Host入口已交付，真实MCP外部验证仍需对应授权。
 
 - [ ] 完成[28课](docs/lessons/28-host-mcp-entry.md)专用环境变量、stdout隔离与stdin/SIGTERM所有权练习；继续29过滤/payload及monitor余项，真实MCP不能借健康自检授权自动调用。
 
@@ -67,8 +67,10 @@
 
 - [ ] 完成[29课](docs/lessons/29-filtered-http-payload.md)单unwrap/Join过滤、入口脱敏副本与HTTP/Builder同cap练习；30源码Reader与Host58见对应课，真实token配置不进入本地测试。
 
-- [ ] 完成[第31课](docs/lessons/31-postgres-slow-query.md)raw/hash与展示SQL、标准值边界、sqlmock与真实PG差异练习；实际PG/Host连接与部署验证仍待。
+- [ ] 完成[第31课](docs/lessons/31-postgres-slow-query.md)raw/hash与展示SQL、标准值边界、sqlmock与真实PG差异练习；32已补私有真实PG两路径与Host默认关闭接线；生产TLS/权限、更多类型/所有池仍待。
 
 - [ ] 完成[第30课](docs/lessons/30-source-context.md)原identity/辅助失败/根所有权与有限mask练习；目标源码布局、其它平台与部署权限仍待验证。
 
 - [ ] 完成[33课](docs/lessons/33-crash-output.md)全局slot/Owner与Manager、raw隐私/预算和MayBePartial练习；M05显式手动/startup诊断导入仍待幂等、cap、隐私与count设计。
+
+- [ ] 完成[32课](docs/lessons/32-db-facade-observation.md)同pool/context、原Query与Tx、关闭只停观察、真实PG与部署差异练习；32参考已交付，继续34/35。

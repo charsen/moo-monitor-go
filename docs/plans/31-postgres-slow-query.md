@@ -15,3 +15,7 @@ RenderedSQL UTF8/4MiB上限，Accept在threshold/skip后、dailycap冻结前校�
 纯Rendered首测0.707s；新adapter普通0.816s（同条误传-env给纯slowquery包导致整命令失败，未记整体通过）。正确分包旧Slow sourcefixture/safety+Rendered0.409；SQLite callbacks/window/rollback+冻结Rendered无写1.331。新Postgres范围race1.936s，包含六callback/真实public Instance消费、WithContext/事务/错误取消/Close/无额外Valuer。public Instance来自实际framework.Query，测试SQL由成熟GORM+sqlmock执行；未验证真实Goravel PG池/Host部署/PG服务，不安装或连接它们。
 
 Quoted-dollar按成熟Explain有限行为公开，展示SQL绝不执行；Raw/hash不取绑定值。Source Record schema/Cloud字段不变。用户练习待完成，后续真实PG验证保持外部待项，不阻本地队列。
+
+## 第32步后的真实PG补证
+
+后续在root独立构建的PostgreSQL17.10私有0700 Unixsocket实例，以真实Goravel Postgres公开driver运行GORM Plugin与DB Factory两路径单项0.944s通过。实际参数化INSERT/SELECT/UPDATE、Commit/Rollback、原SQL错误不采、原Trace一次、请求/连接和脱敏目标记录均有断言。测试唯一表已DROP/池关闭，root已停服务并确认PID文件消失；没有读真实.env或连接用户DB。原本课sqlmock-only时点证据保留，当前不再笼统称未验真实PG。尚未验证正常Host部署配置、TLS/权限模型、生产及更多类型/Rows迭代窗口。原Raw作为hash输入，持久Raw仍脱敏，不能要求敏感$n位置逐字保留。详见[32课](../lessons/32-db-facade-observation.md)。

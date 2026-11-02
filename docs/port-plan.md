@@ -185,3 +185,7 @@ PHP 包当前 TODO 中的容量恢复、记录版本/坏 YAML、心跳健康语�
 ## 33：M05第一阶段私有崩溃诊断
 
 [计划33](plans/33-crash-output.md)使用公开SetCrashOutput、单Owner、私有raw与有界Inspect，SDK新范围race2.495/Host配置1.508/Bootstrap4.335。原stderr保留，raw未脱敏且无写quota；M05后续显式诊断导入/幂等/cap/count仍待，不自动Cloud或删非空报告。
+
+## 32：DB façade同池观察与真实PG补证
+
+[计划32](plans/32-db-facade-observation.md)保原CommonBuilder/Query/Tx与lazy DB解析，不预建第二池；SDK新race6.540/旧PrepareSQL6.781、Hostenabled8.042与负例、root私有真实PG两路径0.944分栏。实际表已清/池关/服务停，非生产部署或所有池验证。

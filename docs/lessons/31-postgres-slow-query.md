@@ -1,6 +1,6 @@
 # 第31课：保留Postgres原始身份，另算展示SQL
 
-[上一课：30](30-source-context.md) · [课程目录](../README.md) · [下一课：33](33-crash-output.md)
+[上一课：30](30-source-context.md) · [课程目录](../README.md) · [下一课：32](32-db-facade-observation.md)
 
 本课扩展既有GORM插件到明确Postgres dialect，使用成熟postgres1.6.0/GORM1.31.2和sqlmock验证执行回调。[计划](../plans/31-postgres-slow-query.md)给出范围。31先并行提交，30交付后已补数字导航；此课没有安装或连接真实PG。
 
@@ -37,3 +37,7 @@ Accept在threshold/skip之后、进入dailycap冻结之前检查RenderedSQL，�
 正确分包后，旧Slow源fixture/安全规则+Rendered0.409s；旧SQLite callbacks/window/安装回滚+新增冻结Rendered无写1.331s。新Postgres范围race1.936s。只有sqlmock执行层，没有真实PG或Host池验证，不运行全量/E2E，不读真实.env/凭据。
 
 用户自主练习待完成：解释Raw/hash和展示值为何分离；预测$1重复与$10索引；说明为何先归一再Explain；给出事务回滚仍可记录的理由；列出mock通过还不能证明的真实PG行为。
+
+## 第32步后的真实PG补证
+
+后续在root独立构建的PostgreSQL17.10私有0700 Unixsocket实例，以真实Goravel Postgres公开driver运行GORM Plugin与DB Factory两路径单项0.944s通过。实际参数化INSERT/SELECT/UPDATE、Commit/Rollback、原SQL错误不采、原Trace一次、请求/连接和脱敏目标记录均有断言。测试唯一表已DROP/池关闭，root已停服务并确认PID文件消失；没有读真实.env或连接用户DB。原本课sqlmock-only时点证据保留，当前不再笼统称未验真实PG。尚未验证正常Host部署配置、TLS/权限模型、生产及更多类型/Rows迭代窗口。原Raw作为hash输入，持久Raw仍脱敏，不能要求敏感$n位置逐字保留。详见[32课](../lessons/32-db-facade-observation.md)。
