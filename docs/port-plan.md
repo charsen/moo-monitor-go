@@ -205,3 +205,7 @@ PHP 包当前 TODO 中的容量恢复、记录版本/坏 YAML、心跳健康语�
 ## 37：真实构建元信息
 
 [计划37](plans/37-go-build-metadata.md)保真实版本/unknown/development，SDK新旧wire race1.381、Host64 producer2.966/MCP1.367与旧push0.924分栏。不暴露VCS/Path，不把BuildInfo当发布/部署证明。
+
+## 38：独立生产依赖构建
+
+[计划38](plans/38-release-reproducibility.md)固定三个HEAD归档、成熟module zip/file proxy与两target readonly build，Go1.27.3/1.26.8同源同图，完整临时MVS差异保留。快照早于P1账户，后续新SHA另报；没有执行产物、远端发布或真实Cloud。

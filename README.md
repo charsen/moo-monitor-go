@@ -77,3 +77,5 @@ Go 业务系统必需的独立监控采集 SDK，全业务复刻 PHP 监控包�
 [第36课](docs/lessons/36-log-capture-policy.md)增加独立typed异常/普通消息开关和显式级别选择，旧NewDriver兼容；原生sink与Fatal/Panic行为保留。
 
 [第37课](docs/lessons/37-go-build-metadata.md)统一真实BuildInfo版本、可选Go/Goravel心跳和四个Host消费者；unknown/development不伪装发布版本。
+
+[第38课](docs/lessons/38-release-reproducibility.md)从固定commit archive经file-only模块proxy独立构建Host与MCP，保完整临时manifest差异；不运行二进制、不证明远端tag或私有仓发现。

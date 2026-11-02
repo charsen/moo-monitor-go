@@ -11,3 +11,5 @@ HeartbeatMeta可选go_version/goravel_version，Host共用metadata替现SDKdevel
 ## 整合实际结果
 
 SDK可选平台字段+旧wire必要race1.381s；Host64新metadata consumer race2.966s；MCP唯一initialize版本断言race1.367s；旧push manual普通0.924s。四个实际平台消费者（Capture、SelfTest、Crash Diagnostic、MCP）与Heartbeat共享Current，不再维护平行版本常量。字段省略保旧10项、显式提供12项；错误UTF8/>64byte零请求。Cloud本地兼容独立edcaca4与Go fakeHTTP分栏，目标部署/存储展示不能从receipt推断。
+
+后续root获用户授权向已部署Cloud执行真实health，heartbeat与runtime/slow两类saved回执通过；页面仍显示旧PHP/Laravel标签，新Go字段生产持久/展示未确认。该外部健康结果不替代本地wire测试，也不升级为字段展示已验。

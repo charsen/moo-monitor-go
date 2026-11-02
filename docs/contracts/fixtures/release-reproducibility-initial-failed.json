@@ -1,0 +1,47 @@
+{
+  "kind": "local-go-module-fixture-not-a-release",
+  "fixture_version": "v0.0.0-repro.20261102",
+  "status": "failed",
+  "source_commits": {
+    "monitor": "5cceac7241f305c35b9cb67652b973c35dc76b14",
+    "scaffold": "a9c9b46975f5cff342ea5da028e58eef315a56f9",
+    "host": "8fd3e278f395aac15e6eaccf4f733b224dea42db"
+  },
+  "archive_sha256": {
+    "monitor": "1c0d38e724d09e57651f29851f968ec6425be4852308f426b26d3ffb86836861",
+    "scaffold": "4bdd75cfb7eda6effbfd7e0f4981ce3bb07d73f131aef159c9580156f76ce889",
+    "host": "fedd102b5ee2777d08e96d1a83791c108696d74cc8727b286a5b1bb2993a96a0"
+  },
+  "commands": [
+    "toolchain",
+    "monitor-commit",
+    "archive-monitor",
+    "scaffold-commit",
+    "archive-scaffold",
+    "host-commit",
+    "archive-host",
+    "build-cached-modulezip-helper",
+    "zip-monitor",
+    "zip-scaffold",
+    "require-moo-go-monitor",
+    "require-go-moo-scaffold",
+    "load-production-graph",
+    "selected-monitor"
+  ],
+  "production_binaries_executed": false,
+  "network_proxy_sources": [
+    "owned-file-proxy",
+    "existing-file-cache-only"
+  ],
+  "remote_discovery_or_tags_verified": false,
+  "toolchain": {
+    "CC": "clang",
+    "CGO_ENABLED": "1",
+    "GOARCH": "arm64",
+    "GOOS": "darwin",
+    "GOVERSION": "go1.27.3"
+  },
+  "temporary_host_manifest_diff": "--- HEAD/engine/go.mod\n+++ fixture/engine/go.mod\n@@ -11,6 +11,8 @@\n \tgithub.com/stretchr/testify v1.12.1\n )\n \n+require github.com/gofrs/flock v0.13.1 // indirect\n+\n require (\n \tgithub.com/redis/go-redis/v9 v9.23.0\n \tgo.uber.org/atomic v1.12.0 // indirect\n@@ -20,6 +22,8 @@\n \tatomicgo.dev/cursor v0.2.0 // indirect\n \tatomicgo.dev/keyboard v0.2.9 // indirect\n \tatomicgo.dev/schedule v0.1.0 // indirect\n+\tgitee.com/charsen/go-moo-scaffold v0.0.0-repro.20261102\n+\tgitee.com/charsen/moo-go-monitor v0.0.0-repro.20261102\n \tgithub.com/Masterminds/squirrel v1.5.4 // indirect\n \tgithub.com/atotto/clipboard v0.1.4 // indirect\n \tgithub.com/aymanbagabas/go-osc52/v2 v2.0.1 // indirect\n@@ -155,7 +159,7 @@\n \tgolang.org/x/mod v0.37.0 // indirect\n \tgolang.org/x/net v0.56.0 // indirect\n \tgolang.org/x/sync v0.21.0 // indirect\n-\tgolang.org/x/sys v0.48.0 // indirect\n+\tgolang.org/x/sys v0.49.0\n \tgolang.org/x/term v0.44.0 // indirect\n \tgolang.org/x/text v0.38.0 // indirect\n \tgolang.org/x/tools v0.47.0 // indirect\n",
+  "private_modules": [],
+  "failure": "private module did not resolve from owned proxy cache"
+}

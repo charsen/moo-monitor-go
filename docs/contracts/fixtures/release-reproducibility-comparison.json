@@ -1,0 +1,22 @@
+{
+  "kind": "local-fixture-toolchain-comparison-not-a-release",
+  "baseline": "release-reproducibility.json",
+  "floor": "release-reproducibility-go126.json",
+  "baseline_go": "go1.27.3",
+  "floor_go": "go1.26.8",
+  "same_source_and_dependency_graph": {
+    "source_commits": true,
+    "archive_sha256": true,
+    "fixture_version": true,
+    "private_modules": true,
+    "temporary_host_manifest_diff": true,
+    "temporary_host_go_sum_diff": true,
+    "explicit_fixture_require_diff": true,
+    "dependency_graph_manifest_diff": true
+  },
+  "both_builds_passed": true,
+  "both_owned_roots_removed": true,
+  "app_binaries_executed": false,
+  "remote_resolution_proven": false,
+  "bit_identical_binary_claim": false
+}

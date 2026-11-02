@@ -1,0 +1,84 @@
+{
+  "kind": "local-go-module-fixture-not-a-release",
+  "fixture_version": "v0.0.0-repro.20261102",
+  "status": "passed",
+  "source_commits": {
+    "monitor": "5cceac7241f305c35b9cb67652b973c35dc76b14",
+    "scaffold": "a9c9b46975f5cff342ea5da028e58eef315a56f9",
+    "host": "8fd3e278f395aac15e6eaccf4f733b224dea42db"
+  },
+  "archive_sha256": {
+    "monitor": "1c0d38e724d09e57651f29851f968ec6425be4852308f426b26d3ffb86836861",
+    "scaffold": "4bdd75cfb7eda6effbfd7e0f4981ce3bb07d73f131aef159c9580156f76ce889",
+    "host": "fedd102b5ee2777d08e96d1a83791c108696d74cc8727b286a5b1bb2993a96a0"
+  },
+  "commands": [
+    "toolchain",
+    "monitor-commit",
+    "archive-monitor",
+    "scaffold-commit",
+    "archive-scaffold",
+    "host-commit",
+    "archive-host",
+    "build-cached-modulezip-helper",
+    "zip-monitor",
+    "zip-scaffold",
+    "require-moo-go-monitor",
+    "require-go-moo-scaffold",
+    "load-production-graph",
+    "selected-monitor",
+    "selected-scaffold",
+    "build-host",
+    "build-monitor-mcp"
+  ],
+  "production_binaries_executed": false,
+  "network_proxy_sources": [
+    "owned-file-proxy",
+    "existing-file-cache-only"
+  ],
+  "remote_discovery_or_tags_verified": false,
+  "toolchain": {
+    "CC": "clang",
+    "CGO_ENABLED": "1",
+    "GOARCH": "arm64",
+    "GOOS": "darwin",
+    "GOVERSION": "go1.27.3"
+  },
+  "private_modules": [
+    {
+      "path": "gitee.com/charsen/moo-go-monitor",
+      "version": "v0.0.0-repro.20261102",
+      "sum": "h1:a9B5t2wpPwyZjBQN5Xtw+p5rppgKlOyLGt7zcdEHcjQ=",
+      "go_mod_sum": "h1:PHfMw3kcoFTATybU9PseuBi4WUtqwJP61cTIjJ/tCbg=",
+      "replace": false,
+      "owned_module_cache": true
+    },
+    {
+      "path": "gitee.com/charsen/go-moo-scaffold",
+      "version": "v0.0.0-repro.20261102",
+      "sum": "h1:vBEWcD1XonNDRt9RVtayfmY+2CCGJqCaQ5jRnKwFs7Q=",
+      "go_mod_sum": "h1:V+TiSW2Oc87HFohxHDr2nJykJ2Q5eFvqx0aWvqqp53E=",
+      "replace": false,
+      "owned_module_cache": true
+    }
+  ],
+  "artifacts": [
+    {
+      "name": "host",
+      "bytes": 106272066,
+      "sha256": "aad946ffdede718d9c9042d288fe1e4deef18097193933b2040bd74724b0bc78",
+      "executed": false
+    },
+    {
+      "name": "monitor-mcp",
+      "bytes": 10080546,
+      "sha256": "135843952ea329c52a68453b67c8932420e24da6331062e696dec1af34f7c82c",
+      "executed": false
+    }
+  ],
+  "temporary_host_manifest_diff": "--- HEAD/engine/go.mod\n+++ fixture/engine/go.mod\n@@ -11,6 +11,8 @@\n \tgithub.com/stretchr/testify v1.12.1\n )\n \n+require github.com/gofrs/flock v0.13.1 // indirect\n+\n require (\n \tgithub.com/redis/go-redis/v9 v9.23.0\n \tgo.uber.org/atomic v1.12.0 // indirect\n@@ -20,6 +22,8 @@\n \tatomicgo.dev/cursor v0.2.0 // indirect\n \tatomicgo.dev/keyboard v0.2.9 // indirect\n \tatomicgo.dev/schedule v0.1.0 // indirect\n+\tgitee.com/charsen/go-moo-scaffold v0.0.0-repro.20261102\n+\tgitee.com/charsen/moo-go-monitor v0.0.0-repro.20261102\n \tgithub.com/Masterminds/squirrel v1.5.4 // indirect\n \tgithub.com/atotto/clipboard v0.1.4 // indirect\n \tgithub.com/aymanbagabas/go-osc52/v2 v2.0.1 // indirect\n@@ -155,7 +159,7 @@\n \tgolang.org/x/mod v0.37.0 // indirect\n \tgolang.org/x/net v0.56.0 // indirect\n \tgolang.org/x/sync v0.21.0 // indirect\n-\tgolang.org/x/sys v0.48.0 // indirect\n+\tgolang.org/x/sys v0.49.0\n \tgolang.org/x/term v0.44.0 // indirect\n \tgolang.org/x/text v0.38.0 // indirect\n \tgolang.org/x/tools v0.47.0 // indirect\n",
+  "temporary_host_go_sum_diff": "--- HEAD/engine/go.sum\n+++ fixture/engine/go.sum\n@@ -8,6 +8,10 @@\n atomicgo.dev/schedule v0.1.0/go.mod h1:xeUa3oAkiuHYh8bKiQBRojqAMq3PXXbJujjb0hw8pEU=\n filippo.io/edwards25519 v1.1.0 h1:FNf4tywRC1HmFuKW5xopWpigGjJKiJSV0Cqo0cJWDaA=\n filippo.io/edwards25519 v1.1.0/go.mod h1:BxyFTGdWcka3PhytdK4V28tE5sGfRvvvRV7EaN4VDT4=\n+gitee.com/charsen/go-moo-scaffold v0.0.0-repro.20261102 h1:vBEWcD1XonNDRt9RVtayfmY+2CCGJqCaQ5jRnKwFs7Q=\n+gitee.com/charsen/go-moo-scaffold v0.0.0-repro.20261102/go.mod h1:V+TiSW2Oc87HFohxHDr2nJykJ2Q5eFvqx0aWvqqp53E=\n+gitee.com/charsen/moo-go-monitor v0.0.0-repro.20261102 h1:a9B5t2wpPwyZjBQN5Xtw+p5rppgKlOyLGt7zcdEHcjQ=\n+gitee.com/charsen/moo-go-monitor v0.0.0-repro.20261102/go.mod h1:PHfMw3kcoFTATybU9PseuBi4WUtqwJP61cTIjJ/tCbg=\n github.com/MakeNowJust/heredoc v1.0.0 h1:cXCdzVdstXyiTqTvfqk9SDHpKNjxuom+DOlyEeQ4pzQ=\n github.com/MakeNowJust/heredoc v1.0.0/go.mod h1:mG5amYoWBHf8vpLOuehzbGGw0EHxpZZ6lCpQ4fNJ8LE=\n github.com/MarvinJWendt/testza v0.1.0/go.mod h1:7AxNvlfeHP7Z/hDQ5JtE3OKYT3XFUeLCDE2DQninSqs=\n@@ -137,6 +141,8 @@\n github.com/goccy/go-yaml v1.19.2/go.mod h1:XBurs7gK8ATbW4ZPGKgcbrY1Br56PdM69F7LkFRi1kA=\n github.com/goforj/godump v1.9.1 h1:9OGpb978Ytz3B59d5Yi2PzRYYLid6UkmhYDIDNiF15Y=\n github.com/goforj/godump v1.9.1/go.mod h1:JsuL6AEZfKIU+iR5ewL6iQ2fIuhvLtPmJDH47M9Ptrc=\n+github.com/gofrs/flock v0.13.1 h1:jjREztyBeSKBZYAC+mgc1laB+xsgy4kYMf3FbKF2UBo=\n+github.com/gofrs/flock v0.13.1/go.mod h1:sf4BFiHwnvgxa25DlQoDqXQnwRMEOwqxRq37P6MzzmE=\n github.com/golang-jwt/jwt/v5 v5.3.1 h1:kYf81DTWFe7t+1VvL7eS+jKFVWaUnK9cB1qbwn63YCY=\n github.com/golang-jwt/jwt/v5 v5.3.1/go.mod h1:fxCRLWMO43lRc8nhHWY6LGqRcf+1gQWArsqaEUEa5bE=\n github.com/golang/protobuf v1.5.4 h1:i7eJL8qZTpSEXOPTxNKhASYpMn+8e5Q6AdndVa1dWek=\n@@ -303,6 +309,7 @@\n github.com/stretchr/testify v1.10.0/go.mod h1:r2ic/lqez/lEtzL7wO/rwa5dbSLXVDPFyf8C91i36aY=\n github.com/stretchr/testify v1.11.1 h1:7s2iGBzp5EwR7/aIZr8ao5+dra3wiQyKjjFuvgVKu7U=\n github.com/stretchr/testify v1.11.1/go.mod h1:wZwfW3scLgRK+23gO65QZefKpKQRnfz6sD981Nm4B6U=\n+github.com/stretchr/testify v1.12.1 h1:EuwCh5fleGS7H32xRwO3wRGT7DxrDhLAT6FF8MpWDWE=\n github.com/stretchr/testify v1.12.1/go.mod h1:MDEgiDPPsNp5cuIrHPPCyornHKgEVbtFUmoNlxoYthg=\n github.com/subosito/gotenv v1.6.0 h1:9NlTDc1FTs4qu0DDq7AEtTPNw6SVm7uBMsUCUjABIf8=\n github.com/subosito/gotenv v1.6.0/go.mod h1:Dk4QP5c2W3ibzajGcXpNraDfq2IrhjMIvMSWPKKo0FU=\n@@ -390,6 +397,7 @@\n go.uber.org/mock v0.6.0/go.mod h1:KiVJ4BqZJaMj4svdfmHM0AUx4NJYO8ZNpPnZn1Z+BBU=\n go.yaml.in/yaml/v3 v3.0.4 h1:tfq32ie2Jv2UxXFdLJdh3jXuOzWiL1fo0bu/FbuKpbc=\n go.yaml.in/yaml/v3 v3.0.4/go.mod h1:DhzuOOF2ATzADvBadXxruRBLzYTpT36CKvDb3+aBEFg=\n+go.yaml.in/yaml/v3 v3.0.5 h1:N6y/pJk8buWs9NY5ERU2HSMfm+IuD/OtfdAnq6kESPw=\n go.yaml.in/yaml/v3 v3.0.5/go.mod h1:HVTZu1O7/Vkt2N+BFy8Zza+lnLsABggaTM2ZpNIGuKg=\n golang.org/x/arch v0.22.0 h1:c/Zle32i5ttqRXjdLyyHZESLD/bB90DCU1g9l/0YBDI=\n golang.org/x/arch v0.22.0/go.mod h1:dNHoOeKiyja7GTvF9NJS1l3Z2yntpQNzgrjh1cU103A=\n@@ -431,6 +439,8 @@\n golang.org/x/sys v0.46.0/go.mod h1:4GL1E5IUh+htKOUEOaiffhrAeqysfVGipDYzABqnCmw=\n golang.org/x/sys v0.48.0 h1:bbX/i/6MgT9BVLM9RT1thmxL04yeTAhbEz4SyadbXoo=\n golang.org/x/sys v0.48.0/go.mod h1:hNLxWAXmnKAxqDtdwIYC4bM9oQPEecfsnNMuSxOs3og=\n+golang.org/x/sys v0.49.0 h1:XbzkgYJHdqh/8m2Uu0W/dQv8nktxx4BFHp1M0gROTXA=\n+golang.org/x/sys v0.49.0/go.mod h1:hNLxWAXmnKAxqDtdwIYC4bM9oQPEecfsnNMuSxOs3og=\n golang.org/x/term v0.0.0-20201126162022-7de9c90e9dd1/go.mod h1:bj7SfCRtBDWHUb9snDiAeCFNEtKQo2Wmx5Cou7ajbmo=\n golang.org/x/term v0.0.0-20210220032956-6a3ed077a48d/go.mod h1:bj7SfCRtBDWHUb9snDiAeCFNEtKQo2Wmx5Cou7ajbmo=\n golang.org/x/term v0.0.0-20210615171337-6886f2dfbf5b/go.mod h1:jbD1KX2456YbFQfuXm/mYQcufACuNUgVhRMnK/tPxf8=\n",
+  "explicit_fixture_require_diff": "--- HEAD/engine/go.mod\n+++ fixture-requires/engine/go.mod\n@@ -20,6 +20,8 @@\n \tatomicgo.dev/cursor v0.2.0 // indirect\n \tatomicgo.dev/keyboard v0.2.9 // indirect\n \tatomicgo.dev/schedule v0.1.0 // indirect\n+\tgitee.com/charsen/go-moo-scaffold v0.0.0-repro.20261102\n+\tgitee.com/charsen/moo-go-monitor v0.0.0-repro.20261102\n \tgithub.com/Masterminds/squirrel v1.5.4 // indirect\n \tgithub.com/atotto/clipboard v0.1.4 // indirect\n \tgithub.com/aymanbagabas/go-osc52/v2 v2.0.1 // indirect\n",
+  "dependency_graph_manifest_diff": "--- fixture-requires/engine/go.mod\n+++ resolved-fixture/engine/go.mod\n@@ -10,6 +10,8 @@\n \tgithub.com/goravel/sqlite v1.18.0\n \tgithub.com/stretchr/testify v1.12.1\n )\n+\n+require github.com/gofrs/flock v0.13.1 // indirect\n \n require (\n \tgithub.com/redis/go-redis/v9 v9.23.0\n@@ -157,7 +159,7 @@\n \tgolang.org/x/mod v0.37.0 // indirect\n \tgolang.org/x/net v0.56.0 // indirect\n \tgolang.org/x/sync v0.21.0 // indirect\n-\tgolang.org/x/sys v0.48.0 // indirect\n+\tgolang.org/x/sys v0.49.0\n \tgolang.org/x/term v0.44.0 // indirect\n \tgolang.org/x/text v0.38.0 // indirect\n \tgolang.org/x/tools v0.47.0 // indirect\n",
+  "owned_root_removed": true
+}

@@ -1,6 +1,6 @@
 # 第37课：报告实际构建元信息
 
-[上一课：36](36-log-capture-policy.md) · [课程目录](../README.md)
+[上一课：36](36-log-capture-policy.md) · [课程目录](../README.md) · [下一课：38](38-release-reproducibility.md)
 
 [计划](../plans/37-go-build-metadata.md)把版本来源集中在buildmeta，不用硬编码平台版本或把VCS提交号冒充发布版本。
 
@@ -21,3 +21,5 @@ Heartbeat和Host消费者已沿同一metadata接入。Go/Goravel字段是显式�
 自主练习待完成：解释unknown和development区别；说明为何原Version在本地Replace后不再可信；找出SDK作为Main与依赖时的位置；解释为何SHA不是semver；说明编译元信息无法证明哪些发布/部署事实。
 
 四层引用检查发现MCP Server.Version也硬编码development，因此同批改为Current.SDKVersion，保持bootstrap-free入口。Cloud兼容代码已有独立本地提交edcaca4，以上Go wire证据仍是本地fakeHTTP，不能据此声称目标Cloud已持久化/展示平台字段；真实验证由root另行授权执行。
+
+后续root获用户授权向已部署Cloud执行真实health，heartbeat与runtime/slow两类saved回执通过；页面仍显示旧PHP/Laravel标签，新Go字段生产持久/展示未确认。该外部健康结果不替代本地wire测试，也不升级为字段展示已验。

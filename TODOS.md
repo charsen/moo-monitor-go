@@ -82,3 +82,5 @@
 - [ ] 完成[第36课](docs/lessons/36-log-capture-policy.md)来源与级别策略练习；参考SDK/Host63已定向验证，37真实构建元信息继续推进。
 
 - [ ] 完成[第37课](docs/lessons/37-go-build-metadata.md)BuildInfo/unknown/replace练习；本地wire已参考交付，38继续独立发布解析验证。
+
+- [ ] 完成[第38课](docs/lessons/38-release-reproducibility.md)本地解析/MVS/floor与远端发布区别练习；新P1快照按另report验证，旧两报告不改。
