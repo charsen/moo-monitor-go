@@ -34,6 +34,10 @@ type HTTPConfig struct {
 	VerifyTLS        *bool
 	MaxResponseBytes int64
 	Client           *http.Client
+	// DisableRetries disables the common intake/discard/heartbeat POST retry loop
+	// and request-body replay. Owned transports also disable connection reuse. False preserves
+	// mature CLI/owner behavior; borrowed transport internals remain caller-owned.
+	DisableRetries bool
 }
 
 type HTTPError struct {
@@ -56,6 +60,7 @@ type HTTPClient struct {
 	client           *http.Client
 	owned            *http.Transport
 	maxResponseBytes int64
+	disableRetries   bool
 }
 
 func NewHTTPClient(config HTTPConfig) (*HTTPClient, error) {
@@ -95,12 +100,13 @@ func NewHTTPClient(config HTTPConfig) (*HTTPClient, error) {
 			verify = *config.VerifyTLS
 		}
 		owned = &http.Transport{DialContext: (&net.Dialer{Timeout: timeout, KeepAlive: 30 * time.Second}).DialContext, ForceAttemptHTTP2: true, MaxIdleConns: 10, IdleConnTimeout: 90 * time.Second, TLSHandshakeTimeout: timeout, TLSClientConfig: &tls.Config{MinVersion: tls.VersionTLS12, InsecureSkipVerify: !verify}}
+		owned.DisableKeepAlives = config.DisableRetries
 		client.Transport = owned
 	}
 	client.Timeout = timeout
 	client.Jar = nil // This API authenticates in the body, never through unrelated borrowed cookies.
 	client.CheckRedirect = func(*http.Request, []*http.Request) error { return http.ErrUseLastResponse }
-	return &HTTPClient{baseURL: strings.TrimRight(base.String(), "/"), token: config.Token, client: &client, owned: owned, maxResponseBytes: limit}, nil
+	return &HTTPClient{baseURL: strings.TrimRight(base.String(), "/"), token: config.Token, client: &client, owned: owned, maxResponseBytes: limit, disableRetries: config.DisableRetries}, nil
 }
 
 // CloseIdleConnections only touches the transport created by this SDK, never a borrowed owner.
@@ -150,6 +156,9 @@ func (c *HTTPClient) discardLocal(ctx context.Context, path, operation string) (
 }
 
 func (c *HTTPClient) post(ctx context.Context, path string, body []byte, attempts int, delay time.Duration) ([]byte, int, int, error) {
+	if c.disableRetries {
+		attempts = 1
+	}
 	operation := "runtime intake"
 	switch path {
 	case runtimeDiscardPath:
@@ -172,6 +181,9 @@ func (c *HTTPClient) post(ctx context.Context, path string, body []byte, attempt
 		}
 		request.Header.Set("Accept", "application/json")
 		request.Header.Set("Content-Type", "application/json")
+		if c.disableRetries {
+			request.GetBody = nil
+		}
 		response, err := c.client.Do(request)
 		if err == nil {
 			if response.StatusCode < 200 || response.StatusCode >= 300 {

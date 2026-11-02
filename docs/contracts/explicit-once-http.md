@@ -1,0 +1,13 @@
+# 显式Cloud操作的单次POST策略
+
+HTTPConfig.DisableRetries默认false，保留现CLI/定时owner的成熟连接重试行为。显式按钮调用方可以true关闭共用intake/discard/heartbeat POST的SDK重试循环：post将attempts固定为1，Request.GetBody=nil；SDK自建transport还禁用连接复用。已有自定义borrowed transport的内部行为仍由调用方负责，不修改借用对象。这不是远端幂等键或跨进程exactly-once，也不意味着断连时远端未执行。
+
+实际调用链为NewHTTPClient保存private flag→Send/SendSlow/DiscardLocalNoise/DiscardSlowLocalNoise/Heartbeat共用post。Heartbeat复制client值时会继承flag，不改原超时/flags。False路径不改原3次intake/2次discard与heartbeat逻辑；没有新增队列、重试账本、替代HTTP client或Scaffold依赖。MCP/Summary不在本次页面与新策略验收范围，不借此声称其所有调用路径已变更。
+
+SCloud Host adapter只在明确写操作配置true：Push的既有CloudSettings.HTTP设此flag后交原NewCloudPush；Health/Discard复用Host ParseCloudConnection及同一成熟NewHTTPClient，仅加该flag。原Artisan命令、自动CloudOwner、MCP配置仍默认false，没有整体更换默认策略。一次用户操作可能正常包含两类、多batch及独立heartbeat；禁止的是同一个结果未知请求的自动重发，不是把总HTTP计数强制成1。
+
+新增once_http_test.go的owned断连服务先收完整请求body再断开：runtime、slow、两类discard、heartbeat各一次，不将未知响应当未执行。默认runtime对照仍为3次，证明默认不变；borrowed RoundTripper新定向检查GetBody=nil/SDK只调用一次。只此新范围race1.937s通过，没有重跑成熟HTTP全组、真实Cloud或外部业务网络。
+
+四层：SDK新可选字段/constructor/post与heartbeat复制；Host显式SCloud调用，既有CLI/owner默认保留；owned/borrowed transport所有权边界和现实例接线；新断连计数与UI outcome消费者/文档。UI完整结果验收另见Host SCloud计划，本文不冒其页面全模块完成。
+
+自主练习：比较一次用户操作与某个POST尝试数；解释body已收完再EOF为什么不能判定未执行；确认使用owned和borrowed transport时策略边界；检查调用方如何对partial/timeout展示结果并主动领取新票据。
