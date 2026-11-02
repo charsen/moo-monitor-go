@@ -27,7 +27,7 @@
 | 远端发布、Cloud剩余操作与部署 | 外部待验 | 本地实现不冒充外部验证 | tag/discovery/鉴权、MCP操作与生产迁移 |
 | 工作台HTTP自动payload隔离 | 已实现 | 持续保All前排除与核心错误观察 | 手工Capture/原生日志仍属业务边界 |
 | 默认敏感键pwd/api_key | 已实现 | Host86首节点真实payload/URL/SQL消费已通过 | 业务自定义敏感键覆盖 |
-| Slow独立容量/日cap/MaskKeys | 待实现 | typed可选override，未配置继承；按Host86定向实施 | 目标业务配置 |
+| Slow独立容量/日cap/MaskKeys | 已实现 | Host86 typed override实际消费；nil继承保兼容 | 目标业务配置 |
 | Host CLI两skip配置 | 待实现 | 严格开关进入原Capture.Filter，不另造过滤器 | 业务CLI采集覆盖 |
 | ORM Fresh新实例观察恢复 | 待实现 | 公开lazy wrapper保原Fresh/ResetConnections，识别实际GORM代际 | 实际连接重建/生产池 |
 | Runtime trace字节与独立应用帧配置 | 待实现 | 消费原TraceMaxBytes/AppFramePrefixes，与SourceReader开关分离 | 目标源码布局与部署 |
@@ -39,7 +39,7 @@
 | P1-03有界代理与typed编码内核 | 已实现 | 78真实Session/CSRF/单次票据页面已接，四typed请求体保持预算 | 授权owned目标外的联调/生产接口 |
 | P1-03 names-only历史 | 已实现 | 76当前可信元数据受控缓存/本人历史与页面已接 | 目标账号/文件部署策略 |
 | P1-04 S-Cloud | 已实现 | 81真实状态/预览/显式四动作及安全站点链接已接，不自动重试未知POST | UI实际业务Cloud运维与剩余权限 |
-| P1-05设置四区 | 待实现 | A1 Env文件域/启动消费者与B1 AI文件域已交；继续六组/Env页面、AI页面及人员 | 目标部署配置与操作 |
+| P1-05设置四区 | 待实现 | A六组/Env页面与B1 AI文件域已交；继续AI页面及人员 | 目标部署配置与操作 |
 | skeleton新项目初始化/升级/第二业务 | 待实现 | 设置后按正式计划做allowlist新目标与受保护升级，不伪发布版本 | 发布解析、生产迁移、E2E与部署 |
 
 上述状态限定为**已实现／待实现／平台差异／外部待验**；已实现不代表整个M条目或五模块完成。
