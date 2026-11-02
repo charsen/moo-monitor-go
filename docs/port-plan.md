@@ -137,3 +137,7 @@ PHP 包当前 TODO 中的容量恢复、记录版本/坏 YAML、心跳健康语�
 ## 20：确认后的local噪音抑制与本轮暂停
 
 [计划20](plans/20-local-noise-discard.md)采用独立suppression而非删除record或伪造ACK，Stats/Sync共同选版本，保累计/overflow；真实远端仍是project-wide local unresolved。SDK新增race2.582，Hostgate1.549/11模式14.731；旧共享SDK2.977/Host49五模式7.517分栏。只本机HTTP与自有Root，无真实Cloud/全量/E2E。19/20后暂停，S-Cloud页面/真实Cloud兼容与余下monitor能力待未来授权。
+
+## 21：只读推送预览
+
+[计划21](plans/21-push-preview.md)：无Client Preview复用严格Stats，零HTTP/heartbeat/状态写。SDKrace2.098s，Host51五模式7.637s；下一项All独立交付。

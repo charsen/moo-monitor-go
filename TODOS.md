@@ -45,6 +45,8 @@
 
 - [ ] 完成[第18课](docs/lessons/18-health-check.md)心跳与saved双证据、clamp/caller取消、重复样本max语义及显式自检副作用练习；继续真实Cloud字段/权限、summary/resolve及部署解析，不能把本机参考验收写为M14/M15全部完成。
 
-- [ ] 完成[第19课](docs/lessons/19-pending-statistics.md)完整指纹、同ms更新、Known/Busy/Unknown与构造/读取副作用练习；继续第二功能local噪音协调，两个功能后按当前授权收口，不自动push。
+- [ ] 完成[第19课](docs/lessons/19-pending-statistics.md)完整指纹、同ms更新、Known/Busy/Unknown与构造/读取副作用练习；local噪音协调已见20，当前后续仅21/22，不自动push。
 
-- [ ] 完成[第20课](docs/lessons/20-local-noise-discard.md)remote project/local scope、历史ACK/抑制/cursor、Unknown与cap冻结练习；本机替身不代替真实Cloud或用户学习。后续S-Cloud页面/其它monitor矩阵需另定范围，本轮两功能后暂停。
+- [ ] 完成[第20课](docs/lessons/20-local-noise-discard.md)remote project/local scope、历史ACK/抑制/cursor、Unknown与cap冻结练习；本机替身不代替真实Cloud或用户学习。后续S-Cloud页面/其它monitor矩阵需另定范围，19/20当时收口；当前仅继续21/22两功能后暂停。
+
+- [ ] 完成[21课](docs/lessons/21-push-preview.md)只读/Unknown/版本选择练习；下一功能仅显式All，retention仍待，不自动push。

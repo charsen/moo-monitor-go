@@ -1,6 +1,6 @@
 # 第20课：Cloud确认后，只抑制精确的local噪音版本
 
-[上一课：19](19-pending-statistics.md) · [课程目录](../README.md)
+[上一课：19](19-pending-statistics.md) · [下一课](21-push-preview.md) · [课程目录](../README.md)
 
 本课为S-Cloud一期补一个显式管理动作，复用既有HTTP、type锁、快照和原子状态写入。[计划](../plans/20-local-noise-discard.md)列契约、实际验证与安全差异；Host采用对应模板第50课。它不物理删除记录，不把“用户不想再发这个版本”伪装成“Cloud已经保存这个版本”。
 

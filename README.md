@@ -43,3 +43,5 @@ Go 业务系统必需的独立监控采集 SDK，全业务复刻 PHP 监控包�
 [第19课](docs/lessons/19-pending-statistics.md)新增client-free精确待推统计，Stats不HTTP/恢复/写ACK；构造副作用明确分开，Busy/坏状态不当零。S-Cloud一期页面仍待消费。
 
 [第20课](docs/lessons/20-local-noise-discard.md)显式Cloud确认后抑制当前scope精确local pending-open版本，保record/count/overflow与真ACK，不推进cursor；远端仍是token项目/type全部local unresolved范围，历史ACK不证明远端当前存在。Stats/Sync共同排除exact抑制，新落盘版本重新待推。与19完成后暂停，未做真实Cloud、S-Cloud页面或第三功能。
+
+当前新增：[第21课只读推送预览](docs/lessons/21-push-preview.md)，本地候选不验证Cloud配置。
