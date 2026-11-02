@@ -17,3 +17,7 @@ SDK与scaffold使用缓存锁定golang.org/x/mod v0.37.0的zip.CreateFromDir，�
 两个passed原始报告+八项比较在docs/contracts/fixtures/release-reproducibility*.json；完整临时mod/sum差异与两requires/MVS分别保存（29/47行），包含flock indirect与xsys0.48→0.49，没有改真实Host manifest。两次ownedroot清理/残留0实核。仅同源同图可构建，不是bit-identical、远端tag、Gitee auth/discovery、生产部署或其它平台验收。38后继续P1，无自动发布副作用，练习仍待用户。
 
 快照边界：上述scaffolda9c9b46/Host8fd3e27早于P1-01的52dc598/b326d77，不能据此称新账户/session已独立floor构建。root新增要求：38提交后固定新三个SHA，另存一次Go1.26生产构建报告，保本两份report原样，不改产品规避失败；路由目录只读准备可并行。
+
+## P1-01新消费者追验
+
+38提交后按root新增授权，用新固定SDK `4ba95a6b1ca4e533a526fc27ca08a5199acaa9de`、scaffold `52dc59850a2c11c1d8a634c84eeaad454cc59c59`、Host `5ca7f26ce29ead4f0de94a77c4aa2b3b1ef38269`另执行仅Go1.26.8生产构建。[独立新报告](../contracts/fixtures/release-reproducibility-p1-go126.json)中主App108555586字节/MCP9169202字节成功、未运行，P1账户/session实际新依赖已进入快照；ownedroot清/残留0。原38两报告未改，不能把新结果倒写到旧快照。此为编译/独立解析证据，账户行为仍按P1-01自己的定向/race结果，不是Go1.26功能全回归或远端发布认证。

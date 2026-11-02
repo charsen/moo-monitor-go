@@ -29,3 +29,7 @@ GOWORK=off、GOTOOLCHAIN=local，GOPROXY只有两个file源（自有fixture与�
 下一动作按P1主线持续推进；发布不是默认副作用。自主练习待完成：比较workspace与fixture解析；解释为什么需要GONOPROXY=none；追踪两require之外的MVS变更；说明编译成功与远端可安装的距离；解释固定SHA为何排除并行未提交P1。
 
 快照范围补充：scaffolda9c9b46和Host8fd3e27早于P1-01已提交的52dc598/b326d77，本课结果不覆盖新增账户/session。root已要求38提交后以新固定三SHA另存Go1.26生产两target回归；不会把新结果倒写旧快照，也不为本课再跑测试。
+
+## P1-01新消费者追验
+
+38提交后按root新增授权，用新固定SDK `4ba95a6b1ca4e533a526fc27ca08a5199acaa9de`、scaffold `52dc59850a2c11c1d8a634c84eeaad454cc59c59`、Host `5ca7f26ce29ead4f0de94a77c4aa2b3b1ef38269`另执行仅Go1.26.8生产构建。[独立新报告](../contracts/fixtures/release-reproducibility-p1-go126.json)中主App108555586字节/MCP9169202字节成功、未运行，P1账户/session实际新依赖已进入快照；ownedroot清/残留0。原38两报告未改，不能把新结果倒写到旧快照。此为编译/独立解析证据，账户行为仍按P1-01自己的定向/race结果，不是Go1.26功能全回归或远端发布认证。
