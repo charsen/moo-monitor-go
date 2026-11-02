@@ -33,3 +33,9 @@ mask/sqlserver_test.go验证新形状多列/多行/字段顺序与不支持片�
 未知OUTPUT表达式仍可能保留敏感值；有限mask不提供任意SQLServer语法的全面安全保证，部署前应避免直接采集未覆盖原始SQL或先补对应语法验证。
 
 Host70新消费者单项race2.317s通过：官方Provider/可选via注册、Create OUTPUT回填ID及共享mask实际消费、DB Select结果、同池双入口各一次及native Trace两次、连接/身份均有断言。owned空env/环境白名单、默认DB空、Cloud/owners关闭、GOPROXY/GOSUMDB关闭；LOG_PATH用owned相对路径，未执行生产via/真实服务。SDK未因Host单项补跑已通过组。
+
+## 两driver后的单次Go1.26生产构建
+
+固定SDK `80ac77741b6596f2ccee7837a7854935cfa8b876`、scaffold `321580afc8dbf95989e2a0843f2a1093e9b983c3`、Host `fdd747c34b2bc0561a0888d4ea911c78cc62612f`，已读工具只archive这三提交，未混Designer未提交代码。新[driver最低线报告](../contracts/fixtures/release-reproducibility-drivers-go126.json)记录Go1.26.8/darwin-arm64/CGO1生产Host111248146字节、MCP9169202字节编译通过，均未执行；ownedroot清理通过、无replace的私有模块仅从ownedproxy加载。
+
+仅临时fixture的MVS补flock0.13.1并按SDK需求将Host声明的x/sys0.48选择为0.49；源manifest未编辑，差异完整保留于report。旧38及P1报告未改，未重复双工具链/旧测试；本报告是独立本地解析构建证据，不是远端发布、tag鉴权、真实服务或目标部署证明。

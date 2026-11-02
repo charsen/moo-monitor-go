@@ -35,3 +35,9 @@ Raw作为原参数化hash输入；RenderedSQL只作展示，仍独立受4MiB、U
 未知OUTPUT表达式仍可能保留敏感值；有限mask不提供任意SQLServer语法的全面安全保证，部署前应避免直接采集未覆盖原始SQL或先补对应语法验证。
 
 Host70的新消费者单项race2.317s通过，真实Create OUTPUT回填ID并检查本次mask加固，DB Select/同池双入口与原Trace均符合预期；正式可选连接已注册但生产via未执行。测试owned空env、默认DB空与Cloud关闭，不替代真实服务验证。
+
+## 两driver后的单次Go1.26生产构建
+
+固定SDK `80ac77741b6596f2ccee7837a7854935cfa8b876`、scaffold `321580afc8dbf95989e2a0843f2a1093e9b983c3`、Host `fdd747c34b2bc0561a0888d4ea911c78cc62612f`，已读工具只archive这三提交，未混Designer未提交代码。新[driver最低线报告](../contracts/fixtures/release-reproducibility-drivers-go126.json)记录Go1.26.8/darwin-arm64/CGO1生产Host111248146字节、MCP9169202字节编译通过，均未执行；ownedroot清理通过、无replace的私有模块仅从ownedproxy加载。
+
+仅临时fixture的MVS补flock0.13.1并按SDK需求将Host声明的x/sys0.48选择为0.49；源manifest未编辑，差异完整保留于report。旧38及P1报告未改，未重复双工具链/旧测试；本报告是独立本地解析构建证据，不是远端发布、tag鉴权、真实服务或目标部署证明。
