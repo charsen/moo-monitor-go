@@ -157,3 +157,7 @@ PHP 包当前 TODO 中的容量恢复、记录版本/坏 YAML、心跳健康语�
 ## 26：MCP stdio协议循环
 
 [计划26](plans/26-mcp-stdio-loop.md)实现独立Toolset消费/三固定版本、精确JSON数值ID、限长/安全诊断与取消。普通0.316s、补强前race2.359s，最后stderr短写与structured文本回退两项0.683s。无Host桥或真实Cloud工具；25转换导入并行，继续[队列](execution-queue.md)。
+
+## 27：七个Cloud MCP工具
+
+[计划27](plans/27-cloud-mcp-tools.md)复用26loop，typed七操作、分页闭合、私有图片与精确状态回执；新race mcpcloud1.744/cloudsync1.479，补强状态/布尔单项0.084另列（race为补强前）。仅假HTTP/stdio，无真实MCP；28独立Host桥继续，25导入同时实施。
