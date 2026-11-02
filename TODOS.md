@@ -74,3 +74,5 @@
 - [ ] 完成[33课](docs/lessons/33-crash-output.md)全局slot/Owner与Manager、raw隐私/预算和MayBePartial练习；M05显式手动/startup诊断导入仍待幂等、cap、隐私与count设计。
 
 - [ ] 完成[32课](docs/lessons/32-db-facade-observation.md)同pool/context、原Query与Tx、关闭只停观察、真实PG与部署差异练习；32参考已交付，继续34/35。
+
+- [ ] 完成[35课](docs/lessons/35-cloud-summary.md)精确计数/nullable/限额与有限输出练习；Cloud Go元信息按[待授权方案](docs/plans/cloud-go-compatibility.md)另批批准实施，不借本地Summary授权真实MCP。

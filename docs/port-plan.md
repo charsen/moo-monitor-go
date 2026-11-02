@@ -189,3 +189,7 @@ PHP 包当前 TODO 中的容量恢复、记录版本/坏 YAML、心跳健康语�
 ## 32：DB façade同池观察与真实PG补证
 
 [计划32](plans/32-db-facade-observation.md)保原CommonBuilder/Query/Tx与lazy DB解析，不预建第二池；SDK新race6.540/旧PrepareSQL6.781、Hostenabled8.042与负例、root私有真实PG两路径0.944分栏。实际表已清/池关/服务停，非生产部署或所有池验证。
+
+## 35：typed摘要只读接口
+
+[计划35](plans/35-cloud-summary.md)显式summary，保原安全client/limit1..10、typed计数/nullable与有限recent；SDK新race1.521、Host62六模式4.170，无真实Cloud/首页UI。Cloud三消费者兼容仅[待授权方案](plans/cloud-go-compatibility.md)，不改第四仓。

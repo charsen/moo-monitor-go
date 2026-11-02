@@ -69,3 +69,5 @@ Go 业务系统必需的独立监控采集 SDK，全业务复刻 PHP 监控包�
 [第33课](docs/lessons/33-crash-output.md)提供显式Go崩溃输出私有Owner与有界脱敏Inspect；raw本身未mask、读取预算非写quota，M05后续诊断导入仍待。32原并行，提交后已补数字导航。
 
 [第32课](docs/lessons/32-db-facade-observation.md)补DB façade原Query/Tx与同pool/context观察，Host60显式lazy binding；私有PG两路径已定向验证，未覆盖生产TLS/权限与所有连接池。
+
+[第35课](docs/lessons/35-cloud-summary.md)提供显式typed摘要与有限命令输出，复用原传输安全边界、不建Buffer或触发push/heartbeat。Cloud Go元信息的三个消费者另见[待授权方案](docs/plans/cloud-go-compatibility.md)，尚未修改第四仓。

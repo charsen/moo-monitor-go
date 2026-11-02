@@ -1,6 +1,6 @@
 # 第33课：把崩溃原文与安全事件记录分开
 
-[上一课：32](32-db-facade-observation.md) · [课程目录](../README.md)
+[上一课：32](32-db-facade-observation.md) · [课程目录](../README.md) · [下一课：35](35-cloud-summary.md)
 
 本课是M05第一阶段。[计划](../plans/33-crash-output.md)只交付显式私有spool与只读诊断，不自动导入Buffer或Cloud；32原并行推进，现已补齐数字导航。
 

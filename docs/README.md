@@ -37,5 +37,6 @@
 | 31 | [Postgres慢SQL展示](lessons/31-postgres-slow-query.md) | 成熟dialector/sqlmock回调，原raw/hash不变；未实际PG |
 | 32 | [DB facade原生观察](lessons/32-db-facade-observation.md) | 同pool/原Query与Tx，私有真实PG两路径补证；非生产部署 |
 | 33 | [私有崩溃诊断](lessons/33-crash-output.md) | M05第一阶段raw spool/有界Inspect，不自动导入或上传 |
+| 35 | [typed Cloud摘要](lessons/35-cloud-summary.md) | 显式summary、有限投影与安全CLI，未做首页UI |
 
 [完整复现计划](port-plan.md) · [PHP源码入口](php-surface-inventory.md)
