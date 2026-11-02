@@ -153,3 +153,7 @@ PHP 包当前 TODO 中的容量恢复、记录版本/坏 YAML、心跳健康语�
 ## 24：只读迁移体检
 
 [计划24](plans/24-migration-inspection.md)提供显式源路径、固定桶与浅envelope/严格cursor/旧配置键参考映射，只报安全分类不导入。SDK最终0.348s、Host54五模式1.255s；ImportSupported=false，后续真实转换导入按[执行队列](execution-queue.md)持续设计，不把体检当M16完成。
+
+## 26：MCP stdio协议循环
+
+[计划26](plans/26-mcp-stdio-loop.md)实现独立Toolset消费/三固定版本、精确JSON数值ID、限长/安全诊断与取消。普通0.316s、补强前race2.359s，最后stderr短写与structured文本回退两项0.683s。无Host桥或真实Cloud工具；25转换导入并行，继续[队列](execution-queue.md)。

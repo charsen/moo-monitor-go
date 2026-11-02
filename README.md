@@ -51,3 +51,5 @@ Go 业务系统必需的独立监控采集 SDK，全业务复刻 PHP 监控包�
 [第23课](docs/lessons/23-confirmed-resolved-maintenance.md)增加本地exactACK resolved维护，不是按天龄删open。当前按[持续执行队列](docs/execution-queue.md)推进，不自动push。
 
 [第24课](docs/lessons/24-migration-inspection.md)只读体检显式旧PHP目录/游标/env，不创建Buffer或写入/导入；下一步转换导入按执行队列单独设计。
+
+[第26课](docs/lessons/26-mcp-stdio-loop.md)提供独立MCP stdio协议循环，三版本协商、精确RPC ID、旧版text/image兼容和拥有输入的取消；仅假Toolset验证，不代表七Cloud工具或Host命令完成。25转换导入并行建设中，编号入口将在其提交后补齐。

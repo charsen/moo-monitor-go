@@ -1,6 +1,6 @@
 # 第24课：先看清旧数据，再设计迁移
 
-[上一课：23](23-confirmed-resolved-maintenance.md) · [课程目录](../README.md)
+[上一课：23](23-confirmed-resolved-maintenance.md) · [课程目录](../README.md) · [下一课：26](26-mcp-stdio-loop.md)
 
 本课实现只读 `migration.Inspect(ctx, Config)`。它不把 PHP 文件复制进 Go，也不因为 YAML 能解析就认定迁移可用。范围见[计划](../plans/24-migration-inspection.md)。
 
