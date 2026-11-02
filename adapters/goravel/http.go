@@ -28,12 +28,13 @@ type HTTPConfig struct {
 	Identity  func(context.Context) (HTTPIdentity, error)
 }
 type HTTP struct {
-	collector     *capture.Collector
-	config        HTTPConfig
-	diagnostics   *Handler
-	next          atomic.Uint64
-	payloadMasker *mask.Masker
-	payloadLimit  int
+	collector       *capture.Collector
+	config          HTTPConfig
+	diagnostics     *Handler
+	next            atomic.Uint64
+	payloadMasker   *mask.Masker
+	payloadLimit    int
+	payloadExcluded []string
 }
 type httpKey struct{}
 type httpEvent struct {
@@ -66,8 +67,12 @@ func NewHTTP(collector *capture.Collector, config HTTPConfig) (*HTTP, error) {
 	if err != nil {
 		return nil, err
 	}
+	prefixes, err := payloadPrefixes(config.Payload)
+	if err != nil {
+		return nil, err
+	}
 	config.Payload = nil
-	return &HTTP{collector: collector, config: config, diagnostics: &Handler{onError: config.OnError}, payloadMasker: masker, payloadLimit: limit}, nil
+	return &HTTP{collector: collector, config: config, diagnostics: &Handler{onError: config.OnError}, payloadMasker: masker, payloadLimit: limit, payloadExcluded: prefixes}, nil
 }
 func (h *HTTP) Signature() string { return "moo-monitor:http-capture" }
 func (h *HTTP) Status() Status    { return h.diagnostics.Status() }

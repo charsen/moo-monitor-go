@@ -1,0 +1,11 @@
+# 工作台HTTP自动payload隔离
+
+P1安全依赖的独立修复，不等Designer页面完成。HTTP中间件在Next之前调用All，路由内再加标记不能阻止之前的body快照；因此不能靠后置标记或敏感字段名mask保护未来账号/代理/AI key表单。
+
+PayloadConfig新增ExcludePathPrefixes，NewHTTP验证并复制去重（最多64、规范绝对路径段，拒空/root/URL片段/转义/控制符）。启用payload的写方法在All之前读取公开Request.Path，匹配相同路径或prefix+'/...'；/scaffold-evil不属于/scaffold。Path读取panic或非规范路径返回nil payload+静态ErrAdapter，不回落读取body。旧nil排除列表不新增Path调用，默认payload仍关闭。
+
+Host只读取可信scaffold.prefix，不接请求输入。启用HTTP+payload时构造排除；设置缺失/读取panic或SDK拒非法前缀则关闭payload并记录payload_exclusion_configuration静态状态，保Collector/HTTP错误与5xx观察。payload关闭时不解析可选prefix。
+
+排除的是HTTP自动快照及日志适配器从同请求复制的payload，不关闭异常/日志/5xx事件，不承诺拦截业务手工Capture的显式Payload、任意原生日志或URL里错误传递的秘密。工作台仍需私有Session/CSRF/readonly与凭据不入源码。
+
+实际SDK唯一新项普通0.584s：excluded All零调用、构造复制、路径段对照、Path panic/非法路径fail-closed及坏prefix拒绝。Host纯三模式0.938s证明坏/缺prefix保Ready和禁用payload不读可选配置；真实Bootstrap子进程0.849s证明坏Session工作台503仍记一事件且payload为空，随后/scaffold-evil普通503仍采普通值；未知字段名的固定假秘密不落Record/输出。父子白名单env/owned空file，无实际.env/网络、全量或E2E，未重复旧payload全组。

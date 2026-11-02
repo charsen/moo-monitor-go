@@ -3,14 +3,19 @@ package goravel
 import (
 	"context"
 	"mime/multipart"
+	"path"
+	"strings"
+	"unicode"
+	"unicode/utf8"
 
 	"gitee.com/charsen/moo-go-monitor/mask"
 	contractshttp "github.com/goravel/framework/contracts/http"
 )
 
 type PayloadConfig struct {
-	MaskKeys       []string
-	MaxStringChars int
+	ExcludePathPrefixes []string
+	MaskKeys            []string
+	MaxStringChars      int
 }
 
 // capturePayload uses only the framework's already parsed All, never Body or a file handle.
@@ -29,6 +34,17 @@ func (h *HTTP) capturePayload(ctx contractshttp.Context, method string) (payload
 			failure = ErrAdapter
 		}
 	}()
+	if len(h.payloadExcluded) > 0 {
+		requestPath := ctx.Request().Path()
+		if !validPayloadPath(requestPath) {
+			return nil, ErrAdapter
+		}
+		for _, prefix := range h.payloadExcluded {
+			if requestPath == prefix || strings.HasPrefix(requestPath, prefix+"/") {
+				return nil, nil
+			}
+		}
+	}
 	all := ctx.Request().All()
 	remaining := 5000
 	if len(all) > remaining {
@@ -101,4 +117,36 @@ func payloadMasker(config *PayloadConfig) (*mask.Masker, int, error) {
 		return nil, 0, ErrHTTPContext
 	}
 	return masker, limit, nil
+}
+
+func payloadPrefixes(cfg *PayloadConfig) ([]string, error) {
+	if cfg == nil {
+		return nil, nil
+	}
+	if len(cfg.ExcludePathPrefixes) > 64 {
+		return nil, ErrHTTPContext
+	}
+	result := make([]string, 0, len(cfg.ExcludePathPrefixes))
+	seen := map[string]bool{}
+	for _, prefix := range cfg.ExcludePathPrefixes {
+		if prefix == "/" || !validPayloadPath(prefix) || path.Clean(prefix) != prefix {
+			return nil, ErrHTTPContext
+		}
+		if !seen[prefix] {
+			result = append(result, prefix)
+			seen[prefix] = true
+		}
+	}
+	return result, nil
+}
+func validPayloadPath(value string) bool {
+	if value == "" || len(value) > 2048 || !utf8.ValidString(value) || !strings.HasPrefix(value, "/") || strings.ContainsAny(value, "\\%?#") {
+		return false
+	}
+	for _, r := range value {
+		if unicode.IsControl(r) {
+			return false
+		}
+	}
+	return value == "/" || path.Clean(value) == strings.TrimSuffix(value, "/")
 }

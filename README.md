@@ -85,3 +85,5 @@ Go 业务系统必需的独立监控采集 SDK，全业务复刻 PHP 监控包�
 [第40课](docs/lessons/40-mysql-slow-query.md)补MySQL GORM与原DB façade同池观察；sqlmock分层证据不等真实MySQL服务验证。
 
 [第41课](docs/lessons/41-sqlserver-slow-query.md)补SQLServer真实替换callback与原DB façade观察，有限扩展INSERT OUTPUT脱敏；真实服务仍待验。
+
+[工作台payload隔离](docs/plans/workbench-payload-exclusion.md)在All前按可信路径段排除HTTP自动表单快照，保错误事件；不是对任意手工日志的全面过滤。
