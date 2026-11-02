@@ -14,11 +14,13 @@ require (
 	github.com/goravel/gin v1.18.0
 	github.com/goravel/mysql v1.18.0
 	github.com/goravel/sqlite v1.18.0
+	github.com/goravel/sqlserver v1.18.0
 	github.com/jackc/pgx/v5 v5.7.2
 	github.com/jmoiron/sqlx v1.4.0
 	github.com/stretchr/testify v1.12.1
 	gorm.io/driver/mysql v1.6.0
 	gorm.io/driver/postgres v1.6.0
+	gorm.io/driver/sqlserver v1.6.3
 	gorm.io/gorm v1.31.2
 	gorm.io/plugin/dbresolver v1.6.2
 )
@@ -73,6 +75,8 @@ require (
 	github.com/goccy/go-json v0.10.5 // indirect
 	github.com/goccy/go-yaml v1.19.2 // indirect
 	github.com/goforj/godump v1.9.1 // indirect
+	github.com/golang-sql/civil v0.0.0-20220223132316-b832511892a9 // indirect
+	github.com/golang-sql/sqlexp v0.1.0 // indirect
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/gookit/color v1.6.0 // indirect
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.29.0 // indirect
@@ -91,6 +95,7 @@ require (
 	github.com/mattn/go-isatty v0.0.20 // indirect
 	github.com/mattn/go-localereader v0.0.1 // indirect
 	github.com/mattn/go-runewidth v0.0.24 // indirect
+	github.com/microsoft/go-mssqldb v1.9.1 // indirect
 	github.com/mitchellh/hashstructure/v2 v2.0.2 // indirect
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
 	github.com/modern-go/reflect2 v1.0.2 // indirect

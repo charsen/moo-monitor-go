@@ -13,7 +13,7 @@ import (
 var postgresPlaceholder = regexp.MustCompile(`\$([0-9]+)`)
 
 func supportedDialect(name string) bool {
-	return name == "sqlite" || name == "postgres" || name == "mysql"
+	return name == "sqlite" || name == "postgres" || name == "mysql" || name == "sqlserver"
 }
 
 // postgresRendered generates display text, never executable SQL. The locked

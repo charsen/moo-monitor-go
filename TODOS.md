@@ -88,3 +88,5 @@
 - [ ] 完成[第39课](docs/lessons/39-self-test-resolution.md)strict saved与best-effort解决、同token能力和独立结果练习；参考实现已交付，MySQL已见40，继续SQLServer等矩阵真实待实现项，不自动push。
 
 - [ ] 完成[第40课](docs/lessons/40-mysql-slow-query.md)原Raw与有界展示、同池双入口/事务/关闭边界练习；MySQL参考已实现，真实实例仍待授权，紧接41 SQLServer。
+
+- [ ] 完成[第41课](docs/lessons/41-sqlserver-slow-query.md)替换callback/OUTPUT/编号预算及双入口练习；四已支持driver参考不等生产所有类型/池覆盖，未知OUTPUT表达式仍有有限mask盲区。

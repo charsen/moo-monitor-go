@@ -44,5 +44,6 @@
 | 38 | [独立解析与构建](lessons/38-release-reproducibility.md) | 固定HEAD/file-only proxy/Go1.27与1.26，非远端发布 |
 | 39 | [自检runtime可选解决](lessons/39-self-test-resolution.md) | strict saved后best-effort/结果分离/同Cloud token |
 | 40 | [MySQL双入口慢SQL](lessons/40-mysql-slow-query.md) | 安全Explain/原Pool Query Tx/Host可选Provider |
+| 41 | [SQLServer双入口](lessons/41-sqlserver-slow-query.md) | 实际替换callback/编号预算/OUTPUT有限mask |
 
 [完整复现计划](port-plan.md) · [PHP源码入口](php-surface-inventory.md)

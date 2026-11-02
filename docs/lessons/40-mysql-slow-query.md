@@ -1,6 +1,6 @@
 # 第40课：MySQL展示SQL与原业务执行分开
 
-[上一课：39](39-self-test-resolution.md) · [课程目录](../README.md)
+[上一课：39](39-self-test-resolution.md) · [课程目录](../README.md) · [下一课：41](41-sqlserver-slow-query.md)
 
 本课的参考实现与[计划](../plans/40-mysql-slow-query.md)只覆盖明确安装的MySQL实例与DB façade。sqlmock提供SQL执行结果，没有运行真实MySQL服务。
 

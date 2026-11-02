@@ -217,3 +217,7 @@ PHP 包当前 TODO 中的容量恢复、记录版本/坏 YAML、心跳健康语�
 ## 40：MySQL分层双入口观察
 
 [计划40](plans/40-mysql-slow-query.md)采用官方goravel/mysql1.18、gormmysql1.6及同池Factory；新GORM普通1.130/Factory0.759，必要新旧race7.137/6.858，Host69新consumer race2.365。真实MySQL服务/版本探测/TLS未验；M06 SQLServer仍待实现，不能把剩余仅标外部待验。
+
+## 41：SQLServer双入口与有限OUTPUT掩码
+
+[计划41](plans/41-sqlserver-slow-query.md)核真实create/update替换和同池Factory；新callback首次发现OUTPUT间隔令原INSERT mask漏值，窄扩INSERTED标识符列表后原fixture+新mask0.344/六callback0.732，Factory1.213、Host70新consumer race2.317分栏。没有真实SQLServer服务；未知OUTPUT表达式仍是有限pattern盲区，不能称全面脱敏。紧接固定三SHA最低线生产build与P1页面，不重复旧组。

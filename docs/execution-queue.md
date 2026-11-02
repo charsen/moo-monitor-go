@@ -22,7 +22,7 @@
 | 38独立模块解析构建 | 已实现 | 新P1最低线独立报告已交付，后续发布候选再验证 | 远端tag/discovery/鉴权与目标部署 |
 | 39固定自检runtime可选解决 | 已实现 | 保saved与解决结果独立，继续M06 | 真实resolve能力与目标部署 |
 | 40 M06 MySQL观察 | 已实现 | 官方dialector/Pool与Host接线定向通过 | 实际MySQL/MariaDB版本、TLS/生产池 |
-| 41 M06 SQLServer观察 | 待实现 | 成熟driver真实callback/Factory分层 | 实际实例/生产池按授权 |
+| 41 M06 SQLServer观察 | 已实现 | 固定新三SHA最低线生产build | 实际TDS/TLS/OUTPUT触发器/生产池 |
 | 原生fatal/CLI与各平台运行机制差异 | 平台差异 | 保33/34诊断与显式导入边界，继续核覆盖 | 其它OS/真实进程退出 |
 | 远端发布、Cloud剩余操作与部署 | 外部待验 | 本地实现不冒充外部验证 | tag/discovery/鉴权、MCP操作与生产迁移 |
 | monitor其它配置/采集覆盖与生命周期 | 待实现 | 按具体矩阵逐块实现 | 目标业务与部署 |

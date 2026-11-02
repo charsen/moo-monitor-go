@@ -8,15 +8,21 @@ import (
 const (
 	sqlSpace  = `[\t\n\f\r\v ]`
 	sqlQuoted = `'(?:[^'\\]|\\.)*'|"(?:[^"\\]|\\.)*"`
-	sqlTuple  = `\((?:` + sqlQuoted + `|[^()])*\)`
+	// SQLServer's locked create callback inserts this finite OUTPUT column list.
+	// Keep arbitrary expressions/functions outside this deliberately bounded grammar.
+	sqlOutputIdentifier = `(?:"[^"]+"|\[[^\]]+\]|[a-z_][a-z0-9_]*)`
+	sqlOutputColumn     = `inserted\.` + sqlOutputIdentifier
+	sqlInsertOutput     = `(?:` + sqlSpace + `+output` + sqlSpace + `+` + sqlOutputColumn + `(?:` + sqlSpace + `*,` + sqlSpace + `*` + sqlOutputColumn + `)*)?`
+	sqlTuple            = `\((?:` + sqlQuoted + `|[^()])*\)`
 )
 
 var (
-	insertValues = regexp.MustCompile(`(\binsert` + sqlSpace + `+into\b[^(]*\()([^)]*)(\)` + sqlSpace + `*values` + sqlSpace + `*)((?:` + sqlSpace + `*` + sqlTuple + sqlSpace + `*,?)*)`)
+	insertValues = regexp.MustCompile(`(\binsert` + sqlSpace + `+into\b[^(]*\()([^)]*)(\)` + sqlInsertOutput + sqlSpace + `*values` + sqlSpace + `*)((?:` + sqlSpace + `*` + sqlTuple + sqlSpace + `*,?)*)`)
 	valueTuple   = regexp.MustCompile(sqlTuple)
 )
 
-// MaskSensitiveSQL follows the source comparison-then-INSERT pattern algorithm.
+// MaskSensitiveSQL follows the source comparison-then-INSERT pattern algorithm,
+// also recognizing the locked SQLServer OUTPUT INSERTED column-list shape.
 // It neither executes SQL nor implicitly applies MaskSecrets; unsupported syntax may remain.
 func (m *Masker) MaskSensitiveSQL(value string) string {
 	if len(m.keys) == 0 || value == "" {
