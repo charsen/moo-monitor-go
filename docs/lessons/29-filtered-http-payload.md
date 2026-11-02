@@ -1,6 +1,6 @@
 # 第29课：先过滤事件，再保存有界现场
 
-[上一课：28](28-host-mcp-entry.md) · [课程目录](../README.md)
+[上一课：28](28-host-mcp-entry.md) · [课程目录](../README.md) · [下一课：31](31-postgres-slow-query.md)
 
 本课补明确的错误过滤和默认关闭的HTTP payload快照，Host57提供显式开关。[计划](../plans/29-filtered-http-payload.md)记录范围；不改已有hash、codec或迁移格式。
 

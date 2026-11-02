@@ -34,4 +34,6 @@
 | 28 | [独立Host MCP进程](lessons/28-host-mcp-entry.md) | 不启业务bootstrap、不读dotenv，协议stdout与输入生命周期隔离 |
 | 29 | [事件过滤与HTTP现场](lessons/29-filtered-http-payload.md) | 显式能力/默认关payload/预算与同cap，原业务响应不改 |
 
+| 31 | [Postgres慢SQL展示](lessons/31-postgres-slow-query.md) | 成熟dialector/sqlmock回调，原raw/hash不变；未实际PG |
+
 [完整复现计划](port-plan.md) · [PHP源码入口](php-surface-inventory.md)

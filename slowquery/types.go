@@ -10,13 +10,15 @@ type Config struct {
 	BasePath, Env, Project string
 }
 type Input struct {
-	Raw        string
-	Bindings   []any
-	TookMillis float64
-	File       string
-	Line       int
-	Connection *string
-	Request    Request
+	Raw string
+	// RenderedSQL is display-only; when present Bindings must be empty. Raw remains identity.
+	RenderedSQL *string
+	Bindings    []any
+	TookMillis  float64
+	File        string
+	Line        int
+	Connection  *string
+	Request     Request
 }
 type Request struct {
 	Method   string  `json:"method" yaml:"method"`

@@ -66,3 +66,5 @@
 - [ ] 完成[25课](docs/lessons/25-legacy-record-import.md)来源固定副本、完整typed转换、源集合/摘要漂移、新scope归属及部分续作练习；真实迁移/legacy Cloud字段验证仍需对应授权，后续按持续队列执行。
 
 - [ ] 完成[29课](docs/lessons/29-filtered-http-payload.md)单unwrap/Join过滤、入口脱敏副本与HTTP/Builder同cap练习；30源码Reader按设计继续，真实token配置不进入本地测试。
+
+- [ ] 完成[第31课](docs/lessons/31-postgres-slow-query.md)raw/hash与展示SQL、标准值边界、sqlmock与真实PG差异练习；实际PG/Host连接与部署验证仍待。

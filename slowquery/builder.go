@@ -61,7 +61,7 @@ func (b *Builder) Accept(input Input) (bool, error) {
 			return false, nil
 		}
 	}
-	if _, err := fillBindings(input.Raw, input.Bindings); err != nil {
+	if _, err := renderedSQL(input); err != nil {
 		return false, err
 	}
 	return true, nil
@@ -113,7 +113,7 @@ func (b *Builder) prepare(input Input, now time.Time) (*Record, error) {
 	if err := validateInput(input); err != nil {
 		return nil, err
 	}
-	last, err := fillBindings(input.Raw, input.Bindings)
+	last, err := renderedSQL(input)
 	if err != nil || !utf8.ValidString(last) {
 		return nil, ErrInput
 	}
@@ -189,4 +189,17 @@ func (b *Builder) SanitizeStoredSQL(raw, last string) (SQL, error) {
 	raw = b.masker.MaskSecrets(b.masker.MaskSensitiveSQL(raw))
 	last = b.masker.MaskSecrets(b.masker.MaskSensitiveSQL(last))
 	return SQL{Raw: capSQL(raw), Last: capSQL(last), RawBytes: int64(len(raw)), LastBytes: int64(len(last))}, nil
+}
+
+// MaxRenderedSQLBytes bounds an explicitly rendered display before masking/capping.
+const MaxRenderedSQLBytes = 4 << 20
+
+func renderedSQL(input Input) (string, error) {
+	if input.RenderedSQL == nil {
+		return fillBindings(input.Raw, input.Bindings)
+	}
+	if len(input.Bindings) != 0 || len(*input.RenderedSQL) == 0 || len(*input.RenderedSQL) > MaxRenderedSQLBytes || !utf8.ValidString(*input.RenderedSQL) {
+		return "", ErrInput
+	}
+	return *input.RenderedSQL, nil
 }

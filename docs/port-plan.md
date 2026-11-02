@@ -173,3 +173,7 @@ PHP 包当前 TODO 中的容量恢复、记录版本/坏 YAML、心跳健康语�
 ## 29：明确过滤与可选HTTP payload
 
 [计划29](plans/29-filtered-http-payload.md)用能力接口/显式CLI标记过滤，不猜消息或Join整链；payload默认关闭，只取已解析All、5000预预算、上传静态类型和既有mask。修前race capture4.844/adapters5.278；终读小修0.630/0.338。Host七模式首包1.634因bad-json夹具失败，唯一修正子例0.900；统一HTTP/Builder cap后两新子例0.933，不写成七模式最后整组重跑通过。后续30源码上下文独立推进。
+
+## 31：Postgres展示SQL
+
+[计划31](plans/31-postgres-slow-query.md)用成熟dialector和sqlmock分层验证，固定依赖与原SQLite/Slow消费者定向证据见课文；未连接真实PG。
