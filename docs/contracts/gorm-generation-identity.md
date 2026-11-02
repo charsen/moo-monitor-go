@@ -1,0 +1,9 @@
+# GORM callback-registry identity
+
+`adapters/gorm.InstanceIdentity(query)` reads the existing public `Instance() *gorm.DB` capability and public `db.Callback()`. `Identity` has an opaque private comparable value. Session/WithContext clones share the callback registry; a newly opened GORM generation has another identity. The value grants no mutation or connection authority. Unsupported/nil/panicking capabilities return static ErrUnsupported, not the raw capability error.
+
+Install reuses the same capability validation. Its existing registration mutex, foreign-owner refusal and same-owner idempotence remain. Identity does not make external GORM plugin registration or concurrent Fresh safe: callers must install during a quiescent publication/preload window. This package never resets or closes a native SQL pool.
+
+The new directed generation test verifies a distinct Session pointer keeps the same identity, a new native GORM instance changes identity, same-owner clone installation is idempotent and foreign/nil/panicking capabilities fail conservatively. First functional race6.606s inherited the parent environment; this package TestMain invokes foundation.NewApplication, so that first run is not evidence of parent env isolation. A tool-interrupted safety attempt has no recoverable test result and is not counted as PASS. The necessary same new case was then run with a fresh environment whitelist and an absolute owned empty `-env`; race6.608s passed and the owned env directory was removed. No unrelated old test group was repeated.
+
+The Host actual lazy ORM/Fresh consumer and its pool/transaction/close evidence live in [Host86](../../../go-moo-engine-skeleton/docs/plans/86-monitor-source-configuration.md). The Host preserves distinct configured connection count, separately reports retained registry generations, and bounds retained generations to128. This is observation ownership, not a promise of concurrent callback hot installation.

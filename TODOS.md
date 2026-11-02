@@ -28,7 +28,7 @@
 - [ ] 完成[第10课](docs/lessons/10-host-runtime.md)late identity/Host所有权与workspace验证差异练习；真实Cloud/部署解析仍待，代理验收不代做学习。
 
 - [ ] 完成[第11课](docs/lessons/11-slow-query-pipeline.md)原raw身份/双mask安全差异、字节与码点、cap峰值/overflow、共享typed内核与同ms确认练习；代理参考验证不代做学习。
-- [ ] 继续DB façade、其它驱动/占位符、未安装/Fresh连接的采集方案；当前已安装SQLite GORM实例有自动观察，不能概括全数据库覆盖。
+- [ ] DB façade、四驱动与静止Fresh新代观察已有本地定向实现；继续[明确执行队列](docs/execution-queue.md)中的Trace独立配置及外部/平台验证，不概括全数据库覆盖。
 
 - [ ] 完成[第12课](docs/lessons/12-gorm-slow-query.md)回调窗口/安装回滚/原Trace观测开销、事务语义与连接覆盖练习，代理真实ORM验证不代做学习。
 

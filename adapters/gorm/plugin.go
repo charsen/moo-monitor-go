@@ -93,14 +93,11 @@ func Install(query any, plugin *Plugin) (failure error) {
 	if plugin == nil {
 		return ErrConfiguration
 	}
-	capable, ok := query.(interface{ Instance() *gorm.DB })
-	if !ok {
-		return ErrUnsupported
+	db, err := queryInstance(query)
+	if err != nil {
+		return err
 	}
-	db := capable.Instance()
-	if db == nil || db.Config == nil || db.Dialector == nil || !supportedDialect(db.Dialector.Name()) {
-		return ErrUnsupported
-	}
+
 	installation.Lock()
 	defer installation.Unlock()
 	plugin.mu.Lock()

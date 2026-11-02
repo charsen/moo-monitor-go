@@ -29,7 +29,7 @@
 | 默认敏感键pwd/api_key | 已实现 | Host86首节点真实payload/URL/SQL消费已通过 | 业务自定义敏感键覆盖 |
 | Slow独立容量/日cap/MaskKeys | 已实现 | Host86 typed override实际消费；nil继承保兼容 | 目标业务配置 |
 | Host CLI两skip配置 | 已实现 | 默认true/true不变，类型能力与显式标记进入原Filter | 业务CLI采集覆盖 |
-| ORM Fresh新实例观察恢复 | 待实现 | 公开lazy wrapper保原Fresh/ResetConnections，识别实际GORM代际 | 实际连接重建/生产池 |
+| ORM Fresh新实例观察恢复 | 已实现 | 保原lazy factory/Fresh，静止窗口识别callback registry并有界保留旧代；见Host86 | 生产池/并发Fresh不在本地保证内 |
 | Runtime trace字节与独立应用帧配置 | 待实现 | 消费原TraceMaxBytes/AppFramePrefixes，与SourceReader开关分离 | 目标源码布局与部署 |
 | skeleton生成迁移固定挂载 | 已实现 | Host82真实空codegen与完整链，保四手迁移不重复create | 目标应用迁移与发布 |
 | 工作台解析前请求守卫 | 已实现 | 原自动payload隔离之外，所有公开HTTP/TLS入口先守form字节/协议预算 | 目标反向代理/部署入口 |
@@ -39,8 +39,8 @@
 | P1-03有界代理与typed编码内核 | 已实现 | 78真实Session/CSRF/单次票据页面已接，四typed请求体保持预算 | 授权owned目标外的联调/生产接口 |
 | P1-03 names-only历史 | 已实现 | 76当前可信元数据受控缓存/本人历史与页面已接 | 目标账号/文件部署策略 |
 | P1-04 S-Cloud | 已实现 | 81真实状态/预览/显式四动作及安全站点链接已接，不自动重试未知POST | UI实际业务Cloud运维与剩余权限 |
-| P1-05设置四区 | 待实现 | A页面与B1/C1纯域已交；继续AI页面及人员 | 目标部署配置与操作 |
-| skeleton新项目初始化/升级/第二业务 | 待实现 | 设置后按正式计划做allowlist新目标与受保护升级，不伪发布版本 | 发布解析、生产迁移、E2E与部署 |
+| P1-05设置四区 | 待实现 | A/C页面与B1纯域已交；继续AI页面 | 目标部署配置与操作 |
+| skeleton新项目初始化/升级/第二业务 | 待实现 | 设置后按[正式计划](../../go-moo-scaffold/docs/plans/template-project-lifecycle.md)实现J1/R1、allowlist新目标/两业务/受保护升级，不伪发布版本 | 发布解析、生产迁移、E2E与部署 |
 
 上述状态限定为**已实现／待实现／平台差异／外部待验**；已实现不代表整个M条目或五模块完成。
 
