@@ -165,3 +165,7 @@ PHP 包当前 TODO 中的容量恢复、记录版本/坏 YAML、心跳健康语�
 ## 28：Host独立MCP入口
 
 [计划28](plans/28-host-mcp-entry.md)采用独立cmd/monitor-mcp，不import业务bootstrap/config/facades/owner，不读.env。首轮六子例完成但包因signal超时failed；pollable stdin修后signal/flags0.402、Run资源错误0.407分栏，初配置0.727；实际binary/依赖闭包已核，未真实MCP。25导入仍进行，29过滤/payload按设计继续。
+
+## 25：受控转换与新scope导入
+
+[计划25](plans/25-legacy-record-import.md)保hash/累计/时间/桶及真实PHP上下文，未知类型整Plan拒绝；SQL共享双mask，显式键无静默默认。离线Plan封印源集合/全文和目标镜像；Apply只新scope，同plan同bytes可续，不冒领活动ACK状态，源不删/cursor不转ACK。Apply首测1.043；必要race migration2.734/buffer1.751/records1.406/slow1.513，末tag/UTF8路径守卫仅0.071分栏。Host55十模式12.771，未真实迁移或legacy Cloud接入。

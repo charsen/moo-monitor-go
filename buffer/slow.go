@@ -84,7 +84,8 @@ func (slowFamily) Apply(r *slowquery.Record, state lifecycle) {
 func (slowFamily) Row(bucket string, r slowquery.Record) SlowRow {
 	return SlowRow{Hash: r.Hash, Status: bucket, FirstSeen: r.FirstSeen, LastSeen: r.LastSeen, Count: r.Count, SQLFirstLine: slowFirstLine(r.SQL.Raw), SQLBytes: r.SQL.RawBytes, MaxMillis: r.Took.MaxMillis, LastMillis: r.Took.LastMillis, ThresholdMillis: r.Took.ThresholdMillis, File: r.At.File, Line: r.At.Line, Connection: r.At.Connection, URL: r.Request.URL, Method: r.Request.Method}
 }
-func (slowFamily) Encode(record slowquery.Record) ([]byte, error) {
+func (slowFamily) Encode(record slowquery.Record) ([]byte, error) { return EncodeSlowRecord(record) }
+func EncodeSlowRecord(record slowquery.Record) ([]byte, error) {
 	data, err := yaml.Marshal(record)
 	if err != nil {
 		return nil, errors.New("cannot encode slow-query record")
@@ -92,6 +93,9 @@ func (slowFamily) Encode(record slowquery.Record) ([]byte, error) {
 	return data, nil
 }
 func (slowFamily) Decode(data []byte, hash string) (*slowquery.Record, error) {
+	return DecodeSlowRecord(data, hash)
+}
+func DecodeSlowRecord(data []byte, hash string) (*slowquery.Record, error) {
 	var document yaml.Node
 	if err := yaml.Unmarshal(data, &document); err != nil || len(document.Content) != 1 || document.Content[0].Kind != yaml.MappingNode {
 		return nil, errors.New("invalid slow-query YAML")

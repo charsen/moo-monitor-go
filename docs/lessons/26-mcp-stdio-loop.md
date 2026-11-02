@@ -1,6 +1,6 @@
 # 第26课：让stdio只承载MCP协议
 
-[上一课：24](24-migration-inspection.md) · [下一课](27-cloud-mcp-tools.md) · [课程目录](../README.md)
+[上一课：25](25-legacy-record-import.md) · [下一课](27-cloud-mcp-tools.md) · [课程目录](../README.md)
 
 本课提供独立 `mcp.Server`，具体工具留给Toolset。它能协商版本、列出和调用假工具，不表示七个Cloud工具、分页、私有图片或Host命令已交付。[计划](../plans/26-mcp-stdio-loop.md)记录范围。
 

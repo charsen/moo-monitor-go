@@ -50,9 +50,9 @@ func (runtimeFamily) Apply(r *records.Record, state lifecycle) {
 	r.ResolvedNote = state.ResolvedNote
 	r.Meta = state.Meta
 }
-func (runtimeFamily) Encode(r records.Record) ([]byte, error) { return encodeRecord(r) }
+func (runtimeFamily) Encode(r records.Record) ([]byte, error) { return EncodeRuntimeRecord(r) }
 func (runtimeFamily) Decode(data []byte, hash string) (*records.Record, error) {
-	return decodeRecord(data, hash)
+	return DecodeRuntimeRecord(data, hash)
 }
 func (runtimeFamily) Row(bucket string, r records.Record) Row {
 	return Row{Hash: r.Hash, Status: bucket, FirstSeen: r.FirstSeen, LastSeen: r.LastSeen, Count: r.Count, Class: r.Exception.Class, MessageFirstLine: firstLine(r.Exception.Message), File: r.Exception.File, Line: r.Exception.Line, URL: r.Request.URL, Method: r.Request.Method}

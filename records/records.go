@@ -54,11 +54,14 @@ type Request struct {
 }
 
 type GoContext struct {
-	Env        string `json:"env" yaml:"env"`
-	Project    string `json:"project" yaml:"project"`
-	Go         string `json:"go" yaml:"go"`
-	Goravel    string `json:"goravel" yaml:"goravel"`
-	OccurredAt string `json:"occurred_at" yaml:"occurred_at"`
+	// Legacy fields are only populated when importing real PHP records.
+	PHP        *string `json:"php,omitempty" yaml:"php,omitempty"`
+	Laravel    *string `json:"laravel,omitempty" yaml:"laravel,omitempty"`
+	Env        string  `json:"env" yaml:"env"`
+	Project    string  `json:"project" yaml:"project"`
+	Go         string  `json:"go" yaml:"go"`
+	Goravel    string  `json:"goravel" yaml:"goravel"`
+	OccurredAt string  `json:"occurred_at" yaml:"occurred_at"`
 }
 
 type Frame struct {
@@ -242,6 +245,12 @@ func (b *Builder) prepare(s Snapshot, now time.Time, existingMeta map[string]any
 	snippet := s.Snippet
 	snippet.File = b.relPath(snippet.File) // Code stays source text, exactly as in PHP. No file is read.
 	context := s.Context
+	context.PHP, context.Laravel = copyString(context.PHP), copyString(context.Laravel)
+	for _, value := range []*string{context.PHP, context.Laravel} {
+		if value != nil && !utf8.ValidString(*value) {
+			return nil, fmt.Errorf("invalid legacy context UTF-8")
+		}
+	}
 	timestamp := now.Format("2006-01-02T15:04:05.000Z07:00")
 	// PHP emits +00:00, never Z.
 	if strings.HasSuffix(timestamp, "Z") {

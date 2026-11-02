@@ -146,3 +146,5 @@ GOWORK=off GOTOOLCHAIN=local "$HOME/Library/Caches/go-moo/toolchains/go1.27.3/bi
 画出cap2五次到次日的record/overflow变化，解释daily为何不加overflow。再手推“目标已写、旧桶未删”的中断状态，以及恢复为何不能重新调用Refresh。
 
 自行说明同scope文件锁与单实例gate各解决什么问题；比较ErrFull、损坏文件错误与ErrOutcomeUnknown的调用方处理。解释为什么当前没有本地Resolve/Delete、为什么PHP原目录不能直接交给这个Go缓冲。代理参考测试通过不代做这些练习。
+
+以上为第05步当时的仅Go缓冲边界；后续[25转换导入](25-legacy-record-import.md)通过完整校验/新隔离scope显式支持受控PHP记录，保真实legacy字段，不把原生Go版本伪装成PHP；当前缓冲仍拒未知字段，不直接复制任意旧YAML。

@@ -57,3 +57,5 @@ Go 业务系统必需的独立监控采集 SDK，全业务复刻 PHP 监控包�
 [第27课](docs/lessons/27-cloud-mcp-tools.md)接七个typed Cloud工具、分页/私有图片与状态回执，仅假服务验证；Host隔离入口由28继续，25转换/导入并行实施。
 
 [第28课](docs/lessons/28-host-mcp-entry.md)记录Host独立stdio进程采用，不加载业务bootstrap/dotenv，默认关闭，仅显式MONITOR_MCP_*；真实MCP仍未授权验证。
+
+[第25课](docs/lessons/25-legacy-record-import.md)完成显式旧记录转换/封印Plan/冷scope幂等导入；源不删除、cursor不转ACK，SQL按显式敏感键重mask。此前26–28并行先交付，现课程导航按25补齐。

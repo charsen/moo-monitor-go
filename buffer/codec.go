@@ -13,7 +13,7 @@ import (
 )
 
 // diskRecord reuses the public typed fields; payload gets a narrow ordered-node adapter.
-func encodeRecord(record records.Record) ([]byte, error) {
+func EncodeRuntimeRecord(record records.Record) ([]byte, error) {
 	var node yaml.Node
 	if err := node.Encode(record); err != nil {
 		return nil, errors.New("cannot encode runtime record")
@@ -34,7 +34,7 @@ func encodeRecord(record records.Record) ([]byte, error) {
 	return data, nil
 }
 
-func decodeRecord(data []byte, hash string) (*records.Record, error) {
+func DecodeRuntimeRecord(data []byte, hash string) (*records.Record, error) {
 	var doc yaml.Node
 	decoder := yaml.NewDecoder(bytes.NewReader(data))
 	if err := decoder.Decode(&doc); err != nil || len(doc.Content) != 1 || doc.Content[0].Kind != yaml.MappingNode {

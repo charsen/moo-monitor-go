@@ -117,8 +117,10 @@ func (b *Builder) prepare(input Input, now time.Time) (*Record, error) {
 	if err != nil || !utf8.ValidString(last) {
 		return nil, ErrInput
 	}
-	raw := b.masker.MaskSecrets(b.masker.MaskSensitiveSQL(input.Raw))
-	last = b.masker.MaskSecrets(b.masker.MaskSensitiveSQL(last))
+	sql, err := b.SanitizeStoredSQL(input.Raw, last)
+	if err != nil {
+		return nil, err
+	}
 	request := input.Request
 	if request.Method == "" {
 		request.Method = "CLI"
@@ -139,7 +141,7 @@ func (b *Builder) prepare(input Input, now time.Time) (*Record, error) {
 	request.UserName = copyValue(request.UserName)
 	connection := copyValue(input.Connection)
 	iso := timestamp(now)
-	return &Record{LastSeen: iso, SQL: SQL{Raw: capSQL(raw), Last: capSQL(last), RawBytes: int64(len(raw)), LastBytes: int64(len(last))}, Took: Took{LastMillis: roundMillis(input.TookMillis), MaxMillis: roundMillis(input.TookMillis), ThresholdMillis: int64(b.threshold)}, At: At{File: b.relative(input.File), Line: input.Line, Connection: connection}, Context: Context{Env: b.config.Env, Project: b.config.Project, OccurredAt: iso}, Request: request}, nil
+	return &Record{LastSeen: iso, SQL: sql, Took: Took{LastMillis: roundMillis(input.TookMillis), MaxMillis: roundMillis(input.TookMillis), ThresholdMillis: int64(b.threshold)}, At: At{File: b.relative(input.File), Line: input.Line, Connection: connection}, Context: Context{Env: b.config.Env, Project: b.config.Project, OccurredAt: iso}, Request: request}, nil
 }
 func (b *Builder) Build(input Input, now time.Time) (*Record, error) {
 	record, err := b.prepare(input, now)
@@ -177,4 +179,14 @@ func (b *Builder) Refresh(existing Record, input Input, now time.Time, overflow 
 		existing.Daily = Daily{Date: now.Format("2006-01-02"), Count: 1}
 	}
 	return &existing, nil
+}
+
+// SanitizeStoredSQL applies the same storage policy to native queries and imported text.
+func (b *Builder) SanitizeStoredSQL(raw, last string) (SQL, error) {
+	if !utf8.ValidString(raw) || !utf8.ValidString(last) {
+		return SQL{}, ErrInput
+	}
+	raw = b.masker.MaskSecrets(b.masker.MaskSensitiveSQL(raw))
+	last = b.masker.MaskSecrets(b.masker.MaskSensitiveSQL(last))
+	return SQL{Raw: capSQL(raw), Last: capSQL(last), RawBytes: int64(len(raw)), LastBytes: int64(len(last))}, nil
 }
