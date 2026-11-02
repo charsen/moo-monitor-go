@@ -80,3 +80,5 @@
 - [ ] 完成[34课](docs/lessons/34-crash-diagnostic-import.md)永久receipt/Unknown/预算/源漂移与构造副作用练习；手动单ID参考已交付，自动startup导入尚未实现，P1与36按当前执行队列推进。
 
 - [ ] 完成[第36课](docs/lessons/36-log-capture-policy.md)来源与级别策略练习；参考SDK/Host63已定向验证，37真实构建元信息继续推进。
+
+- [ ] 完成[第37课](docs/lessons/37-go-build-metadata.md)BuildInfo/unknown/replace练习；本地wire已参考交付，38继续独立发布解析验证。

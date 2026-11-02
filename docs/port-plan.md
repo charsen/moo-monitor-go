@@ -201,3 +201,7 @@ PHP 包当前 TODO 中的容量恢复、记录版本/坏 YAML、心跳健康语�
 ## 36：日志采集策略
 
 [计划36](plans/36-log-capture-policy.md)保旧NewDriver兼容，显式policy分别控制typed异常与普通消息，过滤先于采集预算；SDK新2+旧Writer3 race2.637，Host63七模式race9.520。原生sink不受监控选择策略替换。
+
+## 37：真实构建元信息
+
+[计划37](plans/37-go-build-metadata.md)保真实版本/unknown/development，SDK新旧wire race1.381、Host64 producer2.966/MCP1.367与旧push0.924分栏。不暴露VCS/Path，不把BuildInfo当发布/部署证明。

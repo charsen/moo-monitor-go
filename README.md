@@ -75,3 +75,5 @@ Go 业务系统必需的独立监控采集 SDK，全业务复刻 PHP 监控包�
 [第34课](docs/lessons/34-crash-diagnostic-import.md)显式追加单份部分诊断，永久receipt与v2固定图像恢复避免确认移除后重导；保raw、操作不联网，后续独立push仍可发送普通pending。
 
 [第36课](docs/lessons/36-log-capture-policy.md)增加独立typed异常/普通消息开关和显式级别选择，旧NewDriver兼容；原生sink与Fatal/Panic行为保留。
+
+[第37课](docs/lessons/37-go-build-metadata.md)统一真实BuildInfo版本、可选Go/Goravel心跳和四个Host消费者；unknown/development不伪装发布版本。

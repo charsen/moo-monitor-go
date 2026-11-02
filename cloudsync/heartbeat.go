@@ -11,10 +11,12 @@ import (
 
 const heartbeatPath = "api/v1/heartbeat"
 
-// HeartbeatMeta contains only fields currently accepted by Cloud. Platform versions
-// belong to local diagnostics until the consumer explicitly supports Go metadata.
+// HeartbeatMeta carries explicit SDK/platform metadata. Optional Go fields require
+// a compatible Cloud consumer; a successful receipt does not attest persistence.
 type HeartbeatMeta struct {
 	SDKVersion     string `json:"sdk_version"`
+	GoVersion      string `json:"go_version,omitempty"`
+	GoravelVersion string `json:"goravel_version,omitempty"`
 	AppEnv         string `json:"app_env"`
 	AppName        string `json:"app_name"`
 	CloudEnabled   bool   `json:"cloud_enabled"`
@@ -35,7 +37,7 @@ type Heartbeater interface {
 }
 
 func (c *HTTPClient) Heartbeat(ctx context.Context, meta HeartbeatMeta) error {
-	if !validWireString(meta.SDKVersion) || !validWireString(meta.AppEnv) || !validWireString(meta.AppName) {
+	if !validWireString(meta.SDKVersion) || !validWireString(meta.AppEnv) || !validWireString(meta.AppName) || !validWireString(meta.GoVersion) || !validWireString(meta.GoravelVersion) || len(meta.GoVersion) > 64 || len(meta.GoravelVersion) > 64 {
 		return &HTTPError{Operation: "heartbeat", category: ErrWire}
 	}
 	body, err := json.Marshal(struct {

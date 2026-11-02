@@ -1,6 +1,6 @@
 # 第36课：独立控制日志来源和级别
 
-[上一课：35](35-cloud-summary.md) · [课程目录](../README.md)
+[上一课：35](35-cloud-summary.md) · [课程目录](../README.md) · [下一课：37](37-go-build-metadata.md)
 
 [计划](../plans/36-log-capture-policy.md)对应PHP exception.log_context_hook、log_message_hook与共用log_context_levels。它只控制监控采集，原业务logger规则仍由delegate决定。
 

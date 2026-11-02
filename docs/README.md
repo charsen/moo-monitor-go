@@ -40,5 +40,6 @@
 | 34 | [单ID诊断导入](lessons/34-crash-diagnostic-import.md) | 永久receipt/固定v2恢复/真实容量，raw保留 |
 | 35 | [typed Cloud摘要](lessons/35-cloud-summary.md) | 显式summary、有限投影与安全CLI，未做首页UI |
 | 36 | [日志采集策略](lessons/36-log-capture-policy.md) | typed来源/消息独立开关与六级别，原日志透传 |
+| 37 | [真实构建元信息](lessons/37-go-build-metadata.md) | bounded BuildInfo/可选平台wire/四实际producer |
 
 [完整复现计划](port-plan.md) · [PHP源码入口](php-surface-inventory.md)
