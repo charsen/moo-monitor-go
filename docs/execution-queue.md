@@ -40,7 +40,10 @@
 | P1-03 names-only历史 | 已实现 | 76当前可信元数据受控缓存/本人历史与页面已接 | 目标账号/文件部署策略 |
 | P1-04 S-Cloud | 已实现 | 81真实状态/预览/显式四动作及安全站点链接已接，不自动重试未知POST | UI实际业务Cloud运维与剩余权限 |
 | P1-05设置四区 | 已实现 | 83–85基础六组/Env/私有AI配置/人员真实页面与Host已接，不发AI请求 | 目标部署配置与操作 |
-| skeleton新项目初始化/升级/第二业务 | 待实现 | 设置后按[正式计划](../../go-moo-scaffold/docs/plans/template-project-lifecycle.md)实现J1/R1、allowlist新目标/两业务/受保护升级，不伪发布版本 | 发布解析、生产迁移、E2E与部署 |
+| skeleton新项目初始化 | 已实现 | 88新目录/显式依赖与教学投影/私密Env/真实空registry，失败拒覆盖 | 真实发布版本解析与目标部署 |
+| J1原生JSON字段链 | 待实现 | [唯一计划](../../go-moo-scaffold/docs/plans/p1-json-fields.md)；值域已交，实际生成/存取与页面接续 | 实际目标DB的JSON差异 |
+| R1最小主从与两真实业务 | 待实现 | 按[正式计划](../../go-moo-scaffold/docs/plans/template-project-lifecycle.md)持久Schema/手写overlay/独立初始化与必要接口DB定向 | 用户业务/生产迁移与部署 |
+| 模板三方保护升级 | 待实现 | owned hash/CAS/冲突，历史migration额外不可变，秘密/Schema/生成资产排除 | 发布来源与真实部署 |
 
 上述状态限定为**已实现／待实现／平台差异／外部待验**；已实现不代表整个M条目或五模块完成。
 
