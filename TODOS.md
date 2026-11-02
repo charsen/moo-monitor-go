@@ -1,7 +1,7 @@
 # TODOS
 
 - [ ] 按 [复现计划](docs/port-plan.md)核对 PHP 每项采集来源、配置、缓冲格式、Cloud 与 MCP 契约，补齐对应 Go 行为设计。
-- [ ] 按当前HTTP/日志、SQLite/Postgres ORM与DB façade、Host队列/调度边界继续补矩阵余项；当前执行见32/34/35与执行队列，不把已交付默认关闭入口笼统列待接。
+- [ ] 按当前HTTP/日志、四driver ORM与DB façade、Host队列/调度边界继续补矩阵余项；当前步骤见[执行队列](docs/execution-queue.md)，不把已交付默认关闭入口笼统列待接。
 - [ ] 核对 Cloud 心跳字段白名单、SDK 版本诊断和 runtime/慢 SQL 数据格式对 Go 的兼容缺口；先制定增量兼容方案，不伪装成 PHP SDK。
 
 - [ ] 在首个实现阶段落实[代码设计标准](../go-moo-engine-skeleton/docs/code-design.md)：审查参考业务调用链、文件职责、抽象必要性及生成/手写协作；文档制定不等于代码验收。
