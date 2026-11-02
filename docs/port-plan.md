@@ -25,10 +25,10 @@ PHP 复核基线为本机 `moo-monitor-laravel` 提交 `28d424e`。现阶段已�
 | M05 | PHP fatal/OOM 轻量路径和采集盲区 | 记录 Go panic/recover 的边界、同 goroutine 约束、进程终止等不可可靠采集路径，不类比宣称全覆盖 |
 | M06 | SqlSlowListener/Recorder、bindings、连接与应用栈 | 查询耗时、阈值、SQL/binding 脱敏、来源和连接标记，不改变查询或凭空制造身份 |
 | M07 | SensitiveMasker、请求/用户/console 语境、payload 截断 | Token/密码/URL/SQL/堆栈的有界脱敏，显式上下文，不把请求对象跨生命周期保存 |
-| M08 | BucketedYamlRecorder、三桶、复发、累计 count、cap/overflow | 05已有私有scope本地缓冲/累计/cap/持久overflow/journal恢复；06已接显式Client回执，真实Cloud/缓冲维护与跨格式迁移待接 |
+| M08 | BucketedYamlRecorder、三桶、复发、累计 count、cap/overflow | 05已有私有scope本地缓冲/累计/cap/持久overflow/journal恢复；06时已接显式Client回执，当时真实Cloud/缓冲维护与跨格式迁移待接；后续交付见[当前队列](execution-queue.md) |
 | M09 | 原子写、坏记录/写失败、并发、路径限制 | 适合 Go 常驻并发/多进程的明确存储方案，容量和竞争不会拖垮业务 |
 | M10 | StorageScope、cursor、partial ack、锁与 prune 范围 | 同一 Host 多项目/环境的所有状态统一隔离，scope 不串数据 |
-| M11 | CloudClient/CloudSync、逐条回执、重试、拒绝隔离 | 06已验严格receipt/失败洞/同指纹隔离与账本；07已有runtime intake/discard传输/有限重试，真实Cloud兼容与自动协调仍待接 |
+| M11 | CloudClient/CloudSync、逐条回执、重试、拒绝隔离 | 06已验严格receipt/失败洞/同指纹隔离与账本；07时已有runtime intake/discard传输/有限重试，当时真实Cloud兼容与协调待接；当前显式/周期owner与实际Cloud证据见[队列](execution-queue.md) |
 | M12 | 累计快照、微秒时间、旧回执兼容、复发与 resolve | 与 Cloud 同源 fixture；既有字段语义不变，不把累计 count 当增量求和 |
 | M13 | CloudPushCommand、调度、锁、恢复、prune | 正常/无数据推送、幂等/并发/失败恢复；未确认数据不清除 |
 | M14 | HeartbeatMeta、summary、discard-local | 心跳和上报结果分开表述，只清获准环境范围，Go 元信息不伪造 PHP/Laravel 版本 |
@@ -212,11 +212,11 @@ PHP 包当前 TODO 中的容量恢复、记录版本/坏 YAML、心跳健康语�
 
 ## 39：自检saved后可选解决
 
-[计划39](plans/39-self-test-resolution.md)保Run兼容，显式解决仅固定sample；SDK新普通3.002/旧Run0.419、Host68九模式race9.974分栏。真实Cloud resolve未执行。当前剩余分为已实现、待实现、平台差异、外部待验，见[执行队列](execution-queue.md)；39时M06 MySQL/SQLServer观察仍待实现；MySQL当前已见40，SQLServer仍非仅等外部验证。
+[计划39](plans/39-self-test-resolution.md)保Run兼容，显式解决仅固定sample；SDK新普通3.002/旧Run0.419、Host68九模式race9.974分栏。真实Cloud resolve未执行。当前剩余分为已实现、待实现、平台差异、外部待验，见[执行队列](execution-queue.md)；39时M06 MySQL/SQLServer观察仍待实现；MySQL后见40，SQLServer后见[41](plans/41-sqlserver-slow-query.md)，当前本地代码与外部验证分栏见执行队列。
 
 ## 40：MySQL分层双入口观察
 
-[计划40](plans/40-mysql-slow-query.md)采用官方goravel/mysql1.18、gormmysql1.6及同池Factory；新GORM普通1.130/Factory0.759，必要新旧race7.137/6.858，Host69新consumer race2.365。真实MySQL服务/版本探测/TLS未验；M06 SQLServer仍待实现，不能把剩余仅标外部待验。
+[计划40](plans/40-mysql-slow-query.md)采用官方goravel/mysql1.18、gormmysql1.6及同池Factory；新GORM普通1.130/Factory0.759，必要新旧race7.137/6.858，Host69新consumer race2.365。真实MySQL服务/版本探测/TLS未验；该40节点当时M06 SQLServer仍待实现；后续[41](plans/41-sqlserver-slow-query.md)已接本地代码，真实服务继续外部待验。
 
 ## 41：SQLServer双入口与有限OUTPUT掩码
 

@@ -41,15 +41,15 @@
 | P1-04 S-Cloud | 已实现 | 81真实状态/预览/显式四动作及安全站点链接已接，不自动重试未知POST | UI实际业务Cloud运维与剩余权限 |
 | P1-05设置四区 | 已实现 | 83–85基础六组/Env/私有AI配置/人员真实页面与Host已接，不发AI请求 | 目标部署配置与操作 |
 | skeleton新项目初始化 | 已实现 | 88新目录/显式依赖与教学投影/私密Env/真实空registry，失败拒覆盖 | 真实发布版本解析与目标部署 |
-| J1原生JSON字段链 | 已实现 | [87完整生成与真实存取](../../go-moo-scaffold/docs/plans/p1-json-fields.md)，90已修现有HTTP上下文边界；继续R1 | 实际目标DB的JSON差异 |
-| R1最小主从与两真实业务 | 待实现 | 按[正式计划](../../go-moo-scaffold/docs/plans/template-project-lifecycle.md)持久Schema/手写overlay/独立初始化与必要接口DB定向 | 用户业务/生产迁移与部署 |
+| J1原生JSON字段链 | 已实现 | [87完整生成与真实存取](../../go-moo-scaffold/docs/plans/p1-json-fields.md)，90已修现有HTTP上下文边界；R1/两个样例见下一行 | 实际目标DB的JSON差异 |
+| R1最小主从与两真实业务 | 已实现 | [91关系与92/93两样例](../../go-moo-scaffold/docs/plans/template-project-lifecycle.md)已具持久Schema/手写overlay与真实独立工程消费者 | 用户业务/生产迁移与部署 |
 | 模板三方保护升级 | 已实现 | 89 owned hash/CAS/显式摘要Apply，历史migration额外不可变，秘密/Schema/生成资产排除 | 发布来源与真实部署 |
 
-上述状态限定为**已实现／待实现／平台差异／外部待验**；已实现不代表整个M条目或五模块完成。
+上述状态限定为**已实现／待实现／平台差异／外部待验**；单项状态不单独证明整体；当前一期整体范围与证据见[集中入口](../../go-moo-engine-skeleton/docs/delivery/README.md)。
 
 ## 顺序与接续
 
-历史实现顺序为23确认resolved维护 → 24只读迁移体检 → 25受控格式转换/幂等导入 → MCP协议loop → Cloud工具/分页/私有图片 → Host显式MCP采用。Monitor已核本地业务代码范围与具体配置/Fresh/Trace补点现已交付；当前代码队列为R1最小主从、两个持久业务样例和最后固定快照构建。远端发布、实服务/平台验证保留独立边界，不能把列入队列当交付。
+历史实现顺序为23确认resolved维护 → 24只读迁移体检 → 25受控格式转换/幂等导入 → MCP协议loop → Cloud工具/分页/私有图片 → Host显式MCP采用。Monitor已核本地业务代码范围与具体配置/Fresh/Trace补点现已交付；R1最小主从与两个持久业务样例现已分别定向交付；最后固定Go1.26.8生产app/MCP构建已通过（仅build），原始[报告](contracts/fixtures/release-reproducibility-final-go126.json)与[集中交付入口](../../go-moo-engine-skeleton/docs/delivery/README.md)保固定SHA和外部边界。远端发布、实服务/平台验证保留独立边界，不能把列入队列当交付。
 
 monitor可用依赖齐后，转Scaffold一期五模块（数据库设计、安全接口调试、路由、S-Cloud、设置四区），再完善skeleton初始化/发布解析/多业务交付。范围依据[复现计划](port-plan.md)和Scaffold[一期计划](../../go-moo-scaffold/docs/phase-1-plan.md)。不预先执行生产迁移、真实Cloud写或E2E。
 
