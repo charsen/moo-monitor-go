@@ -1,6 +1,6 @@
-# Cloud Go元信息兼容方案（待授权实施）
+# Cloud Go元信息兼容方案（本地范围已批准）
 
-本文件仅保存可审方案；当前没有修改第四仓moo-scaffold-cloud，也不部署、改Token能力或执行真实MCP。已有真实Cloud证据仍限授权heartbeat与runtime/slow两项saved，见Host[接入记录](../../../go-moo-engine-skeleton/docs/integration/cloud-connection.md)。
+本方案保存时仅待授权；2026-11-02用户已批准第四仓moo-scaffold-cloud三个消费者及必要本地测试，由root独占实现、唯一Git writer交付。不含部署、Token能力或真实MCP操作。已有真实Cloud证据仍限授权heartbeat与runtime/slow两项saved，见Host[接入记录](../../../go-moo-engine-skeleton/docs/integration/cloud-connection.md)。
 
 ## 三个真实消费者
 
@@ -24,4 +24,4 @@ Go建议使用Host实际moo:cloud:test/moo:cloud:push入口，配置指向MONITO
 
 仅定向验证三消费者：新增字段限长/非字符串与缺失、PHP/Go/unknown平台、Go development/非法版本/独立发布策略、原PHP0.1.8门槛、视图转义与标签。保原JSON存储/权限与PHP回归；不运行全量/E2E，不用真实Token或真实MCP操作。第四仓代码及SDK发送扩展分别审diff/commit，是否推送、部署与真实联调仍按用户另行授权。
 
-当前状态：方案已保存，等待用户明确批准第四仓代码范围；此项不阻34/35及其它已授权本地功能。
+当前状态：本地三消费者/tests已获批准，root实施中；不阻34/35及其它已授权本地功能。第四仓代码验收/提交与后续部署、真实联调授权分别记录，不把方案等同完成。

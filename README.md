@@ -71,3 +71,5 @@ Go 业务系统必需的独立监控采集 SDK，全业务复刻 PHP 监控包�
 [第32课](docs/lessons/32-db-facade-observation.md)补DB façade原Query/Tx与同pool/context观察，Host60显式lazy binding；私有PG两路径已定向验证，未覆盖生产TLS/权限与所有连接池。
 
 [第35课](docs/lessons/35-cloud-summary.md)提供显式typed摘要与有限命令输出，复用原传输安全边界、不建Buffer或触发push/heartbeat。Cloud Go元信息的三个消费者另见[待授权方案](docs/plans/cloud-go-compatibility.md)，尚未修改第四仓。
+
+[第34课](docs/lessons/34-crash-diagnostic-import.md)显式追加单份部分诊断，永久receipt与v2固定图像恢复避免确认移除后重导；保raw、操作不联网，后续独立push仍可发送普通pending。

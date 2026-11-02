@@ -76,3 +76,5 @@
 - [ ] 完成[32课](docs/lessons/32-db-facade-observation.md)同pool/context、原Query与Tx、关闭只停观察、真实PG与部署差异练习；32参考已交付，继续34/35。
 
 - [ ] 完成[35课](docs/lessons/35-cloud-summary.md)精确计数/nullable/限额与有限输出练习；Cloud Go元信息按[待授权方案](docs/plans/cloud-go-compatibility.md)另批批准实施，不借本地Summary授权真实MCP。
+
+- [ ] 完成[34课](docs/lessons/34-crash-diagnostic-import.md)永久receipt/Unknown/预算/源漂移与构造副作用练习；手动单ID参考已交付，自动startup导入尚未实现，P1与36按当前执行队列推进。

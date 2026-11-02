@@ -58,6 +58,15 @@ func (b *store[R, S, V]) recover() error {
 	if err = yaml.Unmarshal(data, &document); err != nil || len(document.Content) != 1 || document.Content[0].Kind != yaml.MappingNode {
 		return errors.New("invalid buffer intent document")
 	}
+	for i := 0; i < len(document.Content[0].Content); i += 2 {
+		key, value := document.Content[0].Content[i], document.Content[0].Content[i+1]
+		if key.Kind == yaml.ScalarNode && key.Value == "version" && value.Kind == yaml.ScalarNode && value.Tag == "!!int" {
+			var version int
+			if value.Decode(&version) == nil && version == 2 {
+				return b.recoverDiagnostic(data)
+			}
+		}
+	}
 	required := map[string]bool{"version": false, "hash": false, "target": false, "record": false, "overflow": false}
 	for i := 0; i < len(document.Content[0].Content); i += 2 {
 		key := document.Content[0].Content[i]
