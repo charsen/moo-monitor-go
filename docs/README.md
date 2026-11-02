@@ -25,5 +25,6 @@
 | 19 | [精确待推只读统计](lessons/19-pending-statistics.md) | client-free读取、完整ACK版本匹配与Unknown |
 | 20 | [Cloud确认后的local噪音抑制](lessons/20-local-noise-discard.md) | 独立suppression/严格版本/保累计锚点，不造ACK或删除record |
 | 21 | [只读推送预览](lessons/21-push-preview.md) | 无凭据/零网络、严格版本增量候选与Unknown |
+| 22 | [显式All重推](lessons/22-explicit-all-replay.md) | 忽略历史ACK选集、保exact抑制、本次Remaining与持久化错误分开 |
 
 [完整复现计划](port-plan.md) · [PHP源码入口](php-surface-inventory.md)

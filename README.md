@@ -45,3 +45,5 @@ Go 业务系统必需的独立监控采集 SDK，全业务复刻 PHP 监控包�
 [第20课](docs/lessons/20-local-noise-discard.md)显式Cloud确认后抑制当前scope精确local pending-open版本，保record/count/overflow与真ACK，不推进cursor；远端仍是token项目/type全部local unresolved范围，历史ACK不证明远端当前存在。Stats/Sync共同排除exact抑制，新落盘版本重新待推。与19完成后暂停，未做真实Cloud、S-Cloud页面或第三功能。
 
 当前新增：[第21课只读推送预览](docs/lessons/21-push-preview.md)，本地候选不验证Cloud配置。
+
+[第22课](docs/lessons/22-explicit-all-replay.md)给同一同步链显式All模式，仅当前open/resolved非exact-suppressed版本；历史ACK不能掩盖本次失败，Remaining与Pending/最终error分开。自动Tick仍增量，--all+--dry-run只读；不做retention、恢复已删记录或真实Cloud。本轮21/22后暂停。

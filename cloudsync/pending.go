@@ -26,7 +26,16 @@ type readOnlySnapshotStore[R any] interface {
 }
 
 func (s *synchronizer[R]) Stats(ctx context.Context) (PendingStats, error) {
-	result := PendingStats{}
+	value, err := s.inspect(ctx, Incremental)
+	return value.PendingStats, err
+}
+
+// inspect owns one strict snapshot and type lock for statistics and previews.
+func (s *synchronizer[R]) inspect(ctx context.Context, mode SelectionMode) (TypePreview, error) {
+	result := TypePreview{}
+	if !validSelectionMode(mode) {
+		return result, ErrPushConfig
+	}
 	if ctx == nil {
 		return result, errors.New("pending statistics require context")
 	}
@@ -80,8 +89,18 @@ func (s *synchronizer[R]) Stats(ctx context.Context) (PendingStats, error) {
 		return result, err
 	}
 	counts := &PendingCounts{Scanned: len(snapshots)}
+	selected, excludedConfirmed, excludedSuppressed := 0, 0, 0
 	for _, snapshot := range snapshots {
 		confirmed := matches(ledger.Confirmed[snapshot.Hash], snapshot)
+		switch selectionReason(snapshot, ledger.Confirmed[snapshot.Hash], suppressed.Entries[snapshot.Hash], mode) {
+		case selectionSelected:
+			selected++
+		case selectionSuppressed:
+			excludedSuppressed++
+		case selectionConfirmed:
+			excludedConfirmed++
+		}
+
 		if snapshot.Bucket == "open" {
 			counts.Open++
 			if confirmed {
@@ -103,6 +122,10 @@ func (s *synchronizer[R]) Stats(ctx context.Context) (PendingStats, error) {
 	result.Known = true
 	result.Counts = counts
 	result.Cursor = &ledger.Cursor
+	result.Selected = &selected
+	result.WouldSend = &selected
+	result.ExcludedConfirmed = &excludedConfirmed
+	result.ExcludedSuppressed = &excludedSuppressed
 	return result, nil
 }
 

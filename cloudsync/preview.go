@@ -1,6 +1,9 @@
 package cloudsync
 
-import "context"
+import (
+	"context"
+	"errors"
+)
 
 // SelectionMode names the candidate policy, independently of transport.
 type SelectionMode string
@@ -12,45 +15,77 @@ type PreviewOptions struct{ Mode SelectionMode }
 type TypePreview struct {
 	TypePendingStats
 	// Nil means unknown, never a known empty candidate set.
-	Selected, WouldSend *int
+	Selected, WouldSend                   *int
+	ExcludedConfirmed, ExcludedSuppressed *int
 }
 type PushPreview struct{ Runtimes, SlowSQL TypePreview }
 
-func previewResult(value PushPendingStats) PushPreview {
-	convert := func(stats TypePendingStats) TypePreview {
-		result := TypePreview{TypePendingStats: stats}
-		if stats.Known && stats.Counts != nil {
-			selected := stats.Counts.PendingOpen + stats.Counts.PendingResolved
-			result.Selected = &selected
-			result.WouldSend = &selected
-		}
-		return result
-	}
-	return PushPreview{Runtimes: convert(value.Runtimes), SlowSQL: convert(value.SlowSQL)}
-}
-
-// Preview uses the same locked, strict, read-only classification as Stats. It
-// predicts local incremental candidates, not Cloud acceptance or configuration.
+// Preview inspects one locked strict snapshot. Mode controls only the local
+// candidate policy; it does not verify Cloud acceptance or configuration.
 func (r *StatusReader) Preview(ctx context.Context, target PushTarget, options PreviewOptions) (PushPreview, error) {
-	if options.Mode != Incremental {
-		return PushPreview{}, ErrPushConfig
+	result := PushPreview{Runtimes: TypePreview{TypePendingStats: TypePendingStats{Skipped: "not_selected"}}, SlowSQL: TypePreview{TypePendingStats: TypePendingStats{Skipped: "not_selected"}}}
+	if ctx == nil || !validSelectionMode(options.Mode) || (target != PushBoth && target != PushRuntimes && target != PushSlowSQL) {
+		return result, ErrPushConfig
 	}
-	value, err := r.Stats(ctx, target)
-	return previewResult(value), err
+	if err := ctx.Err(); err != nil {
+		return result, err
+	}
+	var failure error
+	if target == PushBoth || target == PushRuntimes {
+		if r.runtime == nil {
+			result.Runtimes.Skipped = "source_unavailable"
+			result.Runtimes.Reason = "unavailable"
+		} else {
+			value, err := r.runtime.inspect(ctx, options.Mode)
+			result.Runtimes = value
+			failure = errors.Join(failure, err)
+		}
+	}
+	if target == PushBoth || target == PushSlowSQL {
+		if r.slow == nil {
+			result.SlowSQL.Skipped = "source_unavailable"
+			result.SlowSQL.Reason = "unavailable"
+		} else {
+			value, err := r.slow.inspect(ctx, options.Mode)
+			result.SlowSQL = value
+			failure = errors.Join(failure, err)
+		}
+	}
+	return result, failure
 }
-
 func (s *synchronizer[R]) Preview(ctx context.Context, options PreviewOptions) (TypePreview, error) {
-	if options.Mode != Incremental {
-		return TypePreview{}, ErrPushConfig
-	}
-	value, err := s.Stats(ctx)
-	return previewResult(PushPendingStats{Runtimes: TypePendingStats{PendingStats: value}}).Runtimes, err
+	return s.inspect(ctx, options.Mode)
 }
-
 func (p *Pusher) Preview(ctx context.Context, target PushTarget, options PreviewOptions) (PushPreview, error) {
-	if options.Mode != Incremental {
-		return PushPreview{}, ErrPushConfig
+	result := PushPreview{Runtimes: TypePreview{TypePendingStats: TypePendingStats{Skipped: "not_selected"}}, SlowSQL: TypePreview{TypePendingStats: TypePendingStats{Skipped: "not_selected"}}}
+	if !validSelectionMode(options.Mode) || (target != PushBoth && target != PushRuntimes && target != PushSlowSQL) {
+		return result, ErrPushConfig
 	}
-	value, err := p.Stats(ctx, target)
-	return previewResult(value), err
+	operation, leave, err := p.enterOperation(ctx)
+	if err != nil {
+		return result, err
+	}
+	defer leave()
+	var failure error
+	if target == PushBoth || target == PushRuntimes {
+		if p.runtime == nil {
+			result.Runtimes.Skipped = "source_unavailable"
+			failure = errors.Join(failure, ErrPushSource)
+		} else {
+			value, err := p.runtime.inspect(operation, options.Mode)
+			result.Runtimes = value
+			failure = errors.Join(failure, err)
+		}
+	}
+	if target == PushBoth || target == PushSlowSQL {
+		if p.slow == nil {
+			result.SlowSQL.Skipped = "source_unavailable"
+			failure = errors.Join(failure, ErrPushSource)
+		} else {
+			value, err := p.slow.inspect(operation, options.Mode)
+			result.SlowSQL = value
+			failure = errors.Join(failure, err)
+		}
+	}
+	return result, failure
 }

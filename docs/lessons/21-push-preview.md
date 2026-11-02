@@ -1,6 +1,6 @@
 # 第21课：推送前只看本地候选
 
-[上一课：20](20-local-noise-discard.md) · [课程目录](../README.md)
+[上一课：20](20-local-noise-discard.md) · [课程目录](../README.md) · [下一课：22](22-explicit-all-replay.md)
 
 `--dry-run`回答“按当前落盘版本，正常增量会选中多少条”，不回答Cloud是否接受。它不需要URL/token。具体契约与实际结果见[计划](../plans/21-push-preview.md)。
 

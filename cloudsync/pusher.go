@@ -89,12 +89,17 @@ func NewPusher(runtime *buffer.Buffer, slow *buffer.SlowBuffer, client PushClien
 	return p, nil
 }
 func (p *Pusher) Push(ctx context.Context, target PushTarget) (PushResult, error) {
-	return p.run(ctx, target, true)
+	return p.PushWithOptions(ctx, target, SyncOptions{Mode: Incremental})
 }
-func (p *Pusher) Tick(ctx context.Context) (PushResult, error) { return p.run(ctx, PushBoth, false) }
-func (p *Pusher) run(ctx context.Context, target PushTarget, strict bool) (PushResult, error) {
+func (p *Pusher) PushWithOptions(ctx context.Context, target PushTarget, options SyncOptions) (PushResult, error) {
+	return p.run(ctx, target, true, options)
+}
+func (p *Pusher) Tick(ctx context.Context) (PushResult, error) {
+	return p.run(ctx, PushBoth, false, SyncOptions{Mode: Incremental})
+}
+func (p *Pusher) run(ctx context.Context, target PushTarget, strict bool, options SyncOptions) (PushResult, error) {
 	result := PushResult{Runtimes: TypePushResult{Skipped: "not_selected"}, SlowSQL: TypePushResult{Skipped: "not_selected"}}
-	if ctx == nil || (target != PushBoth && target != PushRuntimes && target != PushSlowSQL) {
+	if !validSelectionMode(options.Mode) || ctx == nil || (target != PushBoth && target != PushRuntimes && target != PushSlowSQL) {
 		return result, ErrPushConfig
 	}
 	if err := ctx.Err(); err != nil {
@@ -120,7 +125,7 @@ func (p *Pusher) run(ctx context.Context, target PushTarget, strict bool) (PushR
 			}
 		default:
 			result.Runtimes.Skipped = ""
-			value, err := p.runtime.Sync(operation)
+			value, err := p.runtime.SyncWithOptions(operation, options)
 			result.Runtimes.Result = value
 			result.Runtimes.Failed = err != nil
 			failure = errors.Join(failure, err)
@@ -138,7 +143,7 @@ func (p *Pusher) run(ctx context.Context, target PushTarget, strict bool) (PushR
 			}
 		default:
 			result.SlowSQL.Skipped = ""
-			value, err := p.slow.Sync(operation)
+			value, err := p.slow.SyncWithOptions(operation, options)
 			result.SlowSQL.Result = value
 			result.SlowSQL.Failed = err != nil
 			failure = errors.Join(failure, err)

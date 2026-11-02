@@ -19,9 +19,12 @@ type Config struct{ BatchSize *int }
 type Rejected struct{ Hash, Reason string }
 type Result struct {
 	Scanned, Changed, Sent, Confirmed, Pending int
-	Rejected                                   []Rejected
-	Busy                                       bool
-	Cursor                                     string
+	// Remaining counts this round's selected versions without a validated, applied disposition.
+	// Pending remains the incremental unconfirmed count; historical ACKs may make it zero during a failed replay.
+	Remaining int
+	Rejected  []Rejected
+	Busy      bool
+	Cursor    string
 }
 
 var ErrPending = errors.New("snapshots remain pending")
@@ -99,9 +102,12 @@ func (s *synchronizer[R]) Close() error {
 
 // Sync never holds the buffer's hot lock during Send. A separate nonblocking lock owns the ledger.
 func (s *synchronizer[R]) Sync(ctx context.Context) (Result, error) {
+	return s.SyncWithOptions(ctx, SyncOptions{Mode: Incremental})
+}
+func (s *synchronizer[R]) SyncWithOptions(ctx context.Context, options SyncOptions) (Result, error) {
 	result := Result{Rejected: []Rejected{}}
-	if ctx == nil {
-		return result, errors.New("sync requires context")
+	if ctx == nil || !validSelectionMode(options.Mode) {
+		return result, ErrPushConfig
 	}
 	if err := ctx.Err(); err != nil {
 		return result, err
@@ -150,12 +156,17 @@ func (s *synchronizer[R]) Sync(ctx context.Context) (Result, error) {
 	}
 	pending := []buffer.VersionedSnapshot[R]{}
 	for _, snapshot := range snapshots {
-		if pendingSnapshot(snapshot, ledger.Confirmed[snapshot.Hash], suppressed.Entries[snapshot.Hash]) {
+		if selectionReason(snapshot, ledger.Confirmed[snapshot.Hash], suppressed.Entries[snapshot.Hash], options.Mode) == selectionSelected {
 			pending = append(pending, snapshot)
 		}
 	}
 	result.Changed = len(pending)
-	result.Pending = len(pending)
+	for _, snapshot := range snapshots {
+		if pendingSnapshot(snapshot, ledger.Confirmed[snapshot.Hash], suppressed.Entries[snapshot.Hash]) {
+			result.Pending++
+		}
+	}
+	result.Remaining = len(pending)
 	ledger.Cursor = safeCursor(ledger.Cursor, snapshots, ledger.Confirmed)
 	// Persist pruning / a regressed safe prefix before transport; it confirms no new snapshot.
 	if err = s.save(ledger); err != nil {
@@ -204,6 +215,7 @@ func (s *synchronizer[R]) Sync(ctx context.Context) (Result, error) {
 			}
 			ledger.Confirmed[snapshot.Hash] = Confirmed{Digest: snapshot.Digest, Timestamp: snapshot.Timestamp, Bucket: snapshot.Bucket}
 			result.Confirmed++
+			result.Remaining--
 			if permanent {
 				result.Rejected = append(result.Rejected, Rejected{Hash: snapshot.Hash, Reason: decision.Reason})
 			}
@@ -220,7 +232,7 @@ func (s *synchronizer[R]) Sync(ctx context.Context) (Result, error) {
 		}
 		result.Cursor = ledger.Cursor
 	}
-	if result.Pending > 0 {
+	if result.Pending > 0 || result.Remaining > 0 {
 		return result, errors.Join(ErrPending, pendingCause)
 	}
 	return result, nil

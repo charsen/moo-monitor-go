@@ -54,7 +54,7 @@ func TestPreviewReadOnlyAndSelection(t *testing.T) {
 	if calls != 0 || !reflect.DeepEqual(before, pendingFiles(t, root)) {
 		t.Fatal("preview changed state or sent")
 	}
-	if _, err = syncer.Preview(ctx, PreviewOptions{Mode: "all"}); err == nil {
+	if _, err = syncer.Preview(ctx, PreviewOptions{Mode: "unsupported"}); err == nil {
 		t.Fatal("unsupported mode accepted")
 	}
 	result, err := syncer.Sync(ctx)

@@ -141,3 +141,7 @@ PHP 包当前 TODO 中的容量恢复、记录版本/坏 YAML、心跳健康语�
 ## 21：只读推送预览
 
 [计划21](plans/21-push-preview.md)：无Client Preview复用严格Stats，零HTTP/heartbeat/状态写。SDKrace2.098s，Host51五模式7.637s；下一项All独立交付。
+
+## 22：显式All重推与本轮暂停
+
+[计划22](plans/22-explicit-all-replay.md)复用原主链，手动忽略历史ACK选集但保exact suppression；Remaining只表示本次余项，error/Failed仍是最终判据，自动Tick继续增量。新SDK真HTTP首测1.717/race2.787；Host八模式race11.254、旧SDK2.973/HostPreview7.636/invalid0.847分栏。只当前live版本，无恢复已删或retention，本轮21/22后暂停；真实Cloud/发布兼容和后续M矩阵仍待。
