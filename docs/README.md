@@ -26,5 +26,6 @@
 | 20 | [Cloud确认后的local噪音抑制](lessons/20-local-noise-discard.md) | 独立suppression/严格版本/保累计锚点，不造ACK或删除record |
 | 21 | [只读推送预览](lessons/21-push-preview.md) | 无凭据/零网络、严格版本增量候选与Unknown |
 | 22 | [显式All重推](lessons/22-explicit-all-replay.md) | 忽略历史ACK选集、保exact抑制、本次Remaining与持久化错误分开 |
+| 23 | [确认resolved安全维护](lessons/23-confirmed-resolved-maintenance.md) | store-only/exactACK/拒恢复，无按天龄清open |
 
 [完整复现计划](port-plan.md) · [PHP源码入口](php-surface-inventory.md)

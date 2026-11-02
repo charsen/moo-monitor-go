@@ -1,6 +1,6 @@
 # 第22课：显式重推，不用旧ACK掩盖本次失败
 
-[上一课：21](21-push-preview.md) · [课程目录](../README.md)
+[上一课：21](21-push-preview.md) · [下一课](23-confirmed-resolved-maintenance.md) · [课程目录](../README.md)
 
 本课让已有Sync主链支持显式All模式，不复制第二套发送器。[计划](../plans/22-explicit-all-replay.md)记录范围与实际验证，Host采用对应模板第52课。本轮两功能完成后暂停，不做retention或真实Cloud写入。
 

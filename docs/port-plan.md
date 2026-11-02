@@ -145,3 +145,7 @@ PHP 包当前 TODO 中的容量恢复、记录版本/坏 YAML、心跳健康语�
 ## 22：显式All重推与本轮暂停
 
 [计划22](plans/22-explicit-all-replay.md)复用原主链，手动忽略历史ACK选集但保exact suppression；Remaining只表示本次余项，error/Failed仍是最终判据，自动Tick继续增量。新SDK真HTTP首测1.717/race2.787；Host八模式race11.254、旧SDK2.973/HostPreview7.636/invalid0.847分栏。只当前live版本，无恢复已删或retention，本轮21/22后暂停；真实Cloud/发布兼容和后续M矩阵仍待。
+
+## 23：确认resolved维护
+
+[计划23](plans/23-confirmed-resolved-maintenance.md)提供store-only本地维护，正数非天龄，完整ACK resolved才候选，实际删除拒journal不恢复；open等保护。新SDKrace1.940、旧buffer1.600、Host10模式13.427分栏。当前按用户要求[持续执行](execution-queue.md)，历史两项后暂停是当时安排；不自动push/真实Cloud/全量/E2E。

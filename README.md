@@ -47,3 +47,5 @@ Go 业务系统必需的独立监控采集 SDK，全业务复刻 PHP 监控包�
 当前新增：[第21课只读推送预览](docs/lessons/21-push-preview.md)，本地候选不验证Cloud配置。
 
 [第22课](docs/lessons/22-explicit-all-replay.md)给同一同步链显式All模式，仅当前open/resolved非exact-suppressed版本；历史ACK不能掩盖本次失败，Remaining与Pending/最终error分开。自动Tick仍增量，--all+--dry-run只读；不做retention、恢复已删记录或真实Cloud。本轮21/22后暂停。
+
+[第23课](docs/lessons/23-confirmed-resolved-maintenance.md)增加本地exactACK resolved维护，不是按天龄删open。当前按[持续执行队列](docs/execution-queue.md)推进，不自动push。

@@ -179,6 +179,11 @@ func (b *store[R, S, V]) Compare(ctx context.Context, snapshot VersionedSnapshot
 	if err = b.recover(); err != nil {
 		return false, err
 	}
+	return b.compareLocked(snapshot, decision)
+}
+
+// compareLocked is shared by normal receipt application and recovery-free maintenance.
+func (b *store[R, S, V]) compareLocked(snapshot VersionedSnapshot[R], decision Decision) (bool, error) {
 	source := snapshot.Bucket + "/" + snapshot.Hash + ".yaml"
 	data, exists, err := b.read(source)
 	if err != nil || !exists {
@@ -197,7 +202,7 @@ func (b *store[R, S, V]) Compare(ctx context.Context, snapshot VersionedSnapshot
 	}
 	if decision.Disposition == Confirm {
 		if snapshot.Bucket == "resolved" {
-			if err = b.remove(source); err != nil {
+			if err := b.remove(source); err != nil {
 				return false, err
 			}
 		}
@@ -234,7 +239,7 @@ func (b *store[R, S, V]) Compare(ctx context.Context, snapshot VersionedSnapshot
 			return false, errors.New("cannot verify quarantine; source retained")
 		}
 	}
-	if err = b.remove(source); err != nil {
+	if err := b.remove(source); err != nil {
 		return false, err
 	}
 	return true, nil

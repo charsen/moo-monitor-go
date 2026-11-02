@@ -35,7 +35,7 @@
 - [ ] 完成[第13课](docs/lessons/13-host-slow-query.md)请求快照/标准日期与任意Valuer边界、目标写链断言、原生DB启动baseline/预热及关闭重试练习；代理验证不代做学习。
 
 - [ ] 完成[第14课](docs/lessons/14-queue-schedule.md)最终重试/原失败持久化、未知exit/真实panic、scope与原生日志边界练习；代理race不代做学习。
-- [ ] **本轮收口后暂停**：21只读预览与22显式All重推参考已交付，不自动开启第三块；此前15—20保留历史证据。其余按矩阵确认剩余范围：无ctx业务日志身份、自动payload过滤、真实os.Exit/Cloud与目标部署解析仍未完成，全局Artisan仍不替换。
+- [ ] **当前持续推进**：21只读预览与22显式All重推参考已交付，按[执行队列](docs/execution-queue.md)继续23以后功能；此前暂停保留历史证据。其余按矩阵确认剩余范围：无ctx业务日志身份、自动payload过滤、真实os.Exit/Cloud与目标部署解析仍未完成，全局Artisan仍不替换。
 
 - [ ] 完成[第15课](docs/lessons/15-host-queue-owner.md)单Run/首轮屏障/在途关闭与DisableCapture练习；Host45参考已接，15/16已参考交付，当前暂停。
 
@@ -52,3 +52,5 @@
 - [ ] 完成[21课](docs/lessons/21-push-preview.md)只读/Unknown/版本选择练习；显式All已见22，retention仍待，不自动push。
 
 - [ ] 完成[第22课](docs/lessons/22-explicit-all-replay.md)模式选集/抑制重叠、Pending与Remaining、最终持久化error及Tick不变练习；用户学习待完成。retention、真实Cloud/目标发布解析仍待以后明确范围，本轮两功能后暂停。
+
+- [ ] 当前持续推进：23维护→24只读迁移体检→后续设计按[执行队列](docs/execution-queue.md)；每功能验收commit，不再两项后自动暂停，不自动push。用户23自主练习待完成。
