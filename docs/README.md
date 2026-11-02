@@ -43,4 +43,6 @@
 | 37 | [真实构建元信息](lessons/37-go-build-metadata.md) | bounded BuildInfo/可选平台wire/四实际producer |
 | 38 | [独立解析与构建](lessons/38-release-reproducibility.md) | 固定HEAD/file-only proxy/Go1.27与1.26，非远端发布 |
 
+| 39 | [自检runtime可选解决](lessons/39-self-test-resolution.md) | strict saved后best-effort/结果分离/同Cloud token |
+
 [完整复现计划](port-plan.md) · [PHP源码入口](php-surface-inventory.md)

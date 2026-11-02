@@ -29,6 +29,7 @@ type HealthClient interface {
 	SendSlow(context.Context, []buffer.SlowSnapshot) (Receipt, error)
 }
 type SelfTestConfig struct {
+	RuntimeResolver         RuntimeResolver
 	Meta                    HeartbeatMeta
 	Project, GoravelVersion string
 	Clock                   func() time.Time
@@ -38,6 +39,7 @@ type SelfTestStep struct {
 	Hash, Outcome    string
 }
 type SelfTestResult struct {
+	Resolution                SelfTestResolution
 	Heartbeat                 bool
 	Runtime, SlowSQL          SelfTestStep
 	GoVersion, GoravelVersion string
@@ -69,7 +71,22 @@ func NewSelfTest(client HealthClient, config SelfTestConfig) (*SelfTest, error) 
 
 // Run is explicitly network-writing. It never inserts into a local Buffer or ACK ledger.
 func (s *SelfTest) Run(ctx context.Context, kind SelfTestType) (SelfTestResult, error) {
+	return s.RunWithOptions(ctx, kind, SelfTestOptions{})
+}
+
+// RunWithOptions keeps storage confirmation primary. Optional resolution is best-effort
+// and is reported independently; it never turns a saved record into a failed intake.
+func (s *SelfTest) RunWithOptions(ctx context.Context, kind SelfTestType, options SelfTestOptions) (SelfTestResult, error) {
 	result := SelfTestResult{GoVersion: runtime.Version(), GoravelVersion: s.config.GoravelVersion}
+	result.Resolution.Applicable = kind == SelfTestBoth || kind == SelfTestRuntimes
+	result.Resolution.Outcome = "not_requested"
+	if options.ResolveRuntime {
+		if result.Resolution.Applicable {
+			result.Resolution.Outcome = "not_started"
+		} else {
+			result.Resolution.Outcome = "not_applicable"
+		}
+	}
 	if ctx == nil || (kind != SelfTestBoth && kind != SelfTestRuntimes && kind != SelfTestSlowSQL) {
 		return result, ErrSelfTestConfig
 	}
@@ -95,6 +112,14 @@ func (s *SelfTest) Run(ctx context.Context, kind SelfTestType) (SelfTestResult, 
 			receipt, err := s.client.Send(ctx, batch)
 			result.Runtime.Saved, result.Runtime.Outcome = selfTestSaved(receipt, batch, err)
 			failed = failed || !result.Runtime.Saved
+		}
+	}
+	if options.ResolveRuntime && result.Resolution.Applicable {
+		if result.Runtime.Saved {
+			result.Resolution = resolveSelfTestRuntime(ctx, s.config.RuntimeResolver, result.Runtime.Hash)
+		} else {
+			result.Resolution.Hash = result.Runtime.Hash
+			result.Resolution.Outcome = "runtime_not_saved"
 		}
 	}
 	if kind == SelfTestBoth || kind == SelfTestSlowSQL {

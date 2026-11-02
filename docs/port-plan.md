@@ -209,3 +209,7 @@ PHP 包当前 TODO 中的容量恢复、记录版本/坏 YAML、心跳健康语�
 ## 38：独立生产依赖构建
 
 [计划38](plans/38-release-reproducibility.md)固定三个HEAD归档、成熟module zip/file proxy与两target readonly build，Go1.27.3/1.26.8同源同图，完整临时MVS差异保留。快照早于P1账户，后续新SHA另报；没有执行产物、远端发布或真实Cloud。
+
+## 39：自检saved后可选解决
+
+[计划39](plans/39-self-test-resolution.md)保Run兼容，显式解决仅固定sample；SDK新普通3.002/旧Run0.419、Host68九模式race9.974分栏。真实Cloud resolve未执行。当前剩余分为已实现、待实现、平台差异、外部待验，见[执行队列](execution-queue.md)；M06 MySQL/SQLServer观察仍是待实现，不是仅等外部验证。

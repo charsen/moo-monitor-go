@@ -1,6 +1,6 @@
 # 第38课：分层验证独立解析与生产构建
 
-[上一课：37](37-go-build-metadata.md) · [课程目录](../README.md)
+[上一课：37](37-go-build-metadata.md) · [课程目录](../README.md) · [下一课：39](39-self-test-resolution.md)
 
 [计划](../plans/38-release-reproducibility.md)验证的是同源同图可构建，不是发布、远端认证或逐字节一致的二进制证明。
 
