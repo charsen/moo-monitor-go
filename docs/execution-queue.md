@@ -12,6 +12,9 @@
 | 29过滤与HTTP payload | 已交付 | 保默认关闭与有限预算 | 实际业务采集覆盖 |
 | 30源码上下文 | 已交付参考实现 | 继续下一已设计采集覆盖块 | 目标源码布局与部署权限 |
 | 31Postgres慢SQL | 已交付参考实现 | 真实连接验证须另授权 | 实际PG、Host连接与部署 |
+| 32 DB facade观察 | 实现中 | 独占Factory/context与同pool接线 | 实际DB/Host连接与部署 |
+| 33 M05第一阶段崩溃诊断 | 已交付参考实现 | 保raw私有与显式slot所有权 | OOM/实际kill、其它OS与目标部署 |
+| M05后续诊断导入 | 待设计 | 显式手动/startup转Collector/Buffer，核隐私/幂等/cap/count | 真实崩溃材料与部署授权 |
 | monitor余矩阵 | 待设计 | summary/配置兼容、采集覆盖与生命周期逐块核实 | 按具体外部副作用授权 |
 | Scaffold一期五模块与skeleton交付 | 待实现 | monitor依赖齐后按一期计划推进 | 发布解析、生产迁移、E2E与部署 |
 

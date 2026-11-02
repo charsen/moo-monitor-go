@@ -70,3 +70,5 @@
 - [ ] 完成[第31课](docs/lessons/31-postgres-slow-query.md)raw/hash与展示SQL、标准值边界、sqlmock与真实PG差异练习；实际PG/Host连接与部署验证仍待。
 
 - [ ] 完成[第30课](docs/lessons/30-source-context.md)原identity/辅助失败/根所有权与有限mask练习；目标源码布局、其它平台与部署权限仍待验证。
+
+- [ ] 完成[33课](docs/lessons/33-crash-output.md)全局slot/Owner与Manager、raw隐私/预算和MayBePartial练习；M05显式手动/startup诊断导入仍待幂等、cap、隐私与count设计。

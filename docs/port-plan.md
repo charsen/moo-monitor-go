@@ -8,7 +8,7 @@
 
 本包是 headless 监控 SDK：采集、脱敏、聚合、可恢复缓冲、增量同步和运维接口由它负责。Goravel 适配与通用记录/传输能力保持明确边界，是否拆 module 在实现时决定。业务 Host 可以不安装 scaffold 而单独使用 monitor；monitor 不依赖研发 UI。
 
-PHP 复核基线为本机 `moo-monitor-laravel` 提交 `28d424e`。现阶段已盘点入口、阅读关键采集/存储/同步契约，已实现M07纯脱敏与M02显式快照构建部分，并运行受控PHP纯组件probe；M08已有私有scope本地运行时缓冲与intent恢复；06已有显式Client的增量快照/严格回执/持久确认，07已有runtime intake/discard HTTP传输，HTTP/日志及已安装SQLite ORM已有真实Host消费，14提供显式队列/调度owner；默认Host采用与其余驱动/事件、真实Cloud兼容仍待。
+PHP 复核基线为本机 `moo-monitor-laravel` 提交 `28d424e`。现阶段已盘点入口、阅读关键采集/存储/同步契约，已实现M07纯脱敏与M02显式快照构建部分，并运行受控PHP纯组件probe；M08已有私有scope本地运行时缓冲与intent恢复；06已有显式Client的增量快照/严格回执/持久确认，07已有runtime intake/discard HTTP传输，HTTP/日志及已安装SQLite ORM已有真实Host消费，14提供显式队列/调度owner；默认Host采用与其余驱动/事件、真实Cloud兼容仍待。以上为初次盘点的历史边界；当前状态以[执行队列](execution-queue.md)与后续课程为准。
 
 依据：[PHP README](../../moo-monitor-laravel/README.md)、[Cloud 契约](../../moo-monitor-laravel/docs/cloud-api-contract.md)、[Provider](../../moo-monitor-laravel/src/MooeenMonitorLaravelServiceProvider.php)、[源码与测试索引](php-surface-inventory.md)。
 
@@ -181,3 +181,7 @@ PHP 包当前 TODO 中的容量恢复、记录版本/坏 YAML、心跳健康语�
 ## 30：有界源码上下文
 
 [计划30](plans/30-source-context.md)保存原身份后附加显示，Reader/Capture新race1.271/1.419、旧scope2.124；失败保原Frames修正单项0.815（race修前）。Host58 Runtime1.715/真实bootstrap5.422，均自有fixture且无网络。
+
+## 33：M05第一阶段私有崩溃诊断
+
+[计划33](plans/33-crash-output.md)使用公开SetCrashOutput、单Owner、私有raw与有界Inspect，SDK新范围race2.495/Host配置1.508/Bootstrap4.335。原stderr保留，raw未脱敏且无写quota；M05后续显式诊断导入/幂等/cap/count仍待，不自动Cloud或删非空报告。

@@ -1,6 +1,6 @@
 # 第31课：保留Postgres原始身份，另算展示SQL
 
-[上一课：30](30-source-context.md) · [课程目录](../README.md)
+[上一课：30](30-source-context.md) · [课程目录](../README.md) · [下一课：33](33-crash-output.md)
 
 本课扩展既有GORM插件到明确Postgres dialect，使用成熟postgres1.6.0/GORM1.31.2和sqlmock验证执行回调。[计划](../plans/31-postgres-slow-query.md)给出范围。31先并行提交，30交付后已补数字导航；此课没有安装或连接真实PG。
 

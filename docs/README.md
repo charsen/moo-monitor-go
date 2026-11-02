@@ -35,5 +35,6 @@
 | 29 | [事件过滤与HTTP现场](lessons/29-filtered-http-payload.md) | 显式能力/默认关payload/预算与同cap，原业务响应不改 |
 | 30 | [有界源码上下文](lessons/30-source-context.md) | 显式根/前缀与预算、辅助失败保原事件，不改异常身份 |
 | 31 | [Postgres慢SQL展示](lessons/31-postgres-slow-query.md) | 成熟dialector/sqlmock回调，原raw/hash不变；未实际PG |
+| 33 | [私有崩溃诊断](lessons/33-crash-output.md) | M05第一阶段raw spool/有界Inspect，不自动导入或上传 |
 
 [完整复现计划](port-plan.md) · [PHP源码入口](php-surface-inventory.md)
