@@ -30,7 +30,7 @@
 | Slow独立容量/日cap/MaskKeys | 已实现 | Host86 typed override实际消费；nil继承保兼容 | 目标业务配置 |
 | Host CLI两skip配置 | 已实现 | 默认true/true不变，类型能力与显式标记进入原Filter | 业务CLI采集覆盖 |
 | ORM Fresh新实例观察恢复 | 已实现 | 保原lazy factory/Fresh，静止窗口识别callback registry并有界保留旧代；见Host86 | 生产池/并发Fresh不在本地保证内 |
-| Runtime trace字节与独立应用帧配置 | 待实现 | 消费原TraceMaxBytes/AppFramePrefixes，与SourceReader开关分离 | 目标源码布局与部署 |
+| Runtime trace字节与独立应用帧配置 | 已实现 | Host86真实消费原TraceMaxBytes/AppFramePrefixes，Source关闭仍可投影 | 目标源码布局与部署 |
 | skeleton生成迁移固定挂载 | 已实现 | Host82真实空codegen与完整链，保四手迁移不重复create | 目标应用迁移与发布 |
 | 工作台解析前请求守卫 | 已实现 | 原自动payload隔离之外，所有公开HTTP/TLS入口先守form字节/协议预算 | 目标反向代理/部署入口 |
 | P1-02设计器核心页面与迁移记录 | 已实现 | 草稿create/rename/delete及v2同名复用已接；历史归属不明保守保护 | 目标业务迁移与部署 |
