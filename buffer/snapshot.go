@@ -68,6 +68,10 @@ func (b *store[R, S, V]) Snapshot(ctx context.Context) ([]VersionedSnapshot[R], 
 	if err = b.recover(); err != nil {
 		return nil, err
 	}
+	return b.snapshotLocked()
+}
+
+func (b *store[R, S, V]) snapshotLocked() ([]VersionedSnapshot[R], error) {
 	snapshots := []VersionedSnapshot[R]{}
 	seen := map[string]bool{}
 	for _, bucket := range []string{"open", "resolved"} {

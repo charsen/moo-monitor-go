@@ -129,3 +129,7 @@ PHP 包当前 TODO 中的容量恢复、记录版本/坏 YAML、心跳健康语�
 ## 18：健康心跳与saved级自检
 
 见[计划18](plans/18-health-check.md)：心跳typed白名单及每轮独立结果、现Builder固定样本、精确逐条saved与实际命令退出。SDK健康早轮race1.487、实际推送心跳补项1.317、稳定身份/时间补断言1.409；Host10模式真实CLI race5.459，受影响旧推送五项race8.950/metadata配置0.437另列计划。只本机httptest，无真实Cloud；Go版本consumer兼容、summary、resolve/MCP与完整M14/M15余项仍待。两功能完成后暂停，下一范围由用户决定。
+
+## 19：精确pending读取
+
+[计划19](plans/19-pending-statistics.md)为S-Cloud一期提供client-free类型统计，复用ACK/锁/快照，不推进状态；构造可能建锁/恢复另列。Stats/Pusher/选定Sync race3.430、旧Snapshot2.102、Host49五模式7.597。local确认后清理协调仍由下一独立功能完成，不提前冒称交付。

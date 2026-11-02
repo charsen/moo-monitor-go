@@ -44,3 +44,5 @@
 - [ ] 完成[第17课](docs/lessons/17-cloud-push-owner.md)双类partial/Busy/关闭与无变化练习；继续all/dry-run/retention、真实Cloud及部署解析，不把当前增量采用当完整M13。
 
 - [ ] 完成[第18课](docs/lessons/18-health-check.md)心跳与saved双证据、clamp/caller取消、重复样本max语义及显式自检副作用练习；继续真实Cloud字段/权限、summary/resolve及部署解析，不能把本机参考验收写为M14/M15全部完成。
+
+- [ ] 完成[第19课](docs/lessons/19-pending-statistics.md)完整指纹、同ms更新、Known/Busy/Unknown与构造/读取副作用练习；继续第二功能local噪音协调，两个功能后按当前授权收口，不自动push。

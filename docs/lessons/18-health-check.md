@@ -1,6 +1,6 @@
 # 第18课：健康心跳与saved级自检
 
-[上一课：17](17-cloud-push-owner.md) · [课程目录](../README.md)
+[上一课：17](17-cloud-push-owner.md) · [课程目录](../README.md) · [下一课：19](19-pending-statistics.md)
 
 本课是两个新功能中的第二项，完成后暂停。它复用现有成熟HTTP、Builder和intake确认，不引入Cloud服务端修改。范围见[计划](../plans/18-health-check.md)；Host采用对应模板第48课，用课号定位，保持两仓提交顺序独立。
 

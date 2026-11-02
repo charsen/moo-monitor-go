@@ -61,15 +61,25 @@ func newSynchronizer[R any](store snapshotStore[R], client snapshotClient[R], co
 	if store == nil || client == nil {
 		return nil, errors.New("sync requires explicit buffer and client")
 	}
+	syncer, err := newStateAccess[R](store, stateName, lockName)
+	if err != nil {
+		return nil, err
+	}
+	syncer.client = client
+	if config.BatchSize != nil {
+		syncer.batchSize = max(1, *config.BatchSize)
+	}
+	return syncer, nil
+}
+
+// newStateAccess is the shared scope/lock owner for Sync and client-free status readers.
+func newStateAccess[R any](store snapshotStore[R], stateName, lockName string) (*synchronizer[R], error) {
 	root, path, err := openStateRoot(store)
 	if err != nil {
 		return nil, err
 	}
-	syncer := &synchronizer[R]{stateName: stateName, lockName: lockName, gate: make(chan struct{}, 1), root: root, path: path, store: store, client: client, batchSize: 100}
+	syncer := &synchronizer[R]{stateName: stateName, lockName: lockName, gate: make(chan struct{}, 1), root: root, path: path, store: store, batchSize: 100}
 	syncer.gate <- struct{}{}
-	if config.BatchSize != nil {
-		syncer.batchSize = max(1, *config.BatchSize)
-	}
 	if err = syncer.prepareLock(); err != nil {
 		root.Close()
 		return nil, err

@@ -67,7 +67,7 @@ func NewPusher(runtime *buffer.Buffer, slow *buffer.SlowBuffer, client PushClien
 	lifetime, cancel := context.WithCancel(context.Background())
 	p := &Pusher{config: config, lifetime: lifetime, cancel: cancel, idle: make(chan struct{})}
 	close(p.idle)
-	if config.Runtimes && runtime != nil {
+	if runtime != nil {
 		value, err := New(runtime, client, Config{BatchSize: config.BatchSize})
 		if err != nil {
 			cancel()
@@ -75,7 +75,7 @@ func NewPusher(runtime *buffer.Buffer, slow *buffer.SlowBuffer, client PushClien
 		}
 		p.runtime = value
 	}
-	if config.SlowSQL && slow != nil {
+	if slow != nil {
 		value, err := NewSlow(slow, client, Config{BatchSize: config.BatchSize})
 		if err != nil {
 			if p.runtime != nil {
@@ -100,28 +100,11 @@ func (p *Pusher) run(ctx context.Context, target PushTarget, strict bool) (PushR
 	if err := ctx.Err(); err != nil {
 		return result, err
 	}
-	p.mu.Lock()
-	if p.state.Stopping || p.state.Closed {
-		p.mu.Unlock()
-		return result, ErrPushClosed
+	round, leave, err := p.enterOperation(ctx)
+	if err != nil {
+		return result, err
 	}
-	if p.state.InFlight == 0 {
-		p.idle = make(chan struct{})
-	}
-	p.state.InFlight++
-	p.mu.Unlock()
-	defer func() {
-		p.mu.Lock()
-		p.state.InFlight--
-		if p.state.InFlight == 0 {
-			close(p.idle)
-		}
-		p.mu.Unlock()
-	}()
-	round, finish := context.WithCancel(ctx)
-	defer finish()
-	stop := context.AfterFunc(p.lifetime, finish)
-	defer stop()
+	defer leave()
 	operation, cancel := context.WithTimeout(round, p.config.Timeout)
 	defer cancel()
 	var failure error
@@ -165,6 +148,39 @@ func (p *Pusher) run(ctx context.Context, target PushTarget, strict bool) (PushR
 		result.HealthError = p.config.AfterPush(round)
 	}
 	return result, failure
+}
+
+// enterOperation makes Push and read-only Stats participate in the same owner lifetime.
+func (p *Pusher) enterOperation(ctx context.Context) (context.Context, func(), error) {
+	if ctx == nil {
+		return nil, nil, ErrPushConfig
+	}
+	if err := ctx.Err(); err != nil {
+		return nil, nil, err
+	}
+	p.mu.Lock()
+	if p.state.Stopping || p.state.Closed {
+		p.mu.Unlock()
+		return nil, nil, ErrPushClosed
+	}
+	if p.state.InFlight == 0 {
+		p.idle = make(chan struct{})
+	}
+	p.state.InFlight++
+	p.mu.Unlock()
+	operation, cancel := context.WithCancel(ctx)
+	stop := context.AfterFunc(p.lifetime, cancel)
+	leave := func() {
+		stop()
+		cancel()
+		p.mu.Lock()
+		p.state.InFlight--
+		if p.state.InFlight == 0 {
+			close(p.idle)
+		}
+		p.mu.Unlock()
+	}
+	return operation, leave, nil
 }
 func (p *Pusher) State() PushState { p.mu.Lock(); defer p.mu.Unlock(); return p.state }
 func (p *Pusher) Close(ctx context.Context) error {

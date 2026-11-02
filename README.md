@@ -39,3 +39,5 @@ Go 业务系统必需的独立监控采集 SDK，全业务复刻 PHP 监控包�
 [第17课](docs/lessons/17-cloud-push-owner.md)复用原Sync/SlowSync进行显式与周期增量推送，默认关闭，不因采集联网；每类失败继续、关闭先join。完整M13/all/dry/retention与真实Cloud仍待。
 
 [第18课](docs/lessons/18-health-check.md)增加当前Cloud接受字段的心跳与显式saved级自检。每轮推送后健康结果独立；样本不落业务Buffer/ACK，旧无逐条results不算自检成功。Host48提供显式命令，本机假服务验证不代表真实Cloud兼容、resolve/MCP、summary或完整M14/M15已完成。17/18完成后暂停，不开第三块。
+
+[第19课](docs/lessons/19-pending-statistics.md)新增client-free精确待推统计，Stats不HTTP/恢复/写ACK；构造副作用明确分开，Busy/坏状态不当零。S-Cloud一期页面仍待消费。
