@@ -41,3 +41,5 @@ Go 业务系统必需的独立监控采集 SDK，全业务复刻 PHP 监控包�
 [第18课](docs/lessons/18-health-check.md)增加当前Cloud接受字段的心跳与显式saved级自检。每轮推送后健康结果独立；样本不落业务Buffer/ACK，旧无逐条results不算自检成功。Host48提供显式命令，本机假服务验证不代表真实Cloud兼容、resolve/MCP、summary或完整M14/M15已完成。17/18完成后暂停，不开第三块。
 
 [第19课](docs/lessons/19-pending-statistics.md)新增client-free精确待推统计，Stats不HTTP/恢复/写ACK；构造副作用明确分开，Busy/坏状态不当零。S-Cloud一期页面仍待消费。
+
+[第20课](docs/lessons/20-local-noise-discard.md)显式Cloud确认后抑制当前scope精确local pending-open版本，保record/count/overflow与真ACK，不推进cursor；远端仍是token项目/type全部local unresolved范围，历史ACK不证明远端当前存在。Stats/Sync共同排除exact抑制，新落盘版本重新待推。与19完成后暂停，未做真实Cloud、S-Cloud页面或第三功能。

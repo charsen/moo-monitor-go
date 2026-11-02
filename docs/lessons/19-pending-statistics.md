@@ -1,6 +1,6 @@
 # 第19课：准确知道哪些版本仍待推
 
-[上一课：18](18-health-check.md) · [课程目录](../README.md)
+[上一课：18](18-health-check.md) · [课程目录](../README.md) · [下一课：20](20-local-noise-discard.md)
 
 本课为S-Cloud一期提供真实只读统计，Host消费对应第49课。[计划](../plans/19-pending-statistics.md)保留实际结果和边界，下一功能另做local清理协调。
 
@@ -17,3 +17,5 @@
 2026-11-02实际Go1.27.3：首轮Stats四项0.829s，补坏记录/实际Sync ACK与禁推仍统计后0.528s；最终Stats+现Pusher关闭/取消/partial及必要Sync类型消费者race3.430s，选定旧Snapshot消费者race2.102s。Host49五模式真实Bootstrap/Artisan race7.597s，Cloud关闭/无凭据也读，busy/坏状态明确unknown。文件列表/内容SHA前后不变、零transport/heartbeat与未决journal保留均有定向断言。无全量/E2E/真实Cloud。
 
 自主练习：解释一个旧ACK为何在同毫秒更新后失效；区别Unknown、Busy、有效零；标出构造与Stats的副作用边界，并画出类型锁与缓冲热锁顺序。用户练习仍待完成。
+
+当前第20课在同一分类中追加SuppressedOpen，Open=ConfirmedOpen+SuppressedOpen+PendingOpen；suppression不充当intake ACK，本课原有验证记录保留。

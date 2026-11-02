@@ -23,5 +23,6 @@
 | 17 | [显式与周期增量推送](lessons/17-cloud-push-owner.md) | 原ACK/type锁、显式命令与首tick Owner；完整M13未完 |
 | 18 | [健康心跳与saved级自检](lessons/18-health-check.md) | typed心跳/严格逐条saved/真实命令，Cloud版本/resolve等仍待 |
 | 19 | [精确待推只读统计](lessons/19-pending-statistics.md) | client-free读取、完整ACK版本匹配与Unknown |
+| 20 | [Cloud确认后的local噪音抑制](lessons/20-local-noise-discard.md) | 独立suppression/严格版本/保累计锚点，不造ACK或删除record |
 
 [完整复现计划](port-plan.md) · [PHP源码入口](php-surface-inventory.md)

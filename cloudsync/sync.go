@@ -129,6 +129,10 @@ func (s *synchronizer[R]) Sync(ctx context.Context) (Result, error) {
 	if err != nil {
 		return result, err
 	}
+	suppressed, err := s.loadSuppression()
+	if err != nil {
+		return result, err
+	}
 	snapshots, err := s.store.Snapshot(ctx)
 	if err != nil {
 		return result, err
@@ -146,7 +150,7 @@ func (s *synchronizer[R]) Sync(ctx context.Context) (Result, error) {
 	}
 	pending := []buffer.VersionedSnapshot[R]{}
 	for _, snapshot := range snapshots {
-		if !matches(ledger.Confirmed[snapshot.Hash], snapshot) {
+		if pendingSnapshot(snapshot, ledger.Confirmed[snapshot.Hash], suppressed.Entries[snapshot.Hash]) {
 			pending = append(pending, snapshot)
 		}
 	}
@@ -207,7 +211,7 @@ func (s *synchronizer[R]) Sync(ctx context.Context) (Result, error) {
 		ledger.Cursor = safeCursor(ledger.Cursor, snapshots, ledger.Confirmed)
 		result.Pending = 0
 		for _, snapshot := range snapshots {
-			if !matches(ledger.Confirmed[snapshot.Hash], snapshot) {
+			if pendingSnapshot(snapshot, ledger.Confirmed[snapshot.Hash], suppressed.Entries[snapshot.Hash]) {
 				result.Pending++
 			}
 		}

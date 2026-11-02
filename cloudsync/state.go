@@ -172,14 +172,19 @@ func (s *synchronizer[R]) save(value state) error {
 	if err != nil {
 		return errors.New("cannot encode sync state")
 	}
-	if err = s.safe(s.stateName, true); err != nil {
+	return s.saveBytes(s.stateName, data)
+}
+
+// saveBytes preserves the same atomic replacement/durability boundary for ACK and suppression ledgers.
+func (s *synchronizer[R]) saveBytes(name string, data []byte) error {
+	if err := s.safe(name, true); err != nil {
 		return err
 	}
 	var suffix [8]byte
-	if _, err = rand.Read(suffix[:]); err != nil {
+	if _, err := rand.Read(suffix[:]); err != nil {
 		return err
 	}
-	temp := s.stateName + ".tmp-" + hex.EncodeToString(suffix[:])
+	temp := name + ".tmp-" + hex.EncodeToString(suffix[:])
 	file, err := s.root.OpenFile(temp, os.O_RDWR|os.O_CREATE|os.O_EXCL, 0600)
 	if err != nil {
 		return errors.New("cannot create sync state temporary file")
@@ -208,7 +213,7 @@ func (s *synchronizer[R]) save(value state) error {
 			return err
 		}
 	}
-	if err = s.root.Rename(temp, s.stateName); err != nil {
+	if err = s.root.Rename(temp, name); err != nil {
 		return fmt.Errorf("cannot replace sync state: %w", err)
 	}
 	return s.syncDirectory()

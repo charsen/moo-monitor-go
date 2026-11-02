@@ -133,3 +133,7 @@ PHP 包当前 TODO 中的容量恢复、记录版本/坏 YAML、心跳健康语�
 ## 19：精确pending读取
 
 [计划19](plans/19-pending-statistics.md)为S-Cloud一期提供client-free类型统计，复用ACK/锁/快照，不推进状态；构造可能建锁/恢复另列。Stats/Pusher/选定Sync race3.430、旧Snapshot2.102、Host49五模式7.597。local确认后清理协调仍由下一独立功能完成，不提前冒称交付。
+
+## 20：确认后的local噪音抑制与本轮暂停
+
+[计划20](plans/20-local-noise-discard.md)采用独立suppression而非删除record或伪造ACK，Stats/Sync共同选版本，保累计/overflow；真实远端仍是project-wide local unresolved。SDK新增race2.582，Hostgate1.549/11模式14.731；旧共享SDK2.977/Host49五模式7.517分栏。只本机HTTP与自有Root，无真实Cloud/全量/E2E。19/20后暂停，S-Cloud页面/真实Cloud兼容与余下monitor能力待未来授权。

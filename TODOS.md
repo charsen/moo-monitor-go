@@ -35,7 +35,7 @@
 - [ ] 完成[第13课](docs/lessons/13-host-slow-query.md)请求快照/标准日期与任意Valuer边界、目标写链断言、原生DB启动baseline/预热及关闭重试练习；代理验证不代做学习。
 
 - [ ] 完成[第14课](docs/lessons/14-queue-schedule.md)最终重试/原失败持久化、未知exit/真实panic、scope与原生日志边界练习；代理race不代做学习。
-- [ ] **本轮收口后暂停**：17显式/周期推送与18健康检查参考已交付，不自动开启第三块；15/16为上轮已交付。其余按矩阵确认剩余范围：无ctx业务日志身份、自动payload过滤、真实os.Exit/Cloud与目标部署解析仍未完成，全局Artisan仍不替换。
+- [ ] **本轮收口后暂停**：19精确待推统计与20确认后local抑制参考已交付，不自动开启第三块；此前15—18保留历史证据。其余按矩阵确认剩余范围：无ctx业务日志身份、自动payload过滤、真实os.Exit/Cloud与目标部署解析仍未完成，全局Artisan仍不替换。
 
 - [ ] 完成[第15课](docs/lessons/15-host-queue-owner.md)单Run/首轮屏障/在途关闭与DisableCapture练习；Host45参考已接，15/16已参考交付，当前暂停。
 
@@ -46,3 +46,5 @@
 - [ ] 完成[第18课](docs/lessons/18-health-check.md)心跳与saved双证据、clamp/caller取消、重复样本max语义及显式自检副作用练习；继续真实Cloud字段/权限、summary/resolve及部署解析，不能把本机参考验收写为M14/M15全部完成。
 
 - [ ] 完成[第19课](docs/lessons/19-pending-statistics.md)完整指纹、同ms更新、Known/Busy/Unknown与构造/读取副作用练习；继续第二功能local噪音协调，两个功能后按当前授权收口，不自动push。
+
+- [ ] 完成[第20课](docs/lessons/20-local-noise-discard.md)remote project/local scope、历史ACK/抑制/cursor、Unknown与cap冻结练习；本机替身不代替真实Cloud或用户学习。后续S-Cloud页面/其它monitor矩阵需另定范围，本轮两功能后暂停。

@@ -10,6 +10,7 @@ import (
 type PendingCounts struct {
 	Scanned, Open, Resolved          int
 	ConfirmedOpen, ConfirmedResolved int
+	SuppressedOpen                   int
 	PendingOpen, PendingResolved     int
 }
 
@@ -60,6 +61,11 @@ func (s *synchronizer[R]) Stats(ctx context.Context) (PendingStats, error) {
 		result.Reason = "state"
 		return result, err
 	}
+	suppressed, err := s.loadSuppression()
+	if err != nil {
+		result.Reason = "suppression"
+		return result, err
+	}
 	source, ok := s.store.(readOnlySnapshotStore[R])
 	if !ok {
 		result.Reason = "unsupported_store"
@@ -80,8 +86,10 @@ func (s *synchronizer[R]) Stats(ctx context.Context) (PendingStats, error) {
 			counts.Open++
 			if confirmed {
 				counts.ConfirmedOpen++
-			} else {
+			} else if pendingSnapshot(snapshot, ledger.Confirmed[snapshot.Hash], suppressed.Entries[snapshot.Hash]) {
 				counts.PendingOpen++
+			} else {
+				counts.SuppressedOpen++
 			}
 		} else {
 			counts.Resolved++
