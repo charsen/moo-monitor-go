@@ -192,8 +192,12 @@ PHP 包当前 TODO 中的容量恢复、记录版本/坏 YAML、心跳健康语�
 
 ## 35：typed摘要只读接口
 
-[计划35](plans/35-cloud-summary.md)显式summary，保原安全client/limit1..10、typed计数/nullable与有限recent；SDK新race1.521、Host62六模式4.170，无真实Cloud/首页UI。Cloud三消费者兼容仅[待授权方案](plans/cloud-go-compatibility.md)，不改第四仓。
+[计划35](plans/35-cloud-summary.md)显式summary，保原安全client/limit1..10、typed计数/nullable与有限recent；SDK新race1.521、Host62六模式4.170，无真实Cloud/首页UI。Cloud三消费者兼容仅[兼容方案](plans/cloud-go-compatibility.md)，第四仓已本地提交兼容修改，未部署。
 
 ## 34：显式单ID诊断导入
 
 [计划34](plans/34-crash-diagnostic-import.md)复用Builder与同buffer锁、v2固定图像/永久receipt、有限预算，不再用Capture+done或冷Import冒幂等。SDK必要race3.215/1.683，Host61十模式12.637/旧配置1.546；无真实raw/Cloud，原材料保留，后续普通pending可独立同步。
+
+## 36：日志采集策略
+
+[计划36](plans/36-log-capture-policy.md)保旧NewDriver兼容，显式policy分别控制typed异常与普通消息，过滤先于采集预算；SDK新2+旧Writer3 race2.637，Host63七模式race9.520。原生sink不受监控选择策略替换。

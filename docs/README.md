@@ -39,5 +39,6 @@
 | 33 | [私有崩溃诊断](lessons/33-crash-output.md) | M05第一阶段raw spool/有界Inspect，不自动导入或上传 |
 | 34 | [单ID诊断导入](lessons/34-crash-diagnostic-import.md) | 永久receipt/固定v2恢复/真实容量，raw保留 |
 | 35 | [typed Cloud摘要](lessons/35-cloud-summary.md) | 显式summary、有限投影与安全CLI，未做首页UI |
+| 36 | [日志采集策略](lessons/36-log-capture-policy.md) | typed来源/消息独立开关与六级别，原日志透传 |
 
 [完整复现计划](port-plan.md) · [PHP源码入口](php-surface-inventory.md)

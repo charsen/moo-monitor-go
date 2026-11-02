@@ -1,6 +1,6 @@
 # 第35课：读取有边界的Cloud摘要
 
-[上一课：34](34-crash-diagnostic-import.md) · [课程目录](../README.md)
+[上一课：34](34-crash-diagnostic-import.md) · [课程目录](../README.md) · [下一课：36](36-log-capture-policy.md)
 
 [计划](../plans/35-cloud-summary.md)交付SDK显式Summary接口，不创建管理页面、后台拉取任务或新Cloud字段。
 

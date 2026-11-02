@@ -36,20 +36,28 @@ type Handler struct {
 	onError   OnError
 	mu        sync.Mutex
 	status    Status
+	policy    *logPolicy
 }
 
 // Driver implements Logger while its embedded Handler supplies the real log handler and diagnostics.
 type Driver struct{ *Handler }
 
 func NewDriver(collector *capture.Collector, delegate log.Handler, onError OnError) (*Driver, error) {
+	return NewDriverWithPolicy(collector, delegate, onError, nil)
+}
+func NewDriverWithPolicy(collector *capture.Collector, delegate log.Handler, onError OnError, input *LogPolicy) (*Driver, error) {
 	if collector == nil {
 		return nil, capture.ErrCaptureInput
 	}
-	return &Driver{&Handler{collector: collector, delegate: delegate, onError: onError}}, nil
+	policy, err := copyLogPolicy(input)
+	if err != nil {
+		return nil, err
+	}
+	return &Driver{&Handler{collector: collector, delegate: delegate, onError: onError, policy: policy}}, nil
 }
 func (d *Driver) Handle(channel string) (log.Handler, error) { return d.Handler, nil }
 func (h *Handler) Enabled(level log.Level) bool {
-	return level >= log.LevelError || (h.delegate != nil && h.delegate.Enabled(level))
+	return h.captureEnabled(level) || (h.delegate != nil && h.delegate.Enabled(level))
 }
 
 func (h *Handler) Handle(entry log.Entry) error {
@@ -68,7 +76,7 @@ func (h *Handler) Handle(entry log.Entry) error {
 	if native != nil {
 		h.diagnose(ctx, Diagnostic{Stage: "delegate", Failure: ErrDelegate})
 	}
-	if level < log.LevelError {
+	if !h.captureEnabled(level) {
 		return native
 	}
 	if err := h.capture(entry, ctx); err != nil {
@@ -83,6 +91,12 @@ func (h *Handler) capture(entry log.Entry, ctx context.Context) (failure error) 
 			failure = ErrAdapter
 		}
 	}()
+	with := entry.With()
+	event, contextError := with[ExceptionKey].(error)
+	contextError = contextError && event != nil
+	if !h.sourceEnabled(contextError) {
+		return nil
+	}
 	options := capture.Options{Source: "log_message", Meta: map[string]any{"log_level": int64(entry.Level()), "log_code": entry.Code(), "log_domain": entry.Domain()}}
 	if request, ok, err := copiedHTTPRequest(ctx); ok {
 		options.Request = request
@@ -92,7 +106,6 @@ func (h *Handler) capture(entry log.Entry, ctx context.Context) (failure error) 
 		}
 	}
 	options.Scope, options.EventID = capture.EventFromContext(ctx)
-	with := entry.With()
 	if id, ok := with[EventIDKey].(string); ok {
 		options.EventID = id
 	}
@@ -102,7 +115,7 @@ func (h *Handler) capture(entry log.Entry, ctx context.Context) (failure error) 
 		options.Frames = capture.CallerFrames(1, []string{"github.com/goravel/framework/log.", "log/slog.", "github.com/samber/slog-multi."})
 	}
 	internal := capture.InternalContext(ctx)
-	if event, ok := with[ExceptionKey].(error); ok && event != nil {
+	if contextError {
 		options.Source = "log_context"
 		_, failure = h.collector.Capture(internal, event, options)
 	} else {
