@@ -149,3 +149,7 @@ PHP 包当前 TODO 中的容量恢复、记录版本/坏 YAML、心跳健康语�
 ## 23：确认resolved维护
 
 [计划23](plans/23-confirmed-resolved-maintenance.md)提供store-only本地维护，正数非天龄，完整ACK resolved才候选，实际删除拒journal不恢复；open等保护。新SDKrace1.940、旧buffer1.600、Host10模式13.427分栏。当前按用户要求[持续执行](execution-queue.md)，历史两项后暂停是当时安排；不自动push/真实Cloud/全量/E2E。
+
+## 24：只读迁移体检
+
+[计划24](plans/24-migration-inspection.md)提供显式源路径、固定桶与浅envelope/严格cursor/旧配置键参考映射，只报安全分类不导入。SDK最终0.348s、Host54五模式1.255s；ImportSupported=false，后续真实转换导入按[执行队列](execution-queue.md)持续设计，不把体检当M16完成。

@@ -1,6 +1,6 @@
 # 第23课：只回收完整ACK匹配的resolved
 
-[上一课：22](22-explicit-all-replay.md) · [课程目录](../README.md)
+[上一课：22](22-explicit-all-replay.md) · [下一课](24-migration-inspection.md) · [课程目录](../README.md)
 
 retention的正数在源实现里不是按天龄淘汰，而是开启已确认resolved兜底清理。Go保持这个含义，并把授权从cursor时间收紧为完整版本ACK。它不是容量大扫除，不会清open累计锚点。范围与结果见[计划](../plans/23-confirmed-resolved-maintenance.md)。
 

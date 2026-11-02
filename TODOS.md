@@ -54,3 +54,5 @@
 - [ ] 完成[第22课](docs/lessons/22-explicit-all-replay.md)模式选集/抑制重叠、Pending与Remaining、最终持久化error及Tick不变练习；用户学习待完成。retention、真实Cloud/目标发布解析仍待以后明确范围，本轮两功能后暂停。
 
 - [ ] 当前持续推进：23维护→24只读迁移体检→后续设计按[执行队列](docs/execution-queue.md)；每功能验收commit，不再两项后自动暂停，不自动push。用户23自主练习待完成。
+
+- [ ] 完成[第24课](docs/lessons/24-migration-inspection.md)浅envelope/完整兼容、cursor非ACK与源保留练习；代理参考验证不代做用户学习。继续[当前执行队列](docs/execution-queue.md)的真实转换导入设计，不读取真实业务记录。

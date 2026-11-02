@@ -27,5 +27,6 @@
 | 21 | [只读推送预览](lessons/21-push-preview.md) | 无凭据/零网络、严格版本增量候选与Unknown |
 | 22 | [显式All重推](lessons/22-explicit-all-replay.md) | 忽略历史ACK选集、保exact抑制、本次Remaining与持久化错误分开 |
 | 23 | [确认resolved安全维护](lessons/23-confirmed-resolved-maintenance.md) | store-only/exactACK/拒恢复，无按天龄清open |
+| 24 | [只读迁移体检](lessons/24-migration-inspection.md) | 显式PHP源/游标/旧env检查，非导入或ACK证明 |
 
 [完整复现计划](port-plan.md) · [PHP源码入口](php-surface-inventory.md)
