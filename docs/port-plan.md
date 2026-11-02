@@ -212,4 +212,8 @@ PHP 包当前 TODO 中的容量恢复、记录版本/坏 YAML、心跳健康语�
 
 ## 39：自检saved后可选解决
 
-[计划39](plans/39-self-test-resolution.md)保Run兼容，显式解决仅固定sample；SDK新普通3.002/旧Run0.419、Host68九模式race9.974分栏。真实Cloud resolve未执行。当前剩余分为已实现、待实现、平台差异、外部待验，见[执行队列](execution-queue.md)；M06 MySQL/SQLServer观察仍是待实现，不是仅等外部验证。
+[计划39](plans/39-self-test-resolution.md)保Run兼容，显式解决仅固定sample；SDK新普通3.002/旧Run0.419、Host68九模式race9.974分栏。真实Cloud resolve未执行。当前剩余分为已实现、待实现、平台差异、外部待验，见[执行队列](execution-queue.md)；39时M06 MySQL/SQLServer观察仍待实现；MySQL当前已见40，SQLServer仍非仅等外部验证。
+
+## 40：MySQL分层双入口观察
+
+[计划40](plans/40-mysql-slow-query.md)采用官方goravel/mysql1.18、gormmysql1.6及同池Factory；新GORM普通1.130/Factory0.759，必要新旧race7.137/6.858，Host69新consumer race2.365。真实MySQL服务/版本探测/TLS未验；M06 SQLServer仍待实现，不能把剩余仅标外部待验。

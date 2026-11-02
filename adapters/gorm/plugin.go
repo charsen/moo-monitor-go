@@ -1,4 +1,4 @@
-// Package gormcapture observes explicitly installed, locked GORM SQLite/Postgres instances.
+// Package gormcapture observes explicitly installed, locked GORM SQLite/Postgres/MySQL instances.
 package gormcapture
 
 import (

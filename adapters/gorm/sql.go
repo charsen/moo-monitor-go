@@ -12,6 +12,14 @@ func PrepareSQL(dialect gorm.Dialector, raw string, args []any) (slowquery.Input
 	if dialect == nil || !supportedDialect(dialect.Name()) {
 		return input, ErrUnsupported
 	}
+	if dialect.Name() == "mysql" {
+		text, err := mysqlRendered(dialect, raw, args)
+		if err != nil {
+			return input, err
+		}
+		input.RenderedSQL = &text
+		return input, nil
+	}
 	if dialect.Name() == "postgres" {
 		text, err := postgresRendered(dialect, raw, args)
 		if err != nil {

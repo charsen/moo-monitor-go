@@ -81,3 +81,5 @@ Go 业务系统必需的独立监控采集 SDK，全业务复刻 PHP 监控包�
 [第38课](docs/lessons/38-release-reproducibility.md)从固定commit archive经file-only模块proxy独立构建Host与MCP，保完整临时manifest差异；不运行二进制、不证明远端tag或私有仓发现。
 
 [第39课](docs/lessons/39-self-test-resolution.md)在严格saved后可选解决固定自检runtime；解决警告与主自检结果独立，不操作任意业务hash。
+
+[第40课](docs/lessons/40-mysql-slow-query.md)补MySQL GORM与原DB façade同池观察；sqlmock分层证据不等真实MySQL服务验证。

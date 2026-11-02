@@ -99,7 +99,7 @@ type observedDB struct {
 }
 
 func (d *observedDB) supported() bool {
-	return d.state.gorm != nil && d.state.gorm.Dialector != nil && (d.state.gorm.Dialector.Name() == "sqlite" || d.state.gorm.Dialector.Name() == "postgres")
+	return d.state.gorm != nil && d.state.gorm.Dialector != nil && (d.state.gorm.Dialector.Name() == "sqlite" || d.state.gorm.Dialector.Name() == "postgres" || d.state.gorm.Dialector.Name() == "mysql")
 }
 func (d *observedDB) Table(name string) contractsdb.Query {
 	if !d.supported() {

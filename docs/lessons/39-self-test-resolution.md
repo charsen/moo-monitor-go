@@ -1,6 +1,6 @@
 # 第39课：saved之后可选解决自检runtime
 
-[上一课：38](38-release-reproducibility.md) · [课程目录](../README.md)
+[上一课：38](38-release-reproducibility.md) · [课程目录](../README.md) · [下一课：40](40-mysql-slow-query.md)
 
 [计划](../plans/39-self-test-resolution.md)补齐PHP CloudTestCommand133–146的实际语义：解决失败只警告，自检是否成功仍以saved为准。旧第18课不支持resolve是当时边界，当前显式选项已可用。
 

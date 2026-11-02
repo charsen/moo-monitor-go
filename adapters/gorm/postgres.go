@@ -12,7 +12,9 @@ import (
 
 var postgresPlaceholder = regexp.MustCompile(`\$([0-9]+)`)
 
-func supportedDialect(name string) bool { return name == "sqlite" || name == "postgres" }
+func supportedDialect(name string) bool {
+	return name == "sqlite" || name == "postgres" || name == "mysql"
+}
 
 // postgresRendered generates display text, never executable SQL. The locked
 // dialect's Explain replaces numeric placeholders even in quoted text.

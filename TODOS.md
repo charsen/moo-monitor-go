@@ -85,4 +85,6 @@
 
 - [ ] 完成[第38课](docs/lessons/38-release-reproducibility.md)本地解析/MVS/floor与远端发布区别练习；新P1快照按另report验证，旧两报告不改。
 
-- [ ] 完成[第39课](docs/lessons/39-self-test-resolution.md)strict saved与best-effort解决、同token能力和独立结果练习；参考实现已交付，继续MySQL/SQLServer等矩阵真实待实现项，不自动push。
+- [ ] 完成[第39课](docs/lessons/39-self-test-resolution.md)strict saved与best-effort解决、同token能力和独立结果练习；参考实现已交付，MySQL已见40，继续SQLServer等矩阵真实待实现项，不自动push。
+
+- [ ] 完成[第40课](docs/lessons/40-mysql-slow-query.md)原Raw与有界展示、同池双入口/事务/关闭边界练习；MySQL参考已实现，真实实例仍待授权，紧接41 SQLServer。
