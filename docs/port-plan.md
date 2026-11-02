@@ -161,3 +161,7 @@ PHP 包当前 TODO 中的容量恢复、记录版本/坏 YAML、心跳健康语�
 ## 27：七个Cloud MCP工具
 
 [计划27](plans/27-cloud-mcp-tools.md)复用26loop，typed七操作、分页闭合、私有图片与精确状态回执；新race mcpcloud1.744/cloudsync1.479，补强状态/布尔单项0.084另列（race为补强前）。仅假HTTP/stdio，无真实MCP；28独立Host桥继续，25导入同时实施。
+
+## 28：Host独立MCP入口
+
+[计划28](plans/28-host-mcp-entry.md)采用独立cmd/monitor-mcp，不import业务bootstrap/config/facades/owner，不读.env。首轮六子例完成但包因signal超时failed；pollable stdin修后signal/flags0.402、Run资源错误0.407分栏，初配置0.727；实际binary/依赖闭包已核，未真实MCP。25导入仍进行，29过滤/payload按设计继续。

@@ -60,3 +60,5 @@
 - [ ] 完成[第26课](docs/lessons/26-mcp-stdio-loop.md)精确ID/生命周期、structured回退与owned输入取消练习；代理测试不代做学习。继续七Cloud工具与Host显式采用，不把协议loop当业务闭环完成。
 
 - [ ] 完成[27课](docs/lessons/27-cloud-mcp-tools.md)七工具/分页闭合/图片与状态幂等练习；28隔离Host入口继续，真实MCP外部验证仍需授权。
+
+- [ ] 完成[28课](docs/lessons/28-host-mcp-entry.md)专用环境变量、stdout隔离与stdin/SIGTERM所有权练习；继续29过滤/payload及monitor余项，真实MCP不能借健康自检授权自动调用。

@@ -30,5 +30,6 @@
 | 24 | [只读迁移体检](lessons/24-migration-inspection.md) | 显式PHP源/游标/旧env检查，非导入或ACK证明 |
 | 26 | [MCP stdio协议循环](lessons/26-mcp-stdio-loop.md) | 三固定版本/精确ID/限长与取消，七Cloud工具及Host桥未完成 |
 | 27 | [Cloud七工具](lessons/27-cloud-mcp-tools.md) | typed协议/分页/私有图片，假服务闭环，Host入口后续 |
+| 28 | [独立Host MCP进程](lessons/28-host-mcp-entry.md) | 不启业务bootstrap、不读dotenv，协议stdout与输入生命周期隔离 |
 
 [完整复现计划](port-plan.md) · [PHP源码入口](php-surface-inventory.md)

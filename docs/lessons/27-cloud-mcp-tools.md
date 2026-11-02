@@ -1,6 +1,6 @@
 # 第27课：把七个Cloud工具接到同一协议循环
 
-[上一课：26](26-mcp-stdio-loop.md) · [课程目录](../README.md)
+[上一课：26](26-mcp-stdio-loop.md) · [下一课](28-host-mcp-entry.md) · [课程目录](../README.md)
 
 第26课只有协议，本课才实现七项实际工具。范围见[计划](../plans/27-cloud-mcp-tools.md)，Host显式stdio命令留下一独立功能，不把SDK通过当Host已接。
 
