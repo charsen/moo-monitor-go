@@ -5,6 +5,7 @@ package dbcapture
 import (
 	"context"
 	"os"
+	"strconv"
 	"testing"
 	"time"
 
@@ -30,7 +31,7 @@ func TestMySQLRealDBFacadeObservation(t *testing.T) {
 	sink := &memoryLog{}
 	var driver contractsdriver.Driver
 	cfg.Add("database", map[string]any{"default": "mysql-real", "slow_threshold": 0, "connections": map[string]any{"mysql-real": map[string]any{
-		"database": "moo_monitor_integration", "host": "127.0.0.1", "port": 3307, "username": "root", "password": "", "charset": "utf8mb4",
+		"database": env("MOO_MYSQL_DATABASE", "moo_monitor_integration"), "host": env("MOO_MYSQL_HOST", "127.0.0.1"), "port": envInt("MOO_MYSQL_PORT", 3307), "username": env("MOO_MYSQL_USERNAME", "root"), "password": env("MOO_MYSQL_PASSWORD", ""), "charset": "utf8mb4",
 		"via": func() (contractsdriver.Driver, error) {
 			driver = mysql.NewMysql(cfg, sink, nil, "mysql-real")
 			return driver, nil
@@ -78,4 +79,18 @@ func TestMySQLRealDBFacadeObservation(t *testing.T) {
 	if !original {
 		t.Fatal("missing original SQL/connection")
 	}
+}
+
+func env(key, fallback string) string {
+	if value := os.Getenv(key); value != "" {
+		return value
+	}
+	return fallback
+}
+
+func envInt(key string, fallback int) int {
+	if value, err := strconv.Atoi(os.Getenv(key)); err == nil && value > 0 {
+		return value
+	}
+	return fallback
 }
