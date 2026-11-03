@@ -17,3 +17,7 @@ Host六模式子例通过但初轮整包因SIGTERM超时失败；配置包0.727s
 ## 2026-11-03 真实 MCP 只读补证
 
 使用独立 `cmd/monitor-mcp` 进程、专用 `MONITOR_MCP_*` 和已部署 Cloud 完成 `initialize`（2025-06-18）、`tools/list`（7 个工具）与 `get_runtime`（hash `ae899b31f313`）；结果 `isError=false`，context 中 `php/laravel` 为空、`go=go1.27.3`、`goravel=v1.18.0`。未调用 resolve/update_todo_status/get_todo_image 等写操作，未验证真实权限与图片；token/URL 未进入文档或提交。
+
+## 2026-11-03 MCP resolve 写路径补证
+
+在受控测试 runtime `deadbeef0001`（source=self_test）上通过真实 MCP stdio 调用 `resolve_runtime`，返回 `isError=false`，随后 `get_runtime` 状态为 `resolved`。这覆盖真实鉴权/传输/状态回执；未调用 `update_todo_status`、未验证私有图片或全部权限。测试记录保留为 resolved，不作为业务数据。
