@@ -16,18 +16,16 @@ Host命令建议使用实际moo:cloud:test/moo:cloud:push与MONITOR_*配置；Cl
 
 2026-11-02第四仓edcaca4交付当时只是本地变更；用户后来部署，根端21:24实际见到Go/Goravel页面、heartbeat和runtime/slow逐项saved。原14:59旧标签观察保留在[Host接入记录](../../../go-moo-engine-skeleton/docs/integration/cloud-connection.md)。不能继续把本地交付时“未部署”当今天现状；也不能将这些获准写入外推为其余Cloud动作已验。
 
-## 记录级Go版本：仍未贯通
+## 记录级Go版本：已贯通（代码，待部署迁移）
 
-以下四层来自当前源码只读核验，不是本轮新增真实请求：
+四层链路已在代码层接通：
 
 1. SDK `records/records.go` 的GoContext与HTTP wire发送context.go/context.goravel；导入PHP旧记录有独立php/laravel指针，不伪造Go来源。
-2. [RuntimeIntakeController](../../../moo-scaffold-cloud/app/Http/Controllers/Api/RuntimeIntakeController.php)映射context时只取env/project/php/laravel/occurred_at；source_meta取r.meta，不是原context旁路。
-3. [IntakePipeline](../../../moo-scaffold-cloud/app/Services/Intake/IntakePipeline.php)持久mapped字段；[Runtime模型](../../../moo-scaffold-cloud/app/Models/Runtime.php)没有raw_context/go/goravel字段保存该遗漏。
-4. [RuntimeReadController](../../../moo-scaffold-cloud/app/Http/Controllers/Api/RuntimeReadController.php)及Runtime markdown仍只读php/laravel。
+2. [RuntimeIntakeController](../../../moo-scaffold-cloud/app/Http/Controllers/Api/RuntimeIntakeController.php)把context.go/context.goravel写入独立`go_version`/`goravel_version`列，不回填php/laravel。
+3. [Runtime模型](../../../moo-scaffold-cloud/app/Models/Runtime.php)增加fillable与展示；迁移[2026_11_03_000001](../../../moo-scaffold-cloud/database/migrations/2026_11_03_000001_add_go_versions_to_runtimes.php)为既有表加两列。
+4. [RuntimeReadController](../../../moo-scaffold-cloud/app/Http/Controllers/Api/RuntimeReadController.php)以context.go/context.goravel读回；AI Markdown按Go/Goravel展示并使用```go；详情页/表单展示同名字段。
 
-因此Go版本没有沿单条runtime接收→持久化→读回完整保存。Project heartbeat.meta不能还原某一历史记录的采集版本。这是当前未实现的信息契约，不只是“真实服务未验”。
-
-后续需为该链路单独确认Go/PHP共存的字段/存储与公开投影方案，再核四层消费者和定向测试；涉及数据库结构按Cloud当前Schema/生成约定执行。不能仅在视图贴心跳版本，不能写进PHP字段。本轮不改第四仓、数据库、Token权限或部署。
+Cloud侧[GoRuntimeVersionTest](../../../moo-scaffold-cloud/tests/Feature/GoRuntimeVersionTest.php)覆盖Go写入、PHP不污染、读回与Markdown代码围栏。Cloud本地测试为SQLite；生产/目标环境仍须执行该增量迁移并重启常驻worker，历史记录两列为空，不伪造历史版本。
 
 ## 已有验证和未验项
 
