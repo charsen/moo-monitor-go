@@ -24,7 +24,7 @@ crashoutput/diagnostic.go的Prepared私有持有masked snapshot与首次时间�
 
 ## Host61与实际证据
 
-真实生成的moo:monitor:crash-import默认只Prepare；--apply与显式--confirm=true才写现成Ready Runtime.Buffer，false不授权。Cloud readonly不适用于本地追加事件，不用Cloudtoken；没有Ready Buffer就Unavailable，不造第二Builder。命令只输出ID/digest/hash/安全类别，不输出MaskedText或raw，保源文件。显式`--all`只遍历当前spool并复用同一Prepare/Apply与receipt，不是startup自动扫描；自动导入仍默认关闭。构造阶段的Buffer目录/空spool副作用与命令操作分开，示例建议capture.crash=false只读旧文件。
+真实生成的moo:monitor:crash-import默认只Prepare；--apply与显式--confirm=true才写现成Ready Runtime.Buffer，false不授权。Cloud readonly不适用于本地追加事件，不用Cloudtoken；没有Ready Buffer就Unavailable，不造第二Builder。命令只输出ID/digest/hash/安全类别，不输出MaskedText或raw，保源文件。显式`--all`只遍历当前spool并复用同一Prepare/Apply与receipt；`MONITOR_CRASH_STARTUP_IMPORT=true`可选在Runtime启动时做同样的批量导入，默认关闭。构造阶段的Buffer目录/空spool副作用与命令操作分开，示例建议capture.crash=false只读旧文件。
 
 首buffer闭环1.066s；补坏receipt/foreign record/坏v2及Slow拒绝1.377s；不可变Prepare→Apply→fakeSync→retry保持Count1/原时间与raw漂移冲突0.419s。最终buffer新项+旧v1恢复/typedImport race3.215s，crashoutput本项race1.683s。Host真实Call十模式普通1.580s/race12.637s，受影响旧CrashConfig race1.546s；均owned空-env/固定假配置，没有真实.env、Cloud或当前进程hook。compile-only0.896不是测试证明。
 
