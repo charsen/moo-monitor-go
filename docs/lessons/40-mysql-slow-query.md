@@ -27,3 +27,19 @@ Factory通过公开BuildGorm复用原连接池。Table仍由NewQuery执行，Beg
 请自主追踪一个Update从原业务SQL到Record.Last；解释Raw/hash为何不随绑定值变化；预测未知Valuer为何可以业务成功却不采；说明rollback仍有记录、Close后业务继续、sqlmock通过仍不能证明哪些真实服务行为。代理通过不代做用户学习验收。
 
 必要共享回归与新MySQL范围race通过：adapters/gorm 7.137s、adapters/db 6.858s；范围仅新MySQL、旧SQLite callbacks/window、原Query/Tx与PG展示，未运行全量测试。
+
+## 2026-11-03 真实 MySQL 双入口补证
+
+使用本机隔离的 MySQL 26.7（127.0.0.1:3307，临时 datadir，未连接生产）运行了 opt-in integration 测试：
+
+- `adapters/gorm/mysql_real_test.go`：真实 MySQL GORM 创建/写入/查询，GORM 插件捕获原始与展示 SQL；
+- `adapters/db/mysql_real_test.go`：真实 MySQL Goravel DB façade 同池观察，`Statement`/`Table` 路径捕获 `At.Connection`；
+- 两包并行运行通过，测试使用独立表名，结束后清理。
+
+命令：
+
+```bash
+MOO_MYSQL_DSN='root@tcp(127.0.0.1:3307)/moo_monitor_integration?parseTime=true&charset=utf8mb4'   go test -tags=integration ./adapters/gorm ./adapters/db -run 'TestMySQLReal' -count=1
+```
+
+这证明当前代码能连接真实 MySQL 并完成双入口慢 SQL 观察；仍不代表目标 MySQL/MariaDB 版本、TLS、生产权限/连接池或所有 SQL 类型已验证。
