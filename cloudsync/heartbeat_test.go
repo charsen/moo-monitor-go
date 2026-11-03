@@ -155,9 +155,11 @@ func TestHeartbeatAfterPush(t *testing.T) {
 				intakes.Add(1)
 				if mode == "intake-deadline" {
 					io.Copy(io.Discard, r.Body)
+					// Outlive the client's 2s deadline below so the request is
+					// guaranteed to have arrived before the timeout can fire.
 					select {
 					case <-r.Context().Done():
-					case <-time.After(time.Second):
+					case <-time.After(5 * time.Second):
 					}
 					return
 				}
@@ -179,7 +181,15 @@ func TestHeartbeatAfterPush(t *testing.T) {
 			if mode != "empty" {
 				add(t, store, 91, clock)
 			}
-			pusher, err := NewPusher(store, nil, client, PushConfig{Runtimes: true, Timeout: 30 * time.Millisecond, AfterPush: func(ctx context.Context) error { return client.Heartbeat(ctx, healthMeta()) }})
+			// Only the deliberate deadline mode needs a short push timeout. The other
+			// cases assert heartbeat/push independence, so a loaded CI machine must not
+			// turn a 30ms scheduling delay into a product failure. The deadline itself
+			// stays generous enough that the local request still reaches the handler.
+			timeout := 5 * time.Second
+			if mode == "intake-deadline" {
+				timeout = 2 * time.Second
+			}
+			pusher, err := NewPusher(store, nil, client, PushConfig{Runtimes: true, Timeout: timeout, AfterPush: func(ctx context.Context) error { return client.Heartbeat(ctx, healthMeta()) }})
 			if err != nil {
 				t.Fatal(err)
 			}

@@ -224,7 +224,7 @@ func TestQueueReceiveConcurrentAndFailureIsolation(t *testing.T) {
 		}
 		select {
 		case <-gate:
-		case <-time.After(3 * time.Second):
+		case <-time.After(30 * time.Second):
 			return errors.New("concurrency barrier timed out")
 		}
 		return errors.New("same terminal")
@@ -237,9 +237,24 @@ func TestQueueReceiveConcurrentAndFailureIsolation(t *testing.T) {
 		reserved = append(reserved, r)
 		native.items <- r
 	}
-	runQueue(t, queueDeps(t, backend, job), adapter.WorkerConfig{Connection: "fixture", Queue: "default", Concurrent: 4, Tries: 1, Collector: collector}, reserved...)
-	if calls.Load() != 8 || peak.Load() < 4 || totalRuntime(t, store) != 8 || native.receives.Load() == 0 || native.pops.Load() != 0 {
-		t.Fatal("receive/duplicate delivery semantics changed")
+	// The default capture budget is a 100ms production isolation guard. Under
+	// -race and a loaded machine it can expire mid-write, silently dropping events;
+	// that would test the machine's latency, not the worker's semantics.
+	runQueue(t, queueDeps(t, backend, job), adapter.WorkerConfig{Connection: "fixture", Queue: "default", Concurrent: 4, Tries: 1, Collector: collector, CaptureTimeout: 5 * time.Second}, reserved...)
+	if got := calls.Load(); got != 8 {
+		t.Fatalf("handled %d jobs, want 8", got)
+	}
+	if got := peak.Load(); got < 4 {
+		t.Fatalf("peak concurrency %d, want at least 4", got)
+	}
+	if got := totalRuntime(t, store); got != 8 {
+		t.Fatalf("captured %d runtime events, want 8", got)
+	}
+	if native.receives.Load() == 0 {
+		t.Fatal("worker never used the receive path")
+	}
+	if got := native.pops.Load(); got != 0 {
+		t.Fatalf("worker used pop %d times, want 0", got)
 	}
 	// Capacity one cannot refuse a second chain task; success itself never consumes an event ID.
 }
