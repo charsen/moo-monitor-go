@@ -20,4 +20,4 @@ Host六模式子例通过但初轮整包因SIGTERM超时失败；配置包0.727s
 
 ## 2026-11-03 MCP resolve 写路径补证
 
-在受控测试 runtime `deadbeef0001`（source=self_test）上通过真实 MCP stdio 调用 `resolve_runtime`，返回 `isError=false`，随后 `get_runtime` 状态为 `resolved`。这覆盖真实鉴权/传输/状态回执；未调用 `update_todo_status`、未验证私有图片或全部权限。测试记录保留为 resolved，不作为业务数据。
+在受控测试 runtime `deadbeef0001`（source=self_test）上通过真实 MCP stdio 调用 `resolve_runtime`，返回 `isError=false`，随后 `get_runtime` 状态为 `resolved`。另创建测试 todo `01m6g32yaabyn42r5hf8tdvkg3`，通过 `get_todo`/`update_todo_status` 从 open 改为 done；追加 68 字节 PNG 后 `get_todo_image` 返回 text+image。这覆盖真实鉴权/传输、runtime/todo 状态回执与私有图片；未验证全部 MCP 权限。测试数据保留为 resolved/done，不作为业务数据。
