@@ -25,7 +25,7 @@
 | 38独立模块解析构建 | 已实现 | 新P1最低线独立报告已交付，后续发布候选再验证 | 远端tag/discovery/鉴权与目标部署 |
 | 39固定自检runtime可选解决 | 已实现 | 保saved与解决结果独立；四driver本地观察已实现 | 真实resolve能力与目标部署 |
 | 40 M06 MySQL观察 | 已实现 | 2026-11-03 隔离与本机MySQL 26.7双入口真实通过 | 目标MySQL/MariaDB版本、TLS/生产池 |
-| 41 M06 SQLServer观察 | 已实现 | 原固定三SHA构建通过，后续修正有独立证据，不倒写旧报告 | 实际TDS/TLS/OUTPUT触发器/生产池 |
+| 41 M06 SQLServer观察 | 已实现（不测试） | 用户决定不启真实SQLServer；保sqlmock/固定构建证据 | — |
 | 原生fatal/CLI与各平台运行机制差异 | 平台差异 | 保33/34诊断与显式导入边界，继续核覆盖 | 其它OS/真实进程退出 |
 | 远端发布、Cloud剩余操作与部署 | 外部待验 | 本地实现不冒充外部验证 | tag/discovery/鉴权、MCP操作与生产迁移 |
 | 工作台HTTP自动payload隔离 | 已实现 | 持续保All前排除与核心错误观察 | 手工Capture/原生日志仍属业务边界 |
