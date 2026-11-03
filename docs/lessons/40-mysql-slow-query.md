@@ -30,7 +30,7 @@ Factory通过公开BuildGorm复用原连接池。Table仍由NewQuery执行，Beg
 
 ## 2026-11-03 真实 MySQL 双入口补证
 
-使用本机隔离的 MySQL 26.7（127.0.0.1:3307，临时 datadir，未连接生产）运行了 opt-in integration 测试：
+使用本机隔离的 MySQL 26.7（127.0.0.1:3307，临时 datadir）先跑通；随后使用用户提供的本机 MySQL 26.7（127.0.0.1:3306，独立测试库，未写业务库）复跑：
 
 - `adapters/gorm/mysql_real_test.go`：真实 MySQL GORM 创建/写入/查询，GORM 插件捕获原始与展示 SQL；
 - `adapters/db/mysql_real_test.go`：真实 MySQL Goravel DB façade 同池观察，`Statement`/`Table` 路径捕获 `At.Connection`；
@@ -41,5 +41,7 @@ Factory通过公开BuildGorm复用原连接池。Table仍由NewQuery执行，Beg
 ```bash
 MOO_MYSQL_DSN='root@tcp(127.0.0.1:3307)/moo_monitor_integration?parseTime=true&charset=utf8mb4'   go test -tags=integration ./adapters/gorm ./adapters/db -run 'TestMySQLReal' -count=1
 ```
+
+本机 3306 复跑通过 `MOO_MYSQL_HOST/PORT/DATABASE/USERNAME/PASSWORD` 注入凭据，凭据不进入文档或提交；两包均 PASS。
 
 这证明当前代码能连接真实 MySQL 并完成双入口慢 SQL 观察；仍不代表目标 MySQL/MariaDB 版本、TLS、生产权限/连接池或所有 SQL 类型已验证。

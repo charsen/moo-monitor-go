@@ -19,7 +19,7 @@
 | M03 日志/5xx | [HTTP](../adapters/goravel/http.go)独立请求scope与晚身份；36 typed context/message/levels，Host原日志stack仍透传 | Host未指定Recover时正常返回5xx可观察，panic仍交框架；任意原生日志不保证全面脱敏 |
 | M04 Queue/Schedule | 真实Worker最终策略旁路、原Database Driver、专用Artisan/回执/cron；Host45/46默认关闭采用 | Job无ctx不自动贯通日志身份，真实os.Exit不能截取为完成回执，外部队列后端未普遍实测 |
 | M05 进程诊断 | [crashoutput](../crashoutput/manager.go)显式SetCrashOutput owner、私有raw/有界Inspect，34单ID永久receipt导入 | 仅原runtime实际输出可保存；raw未mask/无写quota，不保证OOM、SIGKILL或所有fatal；startup导入默认关闭，可显式开启 |
-| M06 慢SQL | [GORM Plugin](../adapters/gorm/plugin.go)与[DB Factory](../adapters/db/factory.go)双入口，支持SQLite/Postgres/MySQL/SQLServer；Host allowlist/preload及静止Fresh代际观察已接 | 直接database/sql、未安装/未选实例与Rows后续迭代不自动覆盖；MySQL已用隔离26.7双入口验通（目标版本/TLS/生产池仍待）；SQLServer实服务、生产TLS/所有池和并发Fresh未验 |
+| M06 慢SQL | [GORM Plugin](../adapters/gorm/plugin.go)与[DB Factory](../adapters/db/factory.go)双入口，支持SQLite/Postgres/MySQL/SQLServer；Host allowlist/preload及静止Fresh代际观察已接 | 直接database/sql、未安装/未选实例与Rows后续迭代不自动覆盖；MySQL已用隔离与本机26.7双入口验通（目标版本/TLS/生产池仍待）；SQLServer实服务、生产TLS/所有池和并发Fresh未验 |
 | M07 脱敏/请求 | [mask](../mask/masker.go)、SQL有限语法与递归预算共用；Host默认pwd/api_key等键、可选payload、31/40/41安全展示；工作台prefix在All前排除 | 预算不等于输入/网络防火墙；未知SQL/源码自由文本仍有盲区；不能保存任意请求对象或声称所有秘密都可识别 |
 | M08 三桶/聚合 | [Buffer](../buffer/buffer.go)与SlowBuffer私有typed store，open累计/cap/持久overflow/复发、固定intent恢复 | Go独立目录/格式，不接管活动PHP桶；结果未知不能盲重试，不声称无事件ID的提交恰一次 |
 | M09 文件并发 | os.Root、0700/0600、NOFOLLOW与inode复核、gate/flock、原子替换/file及目录sync | 已验合作进程模型；非设备断电实验，非同UID恶意改目录防护；跨OS/网络FS仍单列 |
