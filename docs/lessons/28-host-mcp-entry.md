@@ -13,3 +13,7 @@ Run直接配置→HTTPClient→Toolset→Server→Serve。显式HTTP响应4MiB�
 Host六模式子例通过但初轮整包因SIGTERM超时失败；配置包0.727s。修复后仅SIGTERM/父fd flags定向0.402s、Run资源错误/非法参数0.407s。2MiB图片完整JSON-RPC已验证；依赖闭包无Hostbootstrap/foundation，真实生产binarybuild及disabled exit2/空stdout通过，ownedbinary已清。未重跑七工具/全量，未读真实.env/token或访问真实Cloud。
 
 用户自主练习待完成：比较独立stdio进程与业务Artisan初始化；解释为什么MCP token不能默认为intake token；区分Close/取消与强杀的资源保证；先用假服务检查AI客户端的stdout解析。目标部署和真实Cloud权限/版本仍需授权后的独立验证。
+
+## 2026-11-03 真实 MCP 只读补证
+
+使用独立 `cmd/monitor-mcp` 进程、专用 `MONITOR_MCP_*` 和已部署 Cloud 完成 `initialize`（2025-06-18）、`tools/list`（7 个工具）与 `get_runtime`（hash `ae899b31f313`）；结果 `isError=false`，context 中 `php/laravel` 为空、`go=go1.27.3`、`goravel=v1.18.0`。未调用 resolve/update_todo_status/get_todo_image 等写操作，未验证真实权限与图片；token/URL 未进入文档或提交。
