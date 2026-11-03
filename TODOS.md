@@ -67,13 +67,13 @@
 
 - [ ] 完成[第30课](docs/lessons/30-source-context.md)原identity/辅助失败/根所有权与有限mask练习；目标源码布局、其它平台与部署权限仍待验证。
 
-- [ ] 完成[33课](docs/lessons/33-crash-output.md)全局slot/Owner与Manager、raw隐私/预算和MayBePartial练习；34已实现显式单ID导入，startup自动扫描未实现且不自动启用。
+- [ ] 完成[33课](docs/lessons/33-crash-output.md)全局slot/Owner与Manager、raw隐私/预算和MayBePartial练习；34已实现显式单ID与`--all`批量导入，自动startup仍默认不启用。
 
 - [ ] 完成[32课](docs/lessons/32-db-facade-observation.md)同pool/context、原Query与Tx、关闭只停观察、真实PG与部署差异练习；32参考已交付，继续34/35。
 
 - [ ] 完成[35课](docs/lessons/35-cloud-summary.md)精确计数/nullable/限额与有限输出练习；Cloud Go元信息按[兼容方案](docs/plans/cloud-go-compatibility.md)已本地交付，发送端字段继续37，不借本地Summary授权真实MCP。
 
-- [ ] 完成[34课](docs/lessons/34-crash-diagnostic-import.md)永久receipt/Unknown/预算/源漂移与构造副作用练习；手动单ID参考已交付，自动startup导入尚未实现，P1与36按当前执行队列推进。
+- [ ] 完成[34课](docs/lessons/34-crash-diagnostic-import.md)永久receipt/Unknown/预算/源漂移与构造副作用练习；手动单ID与显式`--all`已交付，自动startup导入默认不启用，P1与36按当前执行队列推进。
 
 - [ ] 完成[第36课](docs/lessons/36-log-capture-policy.md)来源与级别策略练习；参考SDK/Host63已定向验证，37真实构建元信息已交付。
 
