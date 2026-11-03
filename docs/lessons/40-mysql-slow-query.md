@@ -42,6 +42,6 @@ Factory通过公开BuildGorm复用原连接池。Table仍由NewQuery执行，Beg
 MOO_MYSQL_DSN='root@tcp(127.0.0.1:3307)/moo_monitor_integration?parseTime=true&charset=utf8mb4'   go test -tags=integration ./adapters/gorm ./adapters/db -run 'TestMySQLReal' -count=1
 ```
 
-本机 3306 复跑通过 `MOO_MYSQL_HOST/PORT/DATABASE/USERNAME/PASSWORD` 注入凭据，凭据不进入文档或提交；两包均 PASS。
+本机 3306 复跑通过 `MOO_MYSQL_HOST/PORT/DATABASE/USERNAME/PASSWORD` 注入凭据，凭据不进入文档或提交；两包均 PASS。随后用 skeleton Host 子进程（`DB_CONNECTION=mysql`、`MONITOR_SLOW_DB_FACADE=true`）在同一测试库验证 DB façade 与 ORM Query 各自触发慢 SQL，并同时读到 `connection=mysql` 记录。
 
 这证明当前代码能连接真实 MySQL 并完成双入口慢 SQL 观察；仍不代表目标 MySQL/MariaDB 版本、TLS、生产权限/连接池或所有 SQL 类型已验证。
