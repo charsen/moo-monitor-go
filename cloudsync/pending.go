@@ -150,6 +150,10 @@ func (p *Pusher) Stats(ctx context.Context, target PushTarget) (PushPendingStats
 	var failure error
 	if target == PushBoth || target == PushRuntimes {
 		switch {
+		case p.runtimeInitError != nil:
+			result.Runtimes.Skipped = ""
+			result.Runtimes.Reason = "initialization_failed"
+			failure = errors.Join(failure, ErrPushSource, p.runtimeInitError)
 		case p.runtime == nil:
 			result.Runtimes.Skipped = "source_unavailable"
 			failure = errors.Join(failure, ErrPushSource)
@@ -162,6 +166,10 @@ func (p *Pusher) Stats(ctx context.Context, target PushTarget) (PushPendingStats
 	}
 	if target == PushBoth || target == PushSlowSQL {
 		switch {
+		case p.slowInitError != nil:
+			result.SlowSQL.Skipped = ""
+			result.SlowSQL.Reason = "initialization_failed"
+			failure = errors.Join(failure, ErrPushSource, p.slowInitError)
 		case p.slow == nil:
 			result.SlowSQL.Skipped = "source_unavailable"
 			failure = errors.Join(failure, ErrPushSource)

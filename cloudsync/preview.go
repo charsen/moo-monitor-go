@@ -68,7 +68,11 @@ func (p *Pusher) Preview(ctx context.Context, target PushTarget, options Preview
 	defer leave()
 	var failure error
 	if target == PushBoth || target == PushRuntimes {
-		if p.runtime == nil {
+		if p.runtimeInitError != nil {
+			result.Runtimes.Skipped = ""
+			result.Runtimes.Reason = "initialization_failed"
+			failure = errors.Join(failure, ErrPushSource, p.runtimeInitError)
+		} else if p.runtime == nil {
 			result.Runtimes.Skipped = "source_unavailable"
 			failure = errors.Join(failure, ErrPushSource)
 		} else {
@@ -78,7 +82,11 @@ func (p *Pusher) Preview(ctx context.Context, target PushTarget, options Preview
 		}
 	}
 	if target == PushBoth || target == PushSlowSQL {
-		if p.slow == nil {
+		if p.slowInitError != nil {
+			result.SlowSQL.Skipped = ""
+			result.SlowSQL.Reason = "initialization_failed"
+			failure = errors.Join(failure, ErrPushSource, p.slowInitError)
+		} else if p.slow == nil {
 			result.SlowSQL.Skipped = "source_unavailable"
 			failure = errors.Join(failure, ErrPushSource)
 		} else {

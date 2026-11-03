@@ -47,14 +47,15 @@ type PushState struct {
 	InFlight         int
 }
 type Pusher struct {
-	runtime  *Syncer
-	slow     *SlowSyncer
-	config   PushConfig
-	mu       sync.Mutex
-	state    PushState
-	idle     chan struct{}
-	lifetime context.Context
-	cancel   context.CancelFunc
+	runtime                         *Syncer
+	slow                            *SlowSyncer
+	runtimeInitError, slowInitError error
+	config                          PushConfig
+	mu                              sync.Mutex
+	state                           PushState
+	idle                            chan struct{}
+	lifetime                        context.Context
+	cancel                          context.CancelFunc
 }
 
 func NewPusher(runtime *buffer.Buffer, slow *buffer.SlowBuffer, client PushClient, config PushConfig) (*Pusher, error) {
@@ -64,27 +65,37 @@ func NewPusher(runtime *buffer.Buffer, slow *buffer.SlowBuffer, client PushClien
 	if config.BatchSize != nil && *config.BatchSize < 1 {
 		return nil, ErrPushConfig
 	}
+	// Flags govern transport. Disabled sources remain readable when their local
+	// handle can open; a disabled initialization failure belongs only to reads.
 	lifetime, cancel := context.WithCancel(context.Background())
 	p := &Pusher{config: config, lifetime: lifetime, cancel: cancel, idle: make(chan struct{})}
 	close(p.idle)
 	if runtime != nil {
 		value, err := New(runtime, client, Config{BatchSize: config.BatchSize})
 		if err != nil {
-			cancel()
-			return nil, err
+			if config.Runtimes {
+				cancel()
+				return nil, err
+			}
+			p.runtimeInitError = err
+		} else {
+			p.runtime = value
 		}
-		p.runtime = value
 	}
 	if slow != nil {
 		value, err := NewSlow(slow, client, Config{BatchSize: config.BatchSize})
 		if err != nil {
-			if p.runtime != nil {
-				p.runtime.Close()
+			if config.SlowSQL {
+				if p.runtime != nil {
+					p.runtime.Close()
+				}
+				cancel()
+				return nil, err
 			}
-			cancel()
-			return nil, err
+			p.slowInitError = err
+		} else {
+			p.slow = value
 		}
-		p.slow = value
 	}
 	return p, nil
 }
