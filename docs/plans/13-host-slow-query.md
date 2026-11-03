@@ -28,4 +28,4 @@ Host workspace证据分栏：实际Authentication+Food Store/Update/Show分别�
 
 ## 未完成范围
 
-该13节点当时DB façade/其它驱动/Fresh接线未齐；当前已接四driver、DB façade与静止Fresh新代发布。Rows后续迭代不在查询完成窗口；记录级Cloud Go字段、真实发布解析和目标部署仍有独立缺口；自动HTTP payload/queue/schedule不是本步内容。用户练习待其完成。本SDK提交不链接尚未进HEAD的Host43文件，Host同批提交后统一核引用。
+该13节点当时DB façade/其它驱动/Fresh接线未齐；当前已接四driver、DB façade与静止Fresh新代发布。Rows后续迭代不在查询完成窗口；记录级Cloud Go字段已在代码层接通（目标环境待迁移），真实发布解析和目标部署仍有独立缺口；自动HTTP payload/queue/schedule不是本步内容。用户练习待其完成。本SDK提交不链接尚未进HEAD的Host43文件，Host同批提交后统一核引用。

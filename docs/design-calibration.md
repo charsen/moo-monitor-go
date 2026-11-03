@@ -14,7 +14,7 @@
 
 1. 模板初始化只有新目录O_EXCL和失败partial检查，无receipt/resume；CLI init跨命令不绑定预览，upgrade才要求expected-digest。拥有清单只有摘要，不含Git baseSHA；reference可复制但不能纳入升级拥有区。该回归已独立修复，新工程定向预览通过；旧错误清单不会自动修复。
 2. Scaffold五模块、JSON/R1子集、初始化/保护升级、资产与工单两例已交付；完整PHP类型/关系、Actor、TS/Vue、文档/日志/计划门户及AI调用仍后置。能力表逐行区分当前子集，不以一期完成抹掉backlog。
-3. Monitor四driver/DB façade/静止Fresh、queue/schedule/运维/MCP本地代码已接。Go心跳元信息已实际兼容；单条runtime的Go版本仍在Cloud映射/存储/读回链丢失，明确待设计，不能拿Project心跳补历史记录。
+3. Monitor四driver/DB façade/静止Fresh、queue/schedule/运维/MCP本地代码已接。Go心跳元信息已实际兼容；单条runtime的Go版本已在Cloud代码层接通映射/存储/读回，目标环境待执行`2026_11_03_000001`迁移，不能拿Project心跳补历史记录。
 4. 迁移生成、binary已注册和DB已执行是三份事实；GUI不执行DDL，YAML语义往返不承诺注释原字节保留。受保护业务文件不因新生成模板自动覆盖。
 5. 三仓main/dev已推远端、旧任务分支已清理是上轮交付事实；本轮只恢复同名任务分支校准，未再合并或推送。稳定tag、真实远端Go发现/认证、生产MySQL/SQLServer、跨OS及完整真实MCP权限仍未由本地测试证明。
 

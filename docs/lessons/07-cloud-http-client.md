@@ -57,7 +57,7 @@ CloseIdleConnections只关SDK自己创建Transport的空闲连接，不关闭借
 
 完整Record包括nullable resolved字段、exception.previous、Request、真实GoContext、trace/app_frames、source_snippet、payload和meta。大int64不经过float64中转；JSON空数组、null和有序对象形状保持。空object与array在JSON编码层可以区分，M07 Builder此前把空payload对象规范成[]的规则不因此改变。
 
-真实[RuntimeIntakeController](../../../moo-scaffold-cloud/app/Http/Controllers/Api/RuntimeIntakeController.php)消费嵌套字段，count按快照max合并；重复传输不能当增量sum。当前该消费者只读取Context env/project/php/laravel/occurred_at，go/goravel会被忽略。Go仍发送真实GoContext，不伪造PHP版本；传输或回执成功不证明云端Go版本字段已落库，后续需独立兼容范围。
+真实[RuntimeIntakeController](../../../moo-scaffold-cloud/app/Http/Controllers/Api/RuntimeIntakeController.php)消费嵌套字段，count按快照max合并；重复传输不能当增量sum。当前该消费者读取Context env/project/php/laravel/go/goravel/occurred_at，Go版本落入独立列。Go仍发送真实GoContext，不伪造PHP版本；传输或回执成功不证明目标环境已执行新增迁移。
 
 ## 为什么不能让encoding/json自动修坏字节
 

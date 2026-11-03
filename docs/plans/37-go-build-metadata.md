@@ -18,4 +18,4 @@ SDK可选平台字段+旧wire必要race1.381s；Host64新metadata consumer race2
 
 ## 当前契约衔接（2026-11-03校准）
 
-真实Go/Goravel版本发送已接并在Cloud心跳页实见。SDK未正式发布时development不是semver；runtime记录级版本持久化仍有独立缺口，见cloud-go-compatibility，不可泛称全部元信息兼容。 具体当前边界见[总设计](../port-plan.md)，已执行结果见[全盘矩阵](../../../go-moo-engine-skeleton/docs/plans/full-business-verification.md)。上方原始测试、失败与未做事项保留其节点语境，不声称本轮重跑。
+真实Go/Goravel版本发送已接并在Cloud心跳页实见。SDK未正式发布时development不是semver；runtime记录级版本已在Cloud代码层持久化/读回，目标环境待执行迁移，见cloud-go-compatibility，不可泛称全部元信息兼容。 具体当前边界见[总设计](../port-plan.md)，已执行结果见[全盘矩阵](../../../go-moo-engine-skeleton/docs/plans/full-business-verification.md)。上方原始测试、失败与未做事项保留其节点语境，不声称本轮重跑。
