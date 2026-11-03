@@ -6,7 +6,9 @@ Go 业务系统必需的独立监控采集 SDK，全业务复刻 PHP 监控包�
 
 本包负责运行时错误、慢 SQL、聚合脱敏、可恢复本地缓冲、云端同步、心跳、自检及 MCP 接入；不提供业务页面或研发工作台。业务 Host 可以独立安装它，`go-moo-scaffold` 只消费其状态与公开接口。
 
-已建立独立Go module。M07脱敏、M02显式记录构建与M08私有本地缓冲已有真实PHP纯组件fixture及定向恢复验证；06已有显式Client的增量快照、严格回执、部分确认和持久指纹账本。07已有runtime intake/discard显式HTTP传输；HTTP/日志及显式安装SQLite ORM已有真实Host消费；队列/调度现有显式owner入口，默认Host采用仍待。未知请求表示/其它事件与驱动、真实Cloud兼容继续逐项完成。最低Go1.26.0，本机实测Go1.27.3；SDK可GOWORK=off独立运行，Host开发以忽略的workspace联调；不依赖scaffold。
+本地监控采集、四driver观察、持久缓冲、确认同步、运维CLI与MCP实现及Host接线已交付。2026-11-03完成全部15包race、Host业务闭包和私有PostgreSQL原生消费者；工作台浏览器使用本地fake服务，不能替代真实Cloud/MCP、MySQL/SQLServer服务或目标部署验证。完整结果与首失败/修正见[全盘矩阵](../go-moo-engine-skeleton/docs/plans/full-business-verification.md)。最低Go1.26.0，本机本轮Go1.27.3；独立SDK不依赖scaffold，本地workspace不证明远端版本已发布。
+
+以下逐课说明保留当时能力和验证边界；其中“待接”“暂停”“未验证”须按当课时间理解，已交付项以当前[执行队列](docs/execution-queue.md)及[全盘矩阵](../go-moo-engine-skeleton/docs/plans/full-business-verification.md)为准，真实外部服务未验边界不变。
 
 - [有序课程入口](docs/README.md)
 

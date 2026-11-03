@@ -1,10 +1,9 @@
 # TODOS
 
-- [ ] 按 [复现计划](docs/port-plan.md)核对 PHP 每项采集来源、配置、缓冲格式、Cloud 与 MCP 契约，补齐对应 Go 行为设计。
-- [ ] 按当前HTTP/日志、四driver ORM与DB façade、Host队列/调度边界继续补矩阵余项；当前步骤见[执行队列](docs/execution-queue.md)，不把已交付默认关闭入口笼统列待接。
-- [ ] 核对 Cloud 心跳字段白名单、SDK 版本诊断和 runtime/慢 SQL 数据格式对 Go 的兼容缺口；先制定增量兼容方案，不伪装成 PHP SDK。
+- [x] 当前Monitor本地业务代码与Host消费已交付；2026-11-03全包race、私有PostgreSQL/Redis及受影响Host业务验证已完成，首失败和复验见[全盘矩阵](../go-moo-engine-skeleton/docs/plans/full-business-verification.md)。
+- [ ] 按[执行队列](docs/execution-queue.md)保留真实MCP权限/Cloud剩余操作、MySQL/SQLServer服务、目标部署/跨OS、远端发布解析的外部或平台验证；本地合入不等于远端发布。
 
-- [ ] 在首个实现阶段落实[代码设计标准](../go-moo-engine-skeleton/docs/code-design.md)：审查参考业务调用链、文件职责、抽象必要性及生成/手写协作；文档制定不等于代码验收。
+以下逐课练习和早期检查保留当时学习边界，不是当前本地代码未实现清单；用户自主练习不自动勾选。
 
 - [ ] 完成[第01课](docs/lessons/01-sensitive-masker.md)固定假值预测、三入口范围与初始化错误隔离复述；代理参考验证不代做用户练习。
 - [ ] 完成[第02课](docs/lessons/02-sql-masker.md)固定假SQL预测、两阶段与语法盲区复述，代理fixture一致性不代做用户练习。
