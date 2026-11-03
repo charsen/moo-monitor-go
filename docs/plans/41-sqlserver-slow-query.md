@@ -1,5 +1,7 @@
 # 41 SQLServer双入口慢SQL观察
 
+本文保留该节点的设计与分批执行证据；下文“当前、未接、下一步、暂停”须结合节点时点阅读，不能覆盖后续已交付能力。稳定规则仍有效，已替代契约与本轮正文修订见[逐篇校准索引](../design-calibration.md)。旧命令是执行记录，复用前需按现脚本与私密隔离环境核查，不自动启动测试或外部操作。
+
 40/Host69独立验收后继续。范围锁定goravel/sqlserver1.18.0、gormsqlserver1.6.3、framework1.18.0、GORM1.31.2；依赖由唯一writer固定get/tidy并核MVS。无真实SQLServer/用户DB/Cloud访问，无全量/E2E。
 
 ## 已确认设计边界

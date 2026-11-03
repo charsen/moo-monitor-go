@@ -1,5 +1,7 @@
 # 工作台HTTP自动payload隔离
 
+本文保留该节点的设计与分批执行证据；下文“当前、未接、下一步、暂停”须结合节点时点阅读，不能覆盖后续已交付能力。稳定规则仍有效，已替代契约与本轮正文修订见[逐篇校准索引](../design-calibration.md)。旧命令是执行记录，复用前需按现脚本与私密隔离环境核查，不自动启动测试或外部操作。
+
 P1安全依赖的独立修复，不等Designer页面完成。HTTP中间件在Next之前调用All，路由内再加标记不能阻止之前的body快照；因此不能靠后置标记或敏感字段名mask保护未来账号/代理/AI key表单。
 
 PayloadConfig新增ExcludePathPrefixes，NewHTTP验证并复制去重（最多64、规范绝对路径段，拒空/root/URL片段/转义/控制符）。启用payload的写方法在All之前读取公开Request.Path，匹配相同路径或prefix+'/...'；/scaffold-evil不属于/scaffold。Path读取panic或非规范路径返回nil payload+静态ErrAdapter，不回落读取body。旧nil排除列表不新增Path调用，默认payload仍关闭。

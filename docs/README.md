@@ -47,3 +47,5 @@
 | 41 | [SQLServer双入口](lessons/41-sqlserver-slow-query.md) | 实际替换callback/编号预算/OUTPUT有限mask |
 
 [完整复现计划](port-plan.md) · [PHP源码入口](php-surface-inventory.md)
+
+原设计逐篇校准与保留边界见[设计校准索引](design-calibration.md)；实现契约仍由各原设计正文与源码负责，不另建平行规范。

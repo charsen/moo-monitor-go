@@ -1,5 +1,7 @@
 # 16：Host受管理Schedule采用
 
+本文保留该节点的设计与分批执行证据；下文“当前、未接、下一步、暂停”须结合节点时点阅读，不能覆盖后续已交付能力。稳定规则仍有效，已替代契约与本轮正文修订见[逐篇校准索引](../design-calibration.md)。旧命令是执行记录，复用前需按现脚本与私密隔离环境核查，不自动启动测试或外部操作。
+
 本块对应模板Host第46课，生产内核继续复用第14步ScheduledArtisan/Callback/Complete，不新增SDK生产API、依赖或另一套cron。Host具体共享接线由唯一writer维护，按队列采用先提交、定时任务采用后提交。
 
 Host独立SCHEDULE_OWNER_ENABLED默认false，原Provider委托；启用时替同一Schedule factory，原Schedule.NewApplication、Artisan与cron仍真实执行。观察只由MONITOR_CAPTURE_SCHEDULE与可用Runtime决定，关闭/失败不阻断业务。示例默认不开启/小时频率，无外部写入。全局Artisan不换。

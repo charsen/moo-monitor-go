@@ -1,5 +1,7 @@
 # 31 Postgres成熟dialector执行回调
 
+本文保留该节点的设计与分批执行证据；下文“当前、未接、下一步、暂停”须结合节点时点阅读，不能覆盖后续已交付能力。稳定规则仍有效，已替代契约与本轮正文修订见[逐篇校准索引](../design-calibration.md)。旧命令是执行记录，复用前需按现脚本与私密隔离环境核查，不自动启动测试或外部操作。
+
 仅SDK。使用锁定gorm postgres1.6.0/GORM1.31.2与sqlmock固定假执行，不安装/连接真实PG。Plugin只放开明确postgres实例，原6callback/业务结果/native Trace/Close不替换；Host或真实PG部署不冒称已验证。
 
 Raw保原$n用于hash；Vars先现bindings归一为不可变scalar/time，拒任意Valuer/Stringer。随后成熟Dialector.Explain生成展示SQL，通过Input.RenderedSQL传给Builder；它与Bindings互斥，nil继续旧?填值。展示SQL绝不执行，不把Explain当wire反编译；quoted-dollar/索引展示限制按实际测试记录。

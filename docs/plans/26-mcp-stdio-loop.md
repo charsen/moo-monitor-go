@@ -1,5 +1,7 @@
 # 26 MCP stdio协议循环
 
+本文保留该节点的设计与分批执行证据；下文“当前、未接、下一步、暂停”须结合节点时点阅读，不能覆盖后续已交付能力。稳定规则仍有效，已替代契约与本轮正文修订见[逐篇校准索引](../design-calibration.md)。旧命令是执行记录，复用前需按现脚本与私密隔离环境核查，不自动启动测试或外部操作。
+
 独立mcp包消费Toolset，不导入Host/Cloud/Buffer。本步只有协议循环，不表示七个工具、图片分页或Host命令已完成。
 
 依据PHP src/Command/McpLoop.php与官方固定2025-06-18 lifecycle/transports/tools。固定支持2025-06-18、2025-03-26、2024-11-05，命中回显否则回06-18；只有06-18输出outputSchema/structuredContent，旧版保text/image。
@@ -17,3 +19,7 @@ NewServer接Toolset与ServerName/Version/输入输出上限；Serve接拥有的i
 官方依据：[生命周期](https://modelcontextprotocol.io/specification/2025-06-18/basic/lifecycle)、[stdio](https://modelcontextprotocol.io/specification/2025-06-18/basic/transports)、[tools](https://modelcontextprotocol.io/specification/2025-06-18/server/tools)。后续实现七工具/Host桥后才形成实际Cloud MCP业务闭环。
 
 终读补强：stderr短写nil返回ErrOutput；structured无text时补JSON text兼容回退且保image，三版本断言；仅TestLoopStructuredFallback/DiagnosticShortWrite最终0.683s。原race2.359s在此前执行，不声称补后全组重跑。
+
+## 当前契约衔接（2026-11-03校准）
+
+协议循环与27七工具、28独立Host入口均已实现并有本地消费者；真实MCP服务/权限/私有图仍待验，不能用fake协议loop成功外推外部互通。 具体当前边界见[总设计](../port-plan.md)，已执行结果见[全盘矩阵](../../../go-moo-engine-skeleton/docs/plans/full-business-verification.md)。上方原始测试、失败与未做事项保留其节点语境，不声称本轮重跑。

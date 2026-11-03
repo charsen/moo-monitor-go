@@ -1,27 +1,34 @@
-# Cloud Go元信息兼容方案（本地范围已批准）
+# Cloud Go元信息：已实现心跳契约与记录级缺口
 
-本方案保存时仅待授权；2026-11-02用户已批准第四仓moo-scaffold-cloud三个消费者及必要本地测试，由root独占实现、唯一Git writer交付。不含部署、Token能力或真实MCP操作。已有真实Cloud证据仍限授权heartbeat与runtime/slow两项saved，见Host[接入记录](../../../go-moo-engine-skeleton/docs/integration/cloud-connection.md)。
+本文保留该节点的设计与分批执行证据；下文“当前、未接、下一步、暂停”须结合节点时点阅读，不能覆盖后续已交付能力。稳定规则仍有效，已替代契约与本轮正文修订见[逐篇校准索引](../design-calibration.md)。旧命令是执行记录，复用前需按现脚本与私密隔离环境核查，不自动启动测试或外部操作。
 
-## 三个真实消费者
+## 当前心跳链路
 
-| 消费者 | 当前事实 | 最小变更 |
+SDK `cloudsync/heartbeat.go` 发送固定sdk=moo-go-monitor及可选go_version/goravel_version；Host `app/monitor/health.go` 使用真实BuildInfo，并以development/unknown表达未发布或缺证据。SDK字段限长与Cloud白名单分别守边界，不伪填PHP/Laravel版本。
+
+| 消费者 | 当前实现 | 保留边界 |
 | --- | --- | --- |
-| [HeartbeatController](../../../moo-scaffold-cloud/app/Http/Controllers/Api/HeartbeatController.php) sanitizeMeta | 白名单只有sdk/sdk_version、PHP/Laravel版本、应用与六布尔；字符串最多120字符 | 仅追加go_version/goravel_version受限字符串（最多120字符，缺失/不可用保未知），不伪造PHP/Laravel；保旧字段兼容 |
-| [IntegrationHealthAdvisor](../../../moo-scaffold-cloud/app/Services/Monitoring/IntegrationHealthAdvisor.php) | 提示固定php artisan/MOO_MONITOR_*、版本最低0.1.8；dev/x跳比较 | 按sdk决定平台、命令与配置建议；Go不套PHP的最低版本。development/空/非法版本为未知开发态，不伪装semver或自动判过旧；Go已发布版本策略单独定义后才比较 |
-| [integration视图](../../../moo-scaffold-cloud/resources/views/filament/app/pages/integration.blade.php) | 宿主固定PHP/Laravel标签 | Go显示Go/Goravel，已知PHP保原标签，unknown中性；SDK名/版本、应用与开关仍安全转义 |
+| [HeartbeatController](../../../moo-scaffold-cloud/app/Http/Controllers/Api/HeartbeatController.php) | 按Go SDK接收go_version/goravel_version受限字符串，保旧PHP字段 | 身份与project.token:runtimes沿原路由；字段兼容不授予MCP能力 |
+| [IntegrationHealthAdvisor](../../../moo-scaffold-cloud/app/Services/Monitoring/IntegrationHealthAdvisor.php) | Go/PHP/unknown分别给建议；Go development不套PHP最低版本 | Go正式semver最低线未由虚构tag替代；unknown不自动当Go |
+| [integration视图](../../../moo-scaffold-cloud/resources/views/filament/app/pages/integration.blade.php) | Go展示Go/Goravel，PHP保原标签，unknown中性 | 只证明项目心跳元信息显示，不证明每条runtime保存了同样版本 |
 
-Heartbeat沿[现route](../../../moo-scaffold-cloud/routes/api.php)的project.token:runtimes，已有JSON元信息列足够，不新增migration、不更新Token权限/updated_at语义或MCP授权。仅字段兼容，不扩大管理动作。
+Host命令建议使用实际moo:cloud:test/moo:cloud:push与MONITOR_*配置；Cloud auto owner不是业务SCHEDULE_OWNER_ENABLED。AI与MCP权限不因心跳打开。
 
-## 平台与向后兼容
+2026-11-02第四仓edcaca4交付当时只是本地变更；用户后来部署，根端21:24实际见到Go/Goravel页面、heartbeat和runtime/slow逐项saved。原14:59旧标签观察保留在[Host接入记录](../../../go-moo-engine-skeleton/docs/integration/cloud-connection.md)。不能继续把本地交付时“未部署”当今天现状；也不能将这些获准写入外推为其余Cloud动作已验。
 
-sdk=moo-go-monitor为Go；已知PHP SDK及有PHP版本证据的旧客户端保持PHP建议；无法辨认时用平台未知/中性排查，不把缺sdk一律当Go。旧PHP版本门槛保原含义，Go开发版本不套0.1.8、不生成假发布版本。
+## 记录级Go版本：仍未贯通
 
-Go建议使用Host实际moo:cloud:test/moo:cloud:push入口，配置指向MONITOR_ENABLED、MONITOR_SLOW_ENABLED、MONITOR_CLOUD_*。Go心跳schedule表示独立Cloud auto owner，不混为业务SCHEDULE_OWNER_ENABLED；PHP原MOO_MONITOR_*与scheduler建议保留。
+以下四层来自当前源码只读核验，不是本轮新增真实请求：
 
-当前SDK HeartbeatMeta仅发送已接受字段，sdk固定moo-go-monitor，Host SDKVersion=development；Go/Goravel版本目前只本地诊断。Cloud消费者实现并定向通过后，另批窄扩SDK/Host真实版本发送，不在本方案提前改wire或宣称服务端已兼容。
+1. SDK `records/records.go` 的GoContext与HTTP wire发送context.go/context.goravel；导入PHP旧记录有独立php/laravel指针，不伪造Go来源。
+2. [RuntimeIntakeController](../../../moo-scaffold-cloud/app/Http/Controllers/Api/RuntimeIntakeController.php)映射context时只取env/project/php/laravel/occurred_at；source_meta取r.meta，不是原context旁路。
+3. [IntakePipeline](../../../moo-scaffold-cloud/app/Services/Intake/IntakePipeline.php)持久mapped字段；[Runtime模型](../../../moo-scaffold-cloud/app/Models/Runtime.php)没有raw_context/go/goravel字段保存该遗漏。
+4. [RuntimeReadController](../../../moo-scaffold-cloud/app/Http/Controllers/Api/RuntimeReadController.php)及Runtime markdown仍只读php/laravel。
 
-## 获准后的最小验证与交付
+因此Go版本没有沿单条runtime接收→持久化→读回完整保存。Project heartbeat.meta不能还原某一历史记录的采集版本。这是当前未实现的信息契约，不只是“真实服务未验”。
 
-仅定向验证三消费者：新增字段限长/非字符串与缺失、PHP/Go/unknown平台、Go development/非法版本/独立发布策略、原PHP0.1.8门槛、视图转义与标签。保原JSON存储/权限与PHP回归；不运行全量/E2E，不用真实Token或真实MCP操作。第四仓代码及SDK发送扩展分别审diff/commit，是否推送、部署与真实联调仍按用户另行授权。
+后续需为该链路单独确认Go/PHP共存的字段/存储与公开投影方案，再核四层消费者和定向测试；涉及数据库结构按Cloud当前Schema/生成约定执行。不能仅在视图贴心跳版本，不能写进PHP字段。本轮不改第四仓、数据库、Token权限或部署。
 
-本地实现已由root完成并经设计验收，第四仓提交edcaca4：三消费者与必要测试已交付。未部署、未改token权限；Go发送端真实构建字段由37继续接入。
+## 已有验证和未验项
+
+三消费者的定向PHP验证、SDK/Host真实版本wire验证及真实心跳/两saved分栏保留在上述接入记录与第37节点；本轮仅静态校准，不重新调用真实Cloud。真实resolve/discard/summary、MCP七工具全部权限、私有图片和生产部署不由心跳证明；本地fake测试也不替代这些外部结果。

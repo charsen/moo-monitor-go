@@ -1,5 +1,7 @@
 # 33 显式Go崩溃诊断所有权
 
+本文保留该节点的设计与分批执行证据；下文“当前、未接、下一步、暂停”须结合节点时点阅读，不能覆盖后续已交付能力。稳定规则仍有效，已替代契约与本轮正文修订见[逐篇校准索引](../design-calibration.md)。旧命令是执行记录，复用前需按现脚本与私密隔离环境核查，不自动启动测试或外部操作。
+
 M05第一阶段：私有raw spool及只读脱敏诊断，不是异常记录导入或fatal全部覆盖。使用锁定Go公开runtime/debug.SetCrashOutput，不改Recover、不在fatal路径跑Builder/mask/网络。只有显式Install才占进程全局slot，所有真实hook测试均隔离子进程。
 
 ## 接口与存储边界
@@ -19,3 +21,7 @@ Host59默认MONITOR_CAPTURE_CRASH=false，Monitor总开关关闭也不安装；�
 2026-11-02/Go1.27.3/Darwin：纯spool0.774，抽取helper曾actual变量漏声明编译失败，修后0.688；真实四子进程0.392，Inspect只读0.375。新范围race2.495；真实panic原stderr+raw两证据、Close后不再写、recover/Exit不产生报告、ErrBusy、UTF8/限额/权限/链接/raw字节不变均有断言。Host普通四模式1.055，必要配置五子例race1.508、Bootstrap四模式race4.335。全部owned空env/假配置，不读真实.env/Cloudtoken。
 
 未执行SIGKILL/OOM/磁盘满/其它平台/生产部署或全量E2E，不把mock或本机证明扩成全部fatal。下一M05阶段须单独设计显式手动/startup诊断导入Collector/Buffer：隐私、幂等、cap、身份/count，当前不自动实现。
+
+## 当前契约衔接（2026-11-03校准）
+
+34已接显式单ID诊断导入，不自动startup扫描。raw仍私有，永久receipt/Unknown/容量协议另列；无法可靠捕获全部OOM/kill或跨OS退出。 具体当前边界见[总设计](../port-plan.md)，已执行结果见[全盘矩阵](../../../go-moo-engine-skeleton/docs/plans/full-business-verification.md)。上方原始测试、失败与未做事项保留其节点语境，不声称本轮重跑。

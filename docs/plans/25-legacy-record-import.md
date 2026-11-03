@@ -1,5 +1,7 @@
 # 25：受控旧记录转换与幂等导入
 
+本文保留该节点的设计与分批执行证据；下文“当前、未接、下一步、暂停”须结合节点时点阅读，不能覆盖后续已交付能力。稳定规则仍有效，已替代契约与本轮正文修订见[逐篇校准索引](../design-calibration.md)。旧命令是执行记录，复用前需按现脚本与私密隔离环境核查，不自动启动测试或外部操作。
+
 2026-11-02，root已批准：保原hash/count/daily/first_seen/last_seen/bucket/resolve字段；runtime新增可选真实PHP/Laravel指针字段，不填假Go/Goravel。源只读，未知字段/不兼容类型/坏UTF8/不支持YAML标签整Plan拒绝。旧cursor只报告与封印，不生成ACK或suppression；PHP缓存overflow无法从记录复原，不承诺跨语言在线合并。
 
 ## 接口与顺序

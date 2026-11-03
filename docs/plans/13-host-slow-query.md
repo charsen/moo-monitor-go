@@ -1,5 +1,7 @@
 # 第13步：真实Host慢SQL消费边界
 
+本文保留该节点的设计与分批执行证据；下文“当前、未接、下一步、暂停”须结合节点时点阅读，不能覆盖后续已交付能力。稳定规则仍有效，已替代契约与本轮正文修订见[逐篇校准索引](../design-calibration.md)。旧命令是执行记录，复用前需按现脚本与私密隔离环境核查，不自动启动测试或外部操作。
+
 第12步已提交2eea063，保留当时验证与类型范围。本步对应Host43生产启动接线暴露的真实SDK消费需求，SDK与Host分别验收/提交；先SDK再Host，不把本机workspace当已发布依赖。
 
 ## SDK精确范围
@@ -26,4 +28,4 @@ Host workspace证据分栏：实际Authentication+Food Store/Update/Show分别�
 
 ## 未完成范围
 
-DB façade、其它驱动/占位符、未安装/Fresh后实例、Rows迭代、真实Cloud字段接收、发布解析与完整M矩阵仍待；自动HTTP payload/queue/schedule不是本步内容。用户练习待其完成。本SDK提交不链接尚未进HEAD的Host43文件，Host同批提交后统一核引用。
+该13节点当时DB façade/其它驱动/Fresh接线未齐；当前已接四driver、DB façade与静止Fresh新代发布。Rows后续迭代不在查询完成窗口；记录级Cloud Go字段、真实发布解析和目标部署仍有独立缺口；自动HTTP payload/queue/schedule不是本步内容。用户练习待其完成。本SDK提交不链接尚未进HEAD的Host43文件，Host同批提交后统一核引用。

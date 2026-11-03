@@ -3,38 +3,34 @@
 - [x] 当前Monitor本地业务代码与Host消费已交付；2026-11-03全包race、私有PostgreSQL/Redis及受影响Host业务验证已完成，首失败和复验见[全盘矩阵](../go-moo-engine-skeleton/docs/plans/full-business-verification.md)。
 - [ ] 按[执行队列](docs/execution-queue.md)保留真实MCP权限/Cloud剩余操作、MySQL/SQLServer服务、目标部署/跨OS、远端发布解析的外部或平台验证；本地合入不等于远端发布。
 
-以下逐课练习和早期检查保留当时学习边界，不是当前本地代码未实现清单；用户自主练习不自动勾选。
+- [ ] 为单条runtime记录设计Go/Goravel版本接收、持久化与读回兼容，四层现码缺口见[原兼容设计](docs/plans/cloud-go-compatibility.md)；心跳meta不可冒历史记录版本。
+
+以下仅为用户自主学习项；删除已被后续交付替代的旧执行指令，不自动勾选练习。
 
 - [ ] 完成[第01课](docs/lessons/01-sensitive-masker.md)固定假值预测、三入口范围与初始化错误隔离复述；代理参考验证不代做用户练习。
 - [ ] 完成[第02课](docs/lessons/02-sql-masker.md)固定假SQL预测、两阶段与语法盲区复述，代理fixture一致性不代做用户练习。
 - [ ] 完成[第03课](docs/lessons/03-bounded-payload.md)共享预算/截断形状/map原序差异与类型边界练习，代理验证不代做学习验收。
 - [ ] 完成[第04课](docs/lessons/04-runtime-records.md)hash归一顺序、count/daily与Snapshot采集边界练习，代理源fixture通过不代做学习验收。
-- [ ] 继续M02采集/Dispatcher、M08缓冲维护策略及后续真实Cloud接线与M07未知请求表示/Host适配；坏JSON原日志预防与M18接入另行设计，有限Masker不等于全面脱敏。
 
 - [ ] 完成[第05课](docs/lessons/05-runtime-buffer.md)cap/overflow、journal最终图像、结果未知与私有scope练习，代理定向恢复测试不代做用户验收。
 
 - [ ] 完成[第06课](docs/lessons/06-incremental-sync.md)同毫秒版本、四结果/失败洞、至少一次与扫描边界练习；参考race不代做学习验收。
-- [ ] 07当时的HTTPClient/Discard缺口已由19–24补本地运维；真实Cloud心跳/两saved已有授权实证，其余字段/MCP/生产按执行队列逐项授权。
 
 - [ ] 完成[第07课](docs/lessons/07-cloud-http-client.md)timeout/caller取消、body token重定向、wire失败与传输/确认边界练习，代理HTTP测试不代做学习验收。
 
 - [ ] 完成[第08课](docs/lessons/08-runtime-capture.md)事件身份/unknown标记/来源升级/安全诊断练习；代理Writer与race验证不代做学习验收。
-- [ ] 后续接真实Host生命周期、panic/HTTP500/queue/schedule钩子与完整过滤策略；08仅显式Capture和日志适配，不替现GinLogSafety。
 
 - [ ] 完成[第09课](docs/lessons/09-http-capture.md)请求scope/终态事件关联/Recover时序/已提交响应练习；代理内存路由测试不代做学习验收。
-- [ ] 在后续Host接线保留现GinLogSafety/认证与原Recover行为，核请求自动payload过滤、queue最终失败/schedule退出及慢SQL真实扩展点；09未覆盖这些能力。
 
 - [ ] 完成[第10课](docs/lessons/10-host-runtime.md)late identity/Host所有权与workspace验证差异练习；真实Cloud/部署解析仍待，代理验收不代做学习。
 
 - [ ] 完成[第11课](docs/lessons/11-slow-query-pipeline.md)原raw身份/双mask安全差异、字节与码点、cap峰值/overflow、共享typed内核与同ms确认练习；代理参考验证不代做学习。
-- [ ] DB façade、四驱动与静止Fresh新代观察已有本地定向实现；继续[明确执行队列](docs/execution-queue.md)中的外部/平台验证；Trace独立配置已真实消费，不概括全数据库覆盖。
 
 - [ ] 完成[第12课](docs/lessons/12-gorm-slow-query.md)回调窗口/安装回滚/原Trace观测开销、事务语义与连接覆盖练习，代理真实ORM验证不代做学习。
 
 - [ ] 完成[第13课](docs/lessons/13-host-slow-query.md)请求快照/标准日期与任意Valuer边界、目标写链断言、原生DB启动baseline/预热及关闭重试练习；代理验证不代做学习。
 
 - [ ] 完成[第14课](docs/lessons/14-queue-schedule.md)最终重试/原失败持久化、未知exit/真实panic、scope与原生日志边界练习；代理race不代做学习。
-- [ ] **当前持续推进**：21只读预览与22显式All重推参考已交付，按[执行队列](docs/execution-queue.md)继续23以后功能；此前暂停保留历史证据。其余按矩阵确认剩余范围：无ctx业务日志身份、自动payload过滤、真实os.Exit/Cloud与目标部署解析仍未完成，全局Artisan仍不替换。
 
 - [ ] 完成[第15课](docs/lessons/15-host-queue-owner.md)单Run/首轮屏障/在途关闭与DisableCapture练习；Host45参考已接，15/16已参考交付，当时暂停；当前按执行队列持续推进。
 
@@ -52,7 +48,8 @@
 
 - [ ] 完成[第22课](docs/lessons/22-explicit-all-replay.md)模式选集/抑制重叠、Pending与Remaining、最终持久化error及Tick不变练习；用户学习待完成。确认resolved维护见23；全面Cloud/目标发布解析仍待，当前持续推进。
 
-- [ ] 当前持续推进：32 DB façade/34诊断导入/35Summary及后续设计按[执行队列](docs/execution-queue.md)；每功能验收commit，不再两项后自动暂停，不自动push。用户23自主练习待完成。
+
+- [ ] 完成[第23课](docs/lessons/23-confirmed-resolved-maintenance.md)精确ACK与resolved回收、RetentionDays启用语义和未确认保护练习，未代做用户学习。
 
 - [ ] 完成[第24课](docs/lessons/24-migration-inspection.md)浅envelope/完整兼容、cursor非ACK与源保留练习；代理参考验证不代做用户学习。继续[当前执行队列](docs/execution-queue.md)的真实转换导入设计，不读取真实业务记录。
 
@@ -70,7 +67,7 @@
 
 - [ ] 完成[第30课](docs/lessons/30-source-context.md)原identity/辅助失败/根所有权与有限mask练习；目标源码布局、其它平台与部署权限仍待验证。
 
-- [ ] 完成[33课](docs/lessons/33-crash-output.md)全局slot/Owner与Manager、raw隐私/预算和MayBePartial练习；M05显式手动/startup诊断导入仍待幂等、cap、隐私与count设计。
+- [ ] 完成[33课](docs/lessons/33-crash-output.md)全局slot/Owner与Manager、raw隐私/预算和MayBePartial练习；34已实现显式单ID导入，startup自动扫描未实现且不自动启用。
 
 - [ ] 完成[32课](docs/lessons/32-db-facade-observation.md)同pool/context、原Query与Tx、关闭只停观察、真实PG与部署差异练习；32参考已交付，继续34/35。
 
@@ -78,14 +75,14 @@
 
 - [ ] 完成[34课](docs/lessons/34-crash-diagnostic-import.md)永久receipt/Unknown/预算/源漂移与构造副作用练习；手动单ID参考已交付，自动startup导入尚未实现，P1与36按当前执行队列推进。
 
-- [ ] 完成[第36课](docs/lessons/36-log-capture-policy.md)来源与级别策略练习；参考SDK/Host63已定向验证，37真实构建元信息继续推进。
+- [ ] 完成[第36课](docs/lessons/36-log-capture-policy.md)来源与级别策略练习；参考SDK/Host63已定向验证，37真实构建元信息已交付。
 
 - [ ] 完成[第37课](docs/lessons/37-go-build-metadata.md)BuildInfo/unknown/replace练习；本地wire已参考交付，38继续独立发布解析验证。
 
 - [ ] 完成[第38课](docs/lessons/38-release-reproducibility.md)本地解析/MVS/floor与远端发布区别练习；新P1快照按另report验证，旧两报告不改。
 
-- [ ] 完成[第39课](docs/lessons/39-self-test-resolution.md)strict saved与best-effort解决、同token能力和独立结果练习；参考实现已交付，MySQL已见40，继续SQLServer等矩阵真实待实现项，不自动push。
+- [ ] 完成[第39课](docs/lessons/39-self-test-resolution.md)strict saved与best-effort解决、同token能力和独立结果练习；参考实现已交付，MySQL已见40，SQLServer本地观察已交付，继续真实服务与平台验证，不自动push。
 
-- [ ] 完成[第40课](docs/lessons/40-mysql-slow-query.md)原Raw与有界展示、同池双入口/事务/关闭边界练习；MySQL参考已实现，真实实例仍待授权，紧接41 SQLServer。
+- [ ] 完成[第40课](docs/lessons/40-mysql-slow-query.md)原Raw与有界展示、同池双入口/事务/关闭边界练习；MySQL参考已实现，真实实例仍待授权，41 SQLServer已交付，真实服务另验。
 
 - [ ] 完成[第41课](docs/lessons/41-sqlserver-slow-query.md)替换callback/OUTPUT/编号预算及双入口练习；四已支持driver参考不等生产所有类型/池覆盖，未知OUTPUT表达式仍有有限mask盲区。

@@ -1,5 +1,7 @@
 # 第12步：真实GORM回调与显式Goravel实例接入
 
+本文保留该节点的设计与分批执行证据；下文“当前、未接、下一步、暂停”须结合节点时点阅读，不能覆盖后续已交付能力。稳定规则仍有效，已替代契约与本轮正文修订见[逐篇校准索引](../design-calibration.md)。旧命令是执行记录，复用前需按现脚本与私密隔离环境核查，不自动启动测试或外部操作。
+
 Monitor11已提交9f12bf1。本步先SDK adapters/gorm和真实私有SQLite ORM测试，Host正式allowlist/Provider后半另与implementation协调，当前不改40或其它Host文件。不解析字符串日志、不改module cache、不复制ORM，不接真实Cloud/生产DB。
 
 ## 公共能力与覆盖
@@ -10,7 +12,7 @@ Monitor11已提交9f12bf1。本步先SDK adapters/gorm和真实私有SQLite ORM�
 
 覆盖显式已安装实例的ORM CRUD/Exec/事务/WithContext clones。DB façade走sqlx Builder不经过这些callbacks，不覆盖；直接database/sql、未安装命名连接、Fresh后的新实例不自动覆盖。Connection标签由owner显式给，不能从DSN或可能旧dbConfig的Orm.Name缓存分支猜。
 
-本步只SQLite问号placeholder；Postgres$1等明确不支持，不能ReplaceAll假装兼容。未知Vars不调用Valuer/Stringer，窄转换后复用11 Input，暂不可表示值给安全诊断，原SQL结果仍返回。Source QueryExecuted只在成功执行/重试恢复后发；执行错误跳过，gorm.ErrRecordNotFound属成功SELECT空结果应允许，DryRun不采。事务内成功SQL即使随后rollback也已发生，按源仍采，不称提交后事件。
+12节点当时仅SQLite问号；现PrepareSQL与安装链支持SQLite/Postgres/MySQL/SQLServer，各有有限placeholder/类型边界，不做任意ReplaceAll。后续31/40/41及Host86接线不由本课旧实测代验。未知Vars不调用Valuer/Stringer，窄转换后复用11 Input，暂不可表示值给安全诊断，原SQL结果仍返回。Source QueryExecuted只在成功执行/重试恢复后发；执行错误跳过，gorm.ErrRecordNotFound属成功SELECT空结果应允许，DryRun不采。事务内成功SQL即使随后rollback也已发生，按源仍采，不称提交后事件。
 
 ## 最小API与生命周期
 

@@ -1,5 +1,7 @@
 # 30 有界源码上下文
 
+本文保留该节点的设计与分批执行证据；下文“当前、未接、下一步、暂停”须结合节点时点阅读，不能覆盖后续已交付能力。稳定规则仍有效，已替代契约与本轮正文修订见[逐篇校准索引](../design-calibration.md)。旧命令是执行记录，复用前需按现脚本与私密隔离环境核查，不自动启动测试或外部操作。
+
 默认关闭，显式应用源码Root与相对AllowedPrefixes，仅读取允许的普通UTF8 Go文件；不把异常File当任意文件读取入口。不改变原Exception.File/Line、Trace.Full或hash；旧PHP导入snippet不经过本采集扩展。
 
 Reader独立拥有os.Root，Darwin/Linux逐目录锚点、SameFile与最终NOFOLLOW/NONBLOCK，拒绝任何下层symlink、隐藏/凭据路径、越界和非.go。根路径自身禁止symlink；其系统父目录别名解析后固定canonical锚点。不强制源码权限0700，0755目录/0644源码可读。其它平台明确配置不可用，不假称跨平台已验。

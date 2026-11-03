@@ -1,5 +1,7 @@
 # 15：Host队列Owner生命周期
 
+本文保留该节点的设计与分批执行证据；下文“当前、未接、下一步、暂停”须结合节点时点阅读，不能覆盖后续已交付能力。稳定规则仍有效，已替代契约与本轮正文修订见[逐篇校准索引](../design-calibration.md)。旧命令是执行记录，复用前需按现脚本与私密隔离环境核查，不自动启动测试或外部操作。
+
 已验收独立提交；[详课](../lessons/15-host-queue-owner.md)。只深化SDK14明确工厂与生命周期，不复制原worker或自动开Host业务。
 
 WorkerConfig.DisableCapture仅显式true允许nil collector且不建observer/scope；原nil仍拒。Managed Run一次、preRun关闭、首N Pop/单Receive屏障、sync done早返、native Shutdown至多一次与重试等待均由queue_lifecycle.go协调。Started与Running含义不同；取消仅停止等待，不承诺中断原Pop/Job/retry sleep。借用资源不Close。

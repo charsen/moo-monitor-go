@@ -1,16 +1,18 @@
 # 18：健康心跳与显式自检
 
-范围：SDK健康传输/自检完整功能，对应Host48。第17步自动推送独立提交；本步后暂停，不扩resolve/MCP/summary/discard或真实Cloud。本计划保留实现边界与下方实际结果。
+本文保留该节点的设计与分批执行证据；下文“当前、未接、下一步、暂停”须结合节点时点阅读，不能覆盖后续已交付能力。稳定规则仍有效，已替代契约与本轮正文修订见[逐篇校准索引](../design-calibration.md)。旧命令是执行记录，复用前需按现脚本与私密隔离环境核查，不自动启动测试或外部操作。
+
+范围：SDK健康传输/自检完整功能，对应Host48。第17/18节点当时按两功能暂停，后已继续交付；当前RunWithOptions支持固定自检runtime的可选resolve，MCP/summary/discard各有独立入口，原实测不倒写。本计划保留实现边界与下方实际结果。
 
 独占cloudsync/heartbeat.go、selftest.go与对应定向测试。复用现HTTPClient私有post和已有records/slowquery Builder，不改增量Sync/ACK/业务Buffer；不改17推送主链。Host健康command真实make后深化，Host48两正文/测试独占，shared配置/注册/入口由writer维护。
 
-Heartbeat(ctx,HeartbeatMeta) POST api/v1/heartbeat，body token/meta，固定sdk=moo-go-monitor；只发Cloud既有接受字段sdk_version/app_env/app_name和六bool。Go/Goravel版本仅本地诊断，不伪PHP/Laravel。timeout按源1..4秒，2次/100ms只连接错误，复用拒redirect/TLS/有界响应/安全错误；接收2xx且ok===true。HTTPClient/http.Client浅副本调整本次timeout，不修改共享client。
+Heartbeat(ctx,HeartbeatMeta) POST api/v1/heartbeat，body token/meta，固定sdk=moo-go-monitor；当前发sdk_version/app_env/app_name、六bool及37新增的go_version/goravel_version；Cloud心跳白名单已兼容并实际部署验证，不伪PHP/Laravel。每条runtime版本持久化缺口见[兼容方案](cloud-go-compatibility.md)。timeout按源1..4秒，2次/100ms只连接错误，复用拒redirect/TLS/有界响应/安全错误；接收2xx且ok===true。HTTPClient/http.Client浅副本调整本次timeout，不修改共享client。
 
 每轮实际push后（包括空轮/部分失败）best-effort心跳，结果独立不改push成功；dry-run不发送。与17的Heartbeater消费接口协作，第二步共享接入由writer维护，不并发改17文件。
 
 SelfTest显式both/runtimes/slow_sql；前置heartbeat失败不打intake，成功后已有Builder构造稳定可识别样本，直接HTTP，不写本地记录/ACK。一类失败继续另一类完整返回。必须Legacy=false、1条逐项index0/hash相等/status=saved/retryablefalse且聚合1/0/0才通过；filtered/skipped/拒收/旧receipt不能通过。这比PHP confirmSaved仅看saved===1更严格，正常Sync旧兼容不变。
 
-Host moo:cloud:test命令明确提醒发测试记录，自动Cloud关闭仍可显式执行但URL/token必须配置；本轮只httptest。--resolve明确unsupported，不擅用额外mcp能力。错误与输出不含token、URL、原body或自由文本Cloud错误。
+Host moo:cloud:test命令明确提醒发测试记录，自动Cloud关闭仍可显式执行但URL/token必须配置；本轮只httptest。当前--resolve默认false；true只尝试解决本次strict saved的固定runtime hash，结果独立，失败warning不把saved改失败；不据此擅用其它MCP能力。错误与输出不含token、URL、原body或自由文本Cloud错误。
 
 定向验证：真实httptest心跳wire/无数据周期依赖/timeout与取消、严格ok；SelfTest两类/类型门禁、saved/filtered/skipped/legacy/畸形及heartbeat失败零intake、稳定样本与不落盘；Host真实命令调用同一服务；仅受影响旧HTTP测试，不全量/E2E/真实网络。用户自主练习待完成。
 
@@ -21,7 +23,7 @@ Host moo:cloud:test命令明确提醒发测试记录，自动Cloud关闭仍可�
 
 与PHP差异：runtime自检是Go自己的固定身份，慢SQL沿同raw/location可能同hash；SDKVersion未发布为development，Go/Goravel只用于本地诊断及已有记录Context；旧receipt严格拒用于自检，正常Sync兼容不改。重复自检count1，Cloud按max快照而非累加；未自动resolve/清理。更短caller context优先于1..4秒心跳client timeout。
 
-命令沿原框架返回普通error，真实CLI成功0/失败1；PHP输入/配置INVALID为2，这里明确差异。避免ExitCoder使原urfave在Call(...,false)也触发全局OsExiter，保证显式Call可以返回error；不改全局退出机制。所有--resolve出现（含=false）均拒绝。
+命令沿原框架返回普通error，真实CLI成功0/失败1；PHP输入/配置INVALID为2，这里明确差异。避免ExitCoder使原urfave在Call(...,false)也触发全局OsExiter，保证显式Call可以返回error；不改全局退出机制。18节点当时所有--resolve（含=false）均拒绝；39后来已替换该限制，见[当前可选解决设计](39-self-test-resolution.md)，下方早期命令结果保当时证据。
 
 
 最终Host命令（四module workspace，实际Go1.27.3）：

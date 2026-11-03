@@ -1,5 +1,7 @@
 # 第14步：队列最终失败与调度完成边界
 
+本文保留该节点的设计与分批执行证据；下文“当前、未接、下一步、暂停”须结合节点时点阅读，不能覆盖后续已交付能力。稳定规则仍有效，已替代契约与本轮正文修订见[逐篇校准索引](../design-calibration.md)。旧命令是执行记录，复用前需按现脚本与私密隔离环境核查，不自动启动测试或外部操作。
+
 13已提交67cef24，Host43已提交52e8491。本步只monitor，沿真实framework1.18公开构造，不修改Host全局queue/Artisan，不连接真实Cloud或外部消息服务。用户要求本轮14收尾后暂停，不开启后续Host采用块。
 
 ## 队列接口与状态机
@@ -35,3 +37,7 @@ schedule.go：NewScheduledArtisan(delegate,collector,ScheduleConfig{Signature re
 原failed日志可能含payload/Exception，本旁路不能撤回它或自动与原err同ID；Host需后续审真实双消费者。signature-only、安全名称而非完整参数命令是明确Go选择，跨SDKclass/栈/hash不保证相同。CallAndExit/真实os.Exit不可拦截，Job无ctx不自动传播业务日志scope；NativeWorker.Shutdown原限制未改。
 
 本轮完成14必要实现/定向/文档/commit后暂停，用户练习仍待其完成。恢复入口唯一为后续Host显式QueueWorker/ScheduledArtisan owner接线：以本步queue.go/schedule.go公开工厂，落实独立配置/默认关闭、启动和原Shutdown/Buffer关闭顺序、真实业务消费，核原FailedJob日志敏感路径与显式同事件关联。默认Host Worker/全局Artisan当前仍未替换；不实施该下一块，不开始Cloud/MCP或新矩阵功能。
+
+## 当前契约衔接（2026-11-03校准）
+
+15/16与Host45/46已通过默认关闭的显式owner接入；这里的暂停和“未接Host”仅是14节点历史，当前owner生命周期见对应后续设计。全局Artisan并未被替换。 具体当前边界见[总设计](../port-plan.md)，已执行结果见[全盘矩阵](../../../go-moo-engine-skeleton/docs/plans/full-business-verification.md)。上方原始测试、失败与未做事项保留其节点语境，不声称本轮重跑。

@@ -1,5 +1,7 @@
 # 40 MySQL双入口慢SQL观察
 
+本文保留该节点的设计与分批执行证据；下文“当前、未接、下一步、暂停”须结合节点时点阅读，不能覆盖后续已交付能力。稳定规则仍有效，已替代契约与本轮正文修订见[逐篇校准索引](../design-calibration.md)。旧命令是执行记录，复用前需按现脚本与私密隔离环境核查，不自动启动测试或外部操作。
+
 范围：SDK真实MySQL GORM dialector与Goravel DB façade，Host69消费者及默认关闭配置。固定goravel/mysql1.18.0、gormmysql1.6.0、framework1.18.0、GORM1.31.2；不连接用户数据库、真实MySQL/Cloud，不跑全量或E2E。
 
 ## 已采用设计

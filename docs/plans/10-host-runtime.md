@@ -1,5 +1,7 @@
 # 第10步：Host本地运行时接入与late identity修正
 
+本文保留该节点的设计与分批执行证据；下文“当前、未接、下一步、暂停”须结合节点时点阅读，不能覆盖后续已交付能力。稳定规则仍有效，已替代契约与本轮正文修订见[逐篇校准索引](../design-calibration.md)。旧命令是执行记录，复用前需按现脚本与私密隔离环境核查，不自动启动测试或外部操作。
+
 主交付位于[Host第41步计划](../../../go-moo-engine-skeleton/docs/plans/41-monitor-runtime.md)与[详课](../../../go-moo-engine-skeleton/docs/lessons/41-monitor-runtime.md)。Host代码由其Provider拥有，SDK不import Host/scaffold。
 
 本仓必要公共修正：HTTPConfig.Identity改接context.Context，HTTP生命周期只保resolver函数与基础标量，不捕获原HTTP Context。身份在首条日志/最终observe时同步读取当前context并复制ID/Name/Guard；resolver error/panic仍保基础request且安全诊断，不再次递归resolver。匿名不伪造。实际Host路由认证在全局HTTP middleware之后，这正是09 eager身份无法满足的新消费者事实，09当时已提交测试证据不改写为新行为。

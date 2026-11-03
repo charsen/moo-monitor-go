@@ -1,5 +1,7 @@
 # 23：确认resolved安全维护
 
+本文保留该节点的设计与分批执行证据；下文“当前、未接、下一步、暂停”须结合节点时点阅读，不能覆盖后续已交付能力。稳定规则仍有效，已替代契约与本轮正文修订见[逐篇校准索引](../design-calibration.md)。旧命令是执行记录，复用前需按现脚本与私密隔离环境核查，不自动启动测试或外部操作。
+
 2026-11-02。独立store-only维护，沿PHP CloudSync.pruneLocal语义：RetentionDays<=0不读写；正数只启用confirmed resolved兜底，不是N天龄策略。open累计锚点、未确认resolved、deleted、cloud-rejected全部保留。Go比源cursor时间比较更严格：完整digest/timestamp/bucket ACK才授权候选。
 
 PruneOptions{RetentionDays,DryRun}；StatusReader.Prune(ctx,target,options)与Syncer同type方法复用type gate/flock，严格读取ACK/suppression与ReadOnlySnapshot。DryRun零HTTP/heartbeat/save/Compare/recover。实际Buffer.PruneResolved固定resolved，热锁下intent存在即ErrRecoveryRequired；正常Compare仍可恢复，二者只共享compareLocked精确匹配/删除内核，不复制规则。失败不当0，Busy/Unknown/OutcomeUnknown分别呈现。ACK/cursor不剪枝，默认Sync即时resolved回收不变；常态候选0合理。

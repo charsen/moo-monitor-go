@@ -1,5 +1,7 @@
 # 36 日志来源与级别策略
 
+本文保留该节点的设计与分批执行证据；下文“当前、未接、下一步、暂停”须结合节点时点阅读，不能覆盖后续已交付能力。稳定规则仍有效，已替代契约与本轮正文修订见[逐篇校准索引](../design-calibration.md)。旧命令是执行记录，复用前需按现脚本与私密隔离环境核查，不自动启动测试或外部操作。
+
 沿PHP log_context_hook/log_message_hook及共用log_context_levels，加入显式LogPolicy；不实现Host负责的dontReport类列表。旧NewDriver三参数用nil保原>=Error，新增NewDriverWithPolicy接可选策略：context/message独立bool，已知Go级别集合，空集合不采；非法level静态构造error。
 
 先原delegate Handle，再只按级别/typed ExceptionKey选择来源。明确error只走context，禁context不降级message；普通字符串才message。过滤在request/frames/ID dedup前，不占Scope事件。delegate Enabled OR可采级别，保原delegate返回及安全诊断。

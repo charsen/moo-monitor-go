@@ -1,5 +1,7 @@
 # 第05步：本地运行时缓冲、三桶与恢复
 
+本文保留该节点的设计与分批执行证据；下文“当前、未接、下一步、暂停”须结合节点时点阅读，不能覆盖后续已交付能力。稳定规则仍有效，已替代契约与本轮正文修订见[逐篇校准索引](../design-calibration.md)。旧命令是执行记录，复用前需按现脚本与私密隔离环境核查，不自动启动测试或外部操作。
+
 本步在Monitor独立module内实现buffer，消费04的records.Builder；只显式记录/Get/List/Count，不自动采集、不连接Cloud。当前PHP已移除本地resolve/delete/restore/purge，生命周期权限属于Cloud；测试只在专属目录种已存在resolved/deleted记录来验证复发，不复活已删除的本地API。
 
 ## 方案与依赖

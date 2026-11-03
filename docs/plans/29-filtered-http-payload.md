@@ -1,5 +1,7 @@
 # 29 明确过滤与可选HTTP payload快照
 
+本文保留该节点的设计与分批执行证据；下文“当前、未接、下一步、暂停”须结合节点时点阅读，不能覆盖后续已交付能力。稳定规则仍有效，已替代契约与本轮正文修订见[逐篇校准索引](../design-calibration.md)。旧命令是执行记录，复用前需按现脚本与私密隔离环境核查，不自动启动测试或外部操作。
+
 SDK独占capture/filter及capture窄接入、Goravel HTTP/logger真实消费，不改records/codec/buffer或25迁移。过滤在scope登记/tag之前；HTTPStatusCode能力<500跳过、5xx保留；ConsoleInputError仅CLI默认跳过，CLIExperiment只有显式标记且CLI才跳过。未知错误不靠文本/类型名猜。源依据ExceptionDispatcher与Recorder.shouldReport。
 
 HTTPConfig.Payload可选，nil默认关闭；请求入口仅POST/PUT/PATCH/DELETE，All读取已解析数据后MaskPayload有界深拷贝，状态只存脱敏副本，关闭清空，日志/5xx/panic共用。默认200chars，MaskKeys沿现Masker，非法值安全诊断并忽略payload，不改业务响应。Gin All包括route且JSON数值已float64，原精度不可恢复；框架getHttpBody自身先读body，SDK不再直接读流/文件。

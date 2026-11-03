@@ -1,5 +1,7 @@
 # 第01步：M07基础脱敏纯函数
 
+本文保留该节点的设计与分批执行证据；下文“当前、未接、下一步、暂停”须结合节点时点阅读，不能覆盖后续已交付能力。稳定规则仍有效，已替代契约与本轮正文修订见[逐篇校准索引](../design-calibration.md)。旧命令是执行记录，复用前需按现脚本与私密隔离环境核查，不自动启动测试或外部操作。
+
 首批只实现mask.New(keys)(*Masker,error)、ShouldMaskKey、MaskURL与MaskSecrets；不实现SQL脱敏、递归payload、事件/缓冲、Host/Gin接线或Cloud。
 
 实际go mod init gitee.com/charsen/moo-go-monitor后设最低Go1.26.0，只标准库；本次实测工具链Go1.27.3，未实际运行1.26。不导入scaffold/Host，不加入Host workspace。
