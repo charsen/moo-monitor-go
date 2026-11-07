@@ -1,5 +1,7 @@
 # Moo Go Monitor 协作与编码要求
 
+> 规则来源：通用协作、授权、Git 与测试规则见 `~/.agents/AGENTS.md`（每轮自动加载）；Moo/Laravel 领域规则见 `~/.agents/moo.md`（涉及 scaffold/Schema/migration/Composer 时先读）。本文件只写本仓特有约束，不复制全局规则；冲突时以本文件为准。
+
 ## 项目职责
 
 - 全业务复刻 PHP moo-monitor-laravel 的采集、聚合、缓冲、同步、运维与 MCP 能力及契约。Go 的平台限制保留为待解决缺口，不自行删除能力或宣称全部异常均可捕获。
