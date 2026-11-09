@@ -89,3 +89,9 @@ Go 业务系统必需的独立监控采集 SDK，全业务复刻 PHP 监控包�
 [第41课](docs/lessons/41-sqlserver-slow-query.md)补SQLServer真实替换callback与原DB façade观察，有限扩展INSERT OUTPUT脱敏；真实服务仍待验。
 
 [工作台payload隔离](docs/plans/workbench-payload-exclusion.md)在All前按可信路径段排除HTTP自动表单快照，保错误事件；不是对任意手工日志的全面过滤。
+
+## 许可证
+
+MIT，见 [LICENSE](LICENSE)。
+
+双远端：gitee `charsen/moo-go-monitor` 为主仓，GitHub `charsen/moo-go-monitor` 为镜像。Go module path 仍是 `gitee.com/charsen/moo-go-monitor`——模块路径决定 `go get` 的解析地址，改成 GitHub 路径会让已引用 gitee 路径的宿主断链，属于独立迁移，不在本次改动内。
