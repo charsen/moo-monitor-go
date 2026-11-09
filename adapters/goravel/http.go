@@ -10,9 +10,9 @@ import (
 	"sync/atomic"
 	"unicode/utf8"
 
-	"gitee.com/charsen/moo-go-monitor/capture"
-	"gitee.com/charsen/moo-go-monitor/mask"
-	"gitee.com/charsen/moo-go-monitor/records"
+	"gitee.com/charsen/moo-monitor-go/capture"
+	"gitee.com/charsen/moo-monitor-go/mask"
+	"gitee.com/charsen/moo-monitor-go/records"
 	contractshttp "github.com/goravel/framework/contracts/http"
 )
 

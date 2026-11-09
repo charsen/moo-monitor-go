@@ -5,7 +5,7 @@ import (
 	"reflect"
 	"testing"
 
-	"gitee.com/charsen/moo-go-monitor/buffer"
+	"gitee.com/charsen/moo-monitor-go/buffer"
 )
 
 func TestPreviewReadOnlyAndSelection(t *testing.T) {

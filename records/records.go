@@ -10,7 +10,7 @@ import (
 	"time"
 	"unicode/utf8"
 
-	"gitee.com/charsen/moo-go-monitor/mask"
+	"gitee.com/charsen/moo-monitor-go/mask"
 )
 
 type Config struct {

@@ -53,7 +53,7 @@ Cloud `NewPusher` 的类型flags控制传输，不禁止本地读。健康disabl
 
 ## Cloud 平台兼容与当前信息缺口
 
-Go心跳发送sdk=moo-go-monitor和可选go_version/goravel_version；Cloud HeartbeatController仅对该SDK接收这些受限字段，IntegrationHealthAdvisor分Go/PHP/unknown，接入视图显示对应平台且development不套PHP最低版本。2026-11-02 21:24用户部署后的真实页面、heartbeat和runtime/slow逐项saved已记录在[Host接入证据](../../go-moo-engine-skeleton/docs/integration/cloud-connection.md)；14:59旧UI观察原样保留，不再把心跳兼容写成“本轮只记录不改Cloud”。
+Go心跳发送sdk=moo-monitor-go和可选go_version/goravel_version；Cloud HeartbeatController仅对该SDK接收这些受限字段，IntegrationHealthAdvisor分Go/PHP/unknown，接入视图显示对应平台且development不套PHP最低版本。2026-11-02 21:24用户部署后的真实页面、heartbeat和runtime/slow逐项saved已记录在[Host接入证据](../../go-moo-engine-skeleton/docs/integration/cloud-connection.md)；14:59旧UI观察原样保留，不再把心跳兼容写成“本轮只记录不改Cloud”。
 
 **每条runtime的Go/Goravel版本已贯通（代码，待部署迁移）。** SDK发送Record.context.go/goravel；Cloud Intake写入独立go_version/goravel_version，Runtime模型、读回接口、AI Markdown与详情页按平台展示；历史PHP字段不被覆盖。迁移`2026_11_03_000001_add_go_versions_to_runtimes`须在目标环境执行后才对生产记录生效。四层证据与测试见[兼容方案](plans/cloud-go-compatibility.md)。
 

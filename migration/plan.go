@@ -14,7 +14,7 @@ import (
 	"strings"
 	"unicode/utf8"
 
-	"gitee.com/charsen/moo-go-monitor/buffer"
+	"gitee.com/charsen/moo-monitor-go/buffer"
 )
 
 var ErrPlan = errors.New("migration plan rejected")

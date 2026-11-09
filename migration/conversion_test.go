@@ -6,7 +6,7 @@ import (
 	"strings"
 	"testing"
 
-	"gitee.com/charsen/moo-go-monitor/buffer"
+	"gitee.com/charsen/moo-monitor-go/buffer"
 	"go.yaml.in/yaml/v3"
 )
 

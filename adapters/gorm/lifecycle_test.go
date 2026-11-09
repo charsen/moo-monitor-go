@@ -11,9 +11,9 @@ import (
 	"testing"
 	"time"
 
-	observer "gitee.com/charsen/moo-go-monitor/adapters/gorm"
-	"gitee.com/charsen/moo-go-monitor/capture"
-	"gitee.com/charsen/moo-go-monitor/slowquery"
+	observer "gitee.com/charsen/moo-monitor-go/adapters/gorm"
+	"gitee.com/charsen/moo-monitor-go/capture"
+	"gitee.com/charsen/moo-monitor-go/slowquery"
 	databaselogger "github.com/goravel/framework/contracts/database/logger"
 	databasedb "github.com/goravel/framework/database/db"
 	mockconfig "github.com/goravel/framework/mocks/config"

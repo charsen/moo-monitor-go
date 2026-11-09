@@ -3,7 +3,7 @@ package gormcapture
 import (
 	"unicode/utf8"
 
-	"gitee.com/charsen/moo-go-monitor/slowquery"
+	"gitee.com/charsen/moo-monitor-go/slowquery"
 	"gorm.io/gorm"
 )
 

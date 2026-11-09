@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"io"
 
-	"gitee.com/charsen/moo-go-monitor/records"
+	"gitee.com/charsen/moo-monitor-go/records"
 	"go.yaml.in/yaml/v3"
 )
 

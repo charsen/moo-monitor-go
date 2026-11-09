@@ -10,7 +10,7 @@ import (
 	"testing"
 	"time"
 
-	"gitee.com/charsen/moo-go-monitor/buffer"
+	"gitee.com/charsen/moo-monitor-go/buffer"
 )
 
 func pendingFiles(t *testing.T, root string) map[string][32]byte {

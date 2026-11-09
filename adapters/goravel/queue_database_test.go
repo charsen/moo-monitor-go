@@ -9,7 +9,7 @@ import (
 	"testing"
 	"time"
 
-	adapter "gitee.com/charsen/moo-go-monitor/adapters/goravel"
+	adapter "gitee.com/charsen/moo-monitor-go/adapters/goravel"
 	"github.com/goravel/framework/contracts/database/driver"
 	contractslog "github.com/goravel/framework/contracts/log"
 	contractsqueue "github.com/goravel/framework/contracts/queue"

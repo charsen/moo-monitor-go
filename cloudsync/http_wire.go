@@ -6,9 +6,9 @@ import (
 	"math"
 	"unicode/utf8"
 
-	"gitee.com/charsen/moo-go-monitor/buffer"
-	"gitee.com/charsen/moo-go-monitor/mask"
-	"gitee.com/charsen/moo-go-monitor/records"
+	"gitee.com/charsen/moo-monitor-go/buffer"
+	"gitee.com/charsen/moo-monitor-go/mask"
+	"gitee.com/charsen/moo-monitor-go/records"
 )
 
 func validWireString(value string) bool { return utf8.ValidString(value) }

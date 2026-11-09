@@ -9,9 +9,9 @@ import (
 	"testing"
 	"time"
 
-	adapter "gitee.com/charsen/moo-go-monitor/adapters/goravel"
-	"gitee.com/charsen/moo-go-monitor/buffer"
-	"gitee.com/charsen/moo-go-monitor/capture"
+	adapter "gitee.com/charsen/moo-monitor-go/adapters/goravel"
+	"gitee.com/charsen/moo-monitor-go/buffer"
+	"gitee.com/charsen/moo-monitor-go/capture"
 	contractsqueue "github.com/goravel/framework/contracts/queue"
 	frameworkerrors "github.com/goravel/framework/errors"
 	frameworkjson "github.com/goravel/framework/foundation/json"

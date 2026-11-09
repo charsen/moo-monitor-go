@@ -15,8 +15,8 @@ import (
 	"testing"
 	"time"
 
-	"gitee.com/charsen/moo-go-monitor/cloudsync"
-	"gitee.com/charsen/moo-go-monitor/mcp"
+	"gitee.com/charsen/moo-monitor-go/cloudsync"
+	"gitee.com/charsen/moo-monitor-go/mcp"
 )
 
 const todoID = "01JTESTABCDEFGHIJKLMNOPQRS"

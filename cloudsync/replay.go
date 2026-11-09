@@ -1,6 +1,6 @@
 package cloudsync
 
-import "gitee.com/charsen/moo-go-monitor/buffer"
+import "gitee.com/charsen/moo-monitor-go/buffer"
 
 // All is explicit live-version replay. It ignores historical ACK selection,
 // never exact local suppression, and is never used by an automatic Tick.

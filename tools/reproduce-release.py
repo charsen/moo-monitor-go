@@ -16,7 +16,7 @@ import time
 import uuid
 
 FIXTURE = "v0.0.0-repro.20261102"
-MODULES = {"monitor": "gitee.com/charsen/moo-go-monitor", "scaffold": "gitee.com/charsen/go-moo-scaffold"}
+MODULES = {"monitor": "gitee.com/charsen/moo-monitor-go", "scaffold": "gitee.com/charsen/go-moo-scaffold"}
 HELPER = '''package main
 import("fmt";"os";"golang.org/x/mod/module";"golang.org/x/mod/zip")
 func main(){if len(os.Args)!=5{os.Exit(2)};f,e:=os.OpenFile(os.Args[4],os.O_CREATE|os.O_EXCL|os.O_WRONLY,0600);if e!=nil{fmt.Fprintln(os.Stderr,e);os.Exit(1)};e=zip.CreateFromDir(f,module.Version{Path:os.Args[1],Version:os.Args[2]},os.Args[3]);c:=f.Close();if e!=nil||c!=nil{fmt.Fprintln(os.Stderr,e,c);os.Exit(1)}}

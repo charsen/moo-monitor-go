@@ -6,9 +6,9 @@ import (
 	"errors"
 	"sync"
 
-	"gitee.com/charsen/moo-go-monitor/buffer"
-	"gitee.com/charsen/moo-go-monitor/capture"
-	"gitee.com/charsen/moo-go-monitor/records"
+	"gitee.com/charsen/moo-monitor-go/buffer"
+	"gitee.com/charsen/moo-monitor-go/capture"
+	"gitee.com/charsen/moo-monitor-go/records"
 	"github.com/goravel/framework/contracts/log"
 )
 

@@ -5,9 +5,9 @@ import (
 	"errors"
 	"fmt"
 
-	"gitee.com/charsen/moo-go-monitor/buffer"
-	"gitee.com/charsen/moo-go-monitor/records"
-	"gitee.com/charsen/moo-go-monitor/slowquery"
+	"gitee.com/charsen/moo-monitor-go/buffer"
+	"gitee.com/charsen/moo-monitor-go/records"
+	"gitee.com/charsen/moo-monitor-go/slowquery"
 )
 
 var ErrDiscardSource = errors.New("local noise discard source unavailable")

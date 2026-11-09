@@ -27,7 +27,7 @@ func TestHeartbeatWireAndReceipt(t *testing.T) {
 					Token string         `json:"token"`
 					Meta  map[string]any `json:"meta"`
 				}
-				if json.NewDecoder(r.Body).Decode(&wire) != nil || wire.Token != fakeToken || wire.Meta["sdk"] != "moo-go-monitor" || len(wire.Meta) != 10 {
+				if json.NewDecoder(r.Body).Decode(&wire) != nil || wire.Token != fakeToken || wire.Meta["sdk"] != "moo-monitor-go" || len(wire.Meta) != 10 {
 					t.Error("heartbeat whitelist/token invalid")
 				}
 				for _, key := range []string{"go_version", "goravel_version", "php_version", "laravel_version"} {

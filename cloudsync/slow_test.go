@@ -14,8 +14,8 @@ import (
 	"testing"
 	"time"
 
-	"gitee.com/charsen/moo-go-monitor/buffer"
-	"gitee.com/charsen/moo-go-monitor/slowquery"
+	"gitee.com/charsen/moo-monitor-go/buffer"
+	"gitee.com/charsen/moo-monitor-go/slowquery"
 )
 
 func slowSyncStore(t *testing.T) (*buffer.SlowBuffer, slowquery.Input, time.Time) {

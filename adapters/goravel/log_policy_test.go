@@ -6,8 +6,8 @@ import (
 	"log/slog"
 	"testing"
 
-	adapter "gitee.com/charsen/moo-go-monitor/adapters/goravel"
-	"gitee.com/charsen/moo-go-monitor/capture"
+	adapter "gitee.com/charsen/moo-monitor-go/adapters/goravel"
+	"gitee.com/charsen/moo-monitor-go/capture"
 	"github.com/goravel/framework/contracts/log"
 	frameworklog "github.com/goravel/framework/log"
 )

@@ -11,8 +11,8 @@ import (
 	"time"
 	"unicode/utf8"
 
-	"gitee.com/charsen/moo-go-monitor/capture"
-	"gitee.com/charsen/moo-go-monitor/slowquery"
+	"gitee.com/charsen/moo-monitor-go/capture"
+	"gitee.com/charsen/moo-monitor-go/slowquery"
 	"gorm.io/gorm"
 )
 
@@ -402,7 +402,7 @@ func caller() (string, int) {
 	for {
 		frame, more := frames.Next()
 		ignored := false
-		for _, prefix := range []string{"gitee.com/charsen/moo-go-monitor/", "github.com/goravel/framework/", "gorm.io/", "database/sql.", "runtime.", "testing."} {
+		for _, prefix := range []string{"gitee.com/charsen/moo-monitor-go/", "github.com/goravel/framework/", "gorm.io/", "database/sql.", "runtime.", "testing."} {
 			if strings.HasPrefix(frame.Function, prefix) {
 				ignored = true
 				break

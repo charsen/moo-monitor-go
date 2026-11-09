@@ -7,7 +7,7 @@ import (
 	"unicode/utf8"
 )
 
-const sdkModule = "gitee.com/charsen/moo-go-monitor"
+const sdkModule = "gitee.com/charsen/moo-monitor-go"
 const goravelModule = "github.com/goravel/framework"
 
 type Metadata struct{ SDKVersion, GoVersion, GoravelVersion string }

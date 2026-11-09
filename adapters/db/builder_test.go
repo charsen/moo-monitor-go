@@ -8,8 +8,8 @@ import (
 	"testing"
 	"time"
 
-	"gitee.com/charsen/moo-go-monitor/buffer"
-	"gitee.com/charsen/moo-go-monitor/slowquery"
+	"gitee.com/charsen/moo-monitor-go/buffer"
+	"gitee.com/charsen/moo-monitor-go/slowquery"
 	"github.com/goravel/framework/contracts/database"
 	"github.com/goravel/framework/contracts/database/driver"
 	"github.com/goravel/framework/contracts/testing/docker"

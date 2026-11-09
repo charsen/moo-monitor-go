@@ -10,9 +10,9 @@ import (
 	"strings"
 	"time"
 
-	"gitee.com/charsen/moo-go-monitor/buffer"
-	"gitee.com/charsen/moo-go-monitor/records"
-	"gitee.com/charsen/moo-go-monitor/sourcecontext"
+	"gitee.com/charsen/moo-monitor-go/buffer"
+	"gitee.com/charsen/moo-monitor-go/records"
+	"gitee.com/charsen/moo-monitor-go/sourcecontext"
 )
 
 var ErrExtraction = errors.New("capture error extraction panicked")
@@ -257,7 +257,7 @@ func CallerFrames(skip int, exclude []string) []records.Frame {
 	for {
 		frame, more := iterator.Next()
 		ignored := false
-		for _, prefix := range append([]string{"gitee.com/charsen/moo-go-monitor/capture.", "gitee.com/charsen/moo-go-monitor/adapters/goravel."}, exclude...) {
+		for _, prefix := range append([]string{"gitee.com/charsen/moo-monitor-go/capture.", "gitee.com/charsen/moo-monitor-go/adapters/goravel."}, exclude...) {
 			if strings.HasPrefix(frame.Function, prefix) {
 				ignored = true
 				break

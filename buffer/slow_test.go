@@ -12,7 +12,7 @@ import (
 	"time"
 	"unicode/utf8"
 
-	"gitee.com/charsen/moo-go-monitor/slowquery"
+	"gitee.com/charsen/moo-monitor-go/slowquery"
 	"go.yaml.in/yaml/v3"
 )
 

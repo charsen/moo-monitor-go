@@ -9,8 +9,8 @@ import (
 	"strings"
 	"time"
 
-	"gitee.com/charsen/moo-go-monitor/capture"
-	"gitee.com/charsen/moo-go-monitor/records"
+	"gitee.com/charsen/moo-monitor-go/capture"
+	"gitee.com/charsen/moo-monitor-go/records"
 	"github.com/goravel/framework/contracts/console"
 )
 

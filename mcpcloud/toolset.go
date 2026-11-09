@@ -10,8 +10,8 @@ import (
 	"strings"
 	"unicode/utf8"
 
-	"gitee.com/charsen/moo-go-monitor/cloudsync"
-	"gitee.com/charsen/moo-go-monitor/mcp"
+	"gitee.com/charsen/moo-monitor-go/cloudsync"
+	"gitee.com/charsen/moo-monitor-go/mcp"
 )
 
 type Client interface {

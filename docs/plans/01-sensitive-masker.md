@@ -4,7 +4,7 @@
 
 首批只实现mask.New(keys)(*Masker,error)、ShouldMaskKey、MaskURL与MaskSecrets；不实现SQL脱敏、递归payload、事件/缓冲、Host/Gin接线或Cloud。
 
-实际go mod init gitee.com/charsen/moo-go-monitor后设最低Go1.26.0，只标准库；本次实测工具链Go1.27.3，未实际运行1.26。不导入scaffold/Host，不加入Host workspace。
+实际go mod init gitee.com/charsen/moo-monitor-go后设最低Go1.26.0，只标准库；本次实测工具链Go1.27.3，未实际运行1.26。不导入scaffold/Host，不加入Host workspace。
 
 ## 源证据与配置边界
 

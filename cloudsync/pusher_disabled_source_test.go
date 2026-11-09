@@ -8,7 +8,7 @@ import (
 	"testing"
 	"time"
 
-	"gitee.com/charsen/moo-go-monitor/buffer"
+	"gitee.com/charsen/moo-monitor-go/buffer"
 )
 
 func TestPusherDisabledSourceInitializationIsolation(t *testing.T) {

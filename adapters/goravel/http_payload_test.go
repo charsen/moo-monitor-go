@@ -10,7 +10,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	adapter "gitee.com/charsen/moo-go-monitor/adapters/goravel"
+	adapter "gitee.com/charsen/moo-monitor-go/adapters/goravel"
 	contractshttp "github.com/goravel/framework/contracts/http"
 )
 

@@ -5,7 +5,7 @@ import (
 	"strings"
 	"testing"
 
-	"gitee.com/charsen/moo-go-monitor/slowquery"
+	"gitee.com/charsen/moo-monitor-go/slowquery"
 	sqlserverdialect "gorm.io/driver/sqlserver"
 )
 

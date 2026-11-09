@@ -5,7 +5,7 @@ import (
 	"strconv"
 	"time"
 
-	"gitee.com/charsen/moo-go-monitor/capture"
+	"gitee.com/charsen/moo-monitor-go/capture"
 	"github.com/goravel/framework/contracts/cache"
 	"github.com/goravel/framework/contracts/database/db"
 	"github.com/goravel/framework/contracts/foundation"

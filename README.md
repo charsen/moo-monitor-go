@@ -1,8 +1,12 @@
-# Moo Go Monitor
+# Moo Monitor Go
 
 Go 业务系统必需的独立监控采集 SDK，全业务复刻 PHP 监控包的能力、规则和公共契约，并提供 Goravel 接入。内部实现按 Go 适配，最终业务范围保持完整。
 
-本机 PHP 包的实际目录和 Composer 名称是 `moo-monitor-laravel` / `charsen/moo-monitor-laravel`；Go 项目按用户指定命名为 `moo-go-monitor`。
+> **2026-11-09 更名**：仓库与 module 由 `moo-go-monitor` 改为 `moo-monitor-go`（对齐 `moo-monitor-<platform>` 命名）。
+> 历史文档（`docs/lessons/`、`docs/plans/`、`docs/contracts/fixtures/`）里的旧名指同一仓库，内容按当时事实保留，不回写。
+> 心跳里的 `meta.sdk` 现在发 `moo-monitor-go`；Cloud 同时接受旧名 `moo-go-monitor`，升级期间不会把宿主判成未知 SDK。
+
+本机 PHP 包的实际目录和 Composer 名称是 `moo-monitor-laravel` / `charsen/moo-monitor-laravel`。
 
 本包负责运行时错误、慢 SQL、聚合脱敏、可恢复本地缓冲、云端同步、心跳、自检及 MCP 接入；不提供业务页面或研发工作台。业务 Host 可以独立安装它，`go-moo-scaffold` 只消费其状态与公开接口。
 
@@ -94,4 +98,4 @@ Go 业务系统必需的独立监控采集 SDK，全业务复刻 PHP 监控包�
 
 MIT，见 [LICENSE](LICENSE)。
 
-双远端：gitee `charsen/moo-go-monitor` 为主仓，GitHub `charsen/moo-go-monitor` 为镜像。Go module path 仍是 `gitee.com/charsen/moo-go-monitor`——模块路径决定 `go get` 的解析地址，改成 GitHub 路径会让已引用 gitee 路径的宿主断链，属于独立迁移，不在本次改动内。
+双远端：gitee `charsen/moo-monitor-go` 为主仓，GitHub `charsen/moo-monitor-go` 为镜像。Go module path 仍是 `gitee.com/charsen/moo-monitor-go`——模块路径决定 `go get` 的解析地址，改成 GitHub 路径会让已引用 gitee 路径的宿主断链，属于独立迁移，不在本次改动内。

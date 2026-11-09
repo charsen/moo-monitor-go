@@ -4,7 +4,7 @@ import (
 	"strings"
 	"time"
 
-	"gitee.com/charsen/moo-go-monitor/records"
+	"gitee.com/charsen/moo-monitor-go/records"
 )
 
 // family is the closed, typed boundary between two record schemas and the same durable machinery.

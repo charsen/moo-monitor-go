@@ -43,7 +43,7 @@ func (c *HTTPClient) Heartbeat(ctx context.Context, meta HeartbeatMeta) error {
 	body, err := json.Marshal(struct {
 		Token string            `json:"token"`
 		Meta  heartbeatWireMeta `json:"meta"`
-	}{c.token, heartbeatWireMeta{"moo-go-monitor", meta}})
+	}{c.token, heartbeatWireMeta{"moo-monitor-go", meta}})
 	if err != nil {
 		return &HTTPError{Operation: "heartbeat", category: ErrWire}
 	}

@@ -1,7 +1,7 @@
 package gormcapture
 
 import (
-	"gitee.com/charsen/moo-go-monitor/slowquery"
+	"gitee.com/charsen/moo-monitor-go/slowquery"
 	"gorm.io/gorm"
 )
 

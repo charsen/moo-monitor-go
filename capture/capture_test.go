@@ -9,8 +9,8 @@ import (
 	"testing"
 	"time"
 
-	"gitee.com/charsen/moo-go-monitor/buffer"
-	"gitee.com/charsen/moo-go-monitor/records"
+	"gitee.com/charsen/moo-monitor-go/buffer"
+	"gitee.com/charsen/moo-monitor-go/records"
 )
 
 var now = time.Date(2026, 10, 29, 12, 0, 0, 0, time.FixedZone("fixture", 8*3600))

@@ -15,7 +15,7 @@
 
 PHP的CloudPushCommand每轮真实运行都会心跳，哪怕没有变化。Cloud只刷新项目last_heartbeat_at/meta，不改代表人为操作的updated_at；这样“无异常”不等于“推送程序已停止”。Go通过Pusher.AfterPush消费同一Heartbeater，空轮或intake失败仍尝试，HealthError独立于上传结果，不造ACK。
 
-心跳POST body为token/meta。当前Cloud只接受sdk/sdk_version/app_env/app_name和六bool，Go固定sdk=moo-go-monitor，不提供虚假PHP/Laravel版本。Go/Goravel版本只作本地诊断及已有记录Context，Cloud新平台字段兼容仍待验证。
+心跳POST body为token/meta。当前Cloud只接受sdk/sdk_version/app_env/app_name和六bool，Go固定sdk=moo-monitor-go，不提供虚假PHP/Laravel版本。Go/Goravel版本只作本地诊断及已有记录Context，Cloud新平台字段兼容仍待验证。
 
 Heartbeat复制HTTPClient与http.Client值，借用原transport，只修改本次timeout。沿源clamp至少1秒最多4秒，100ms配置也会升为1秒；更短caller context仍可取消。两次/100ms仅重试连接错误，HTTP状态不即时重试；继续原证书策略、拒全部redirect和响应上限。返回安全类别，不带URL/token/原Cloud自由文本。
 

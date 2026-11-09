@@ -10,9 +10,9 @@ import (
 	"sync"
 	"time"
 
-	gormcapture "gitee.com/charsen/moo-go-monitor/adapters/gorm"
-	"gitee.com/charsen/moo-go-monitor/capture"
-	"gitee.com/charsen/moo-go-monitor/slowquery"
+	gormcapture "gitee.com/charsen/moo-monitor-go/adapters/gorm"
+	"gitee.com/charsen/moo-monitor-go/capture"
+	"gitee.com/charsen/moo-monitor-go/slowquery"
 	"gorm.io/gorm"
 )
 
@@ -205,7 +205,7 @@ func dbCaller() (string, int) {
 	for {
 		frame, more := frames.Next()
 		skip := false
-		for _, prefix := range []string{"gitee.com/charsen/moo-go-monitor/", "github.com/goravel/framework/", "gorm.io/", "database/sql.", "runtime.", "testing."} {
+		for _, prefix := range []string{"gitee.com/charsen/moo-monitor-go/", "github.com/goravel/framework/", "gorm.io/", "database/sql.", "runtime.", "testing."} {
 			if strings.HasPrefix(frame.Function, prefix) {
 				skip = true
 				break

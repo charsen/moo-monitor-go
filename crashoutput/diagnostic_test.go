@@ -10,9 +10,9 @@ import (
 	"testing"
 	"time"
 
-	"gitee.com/charsen/moo-go-monitor/buffer"
-	"gitee.com/charsen/moo-go-monitor/cloudsync"
-	"gitee.com/charsen/moo-go-monitor/records"
+	"gitee.com/charsen/moo-monitor-go/buffer"
+	"gitee.com/charsen/moo-monitor-go/cloudsync"
+	"gitee.com/charsen/moo-monitor-go/records"
 )
 
 type diagnosticClient struct{ calls int }

@@ -5,7 +5,7 @@ import (
 	"errors"
 	"testing"
 
-	observer "gitee.com/charsen/moo-go-monitor/adapters/gorm"
+	observer "gitee.com/charsen/moo-monitor-go/adapters/gorm"
 	"gorm.io/gorm"
 )
 

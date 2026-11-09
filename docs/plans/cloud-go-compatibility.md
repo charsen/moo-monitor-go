@@ -4,7 +4,7 @@
 
 ## 当前心跳链路
 
-SDK `cloudsync/heartbeat.go` 发送固定sdk=moo-go-monitor及可选go_version/goravel_version；Host `app/monitor/health.go` 使用真实BuildInfo，并以development/unknown表达未发布或缺证据。SDK字段限长与Cloud白名单分别守边界，不伪填PHP/Laravel版本。
+SDK `cloudsync/heartbeat.go` 发送固定sdk=moo-monitor-go及可选go_version/goravel_version；Host `app/monitor/health.go` 使用真实BuildInfo，并以development/unknown表达未发布或缺证据。SDK字段限长与Cloud白名单分别守边界，不伪填PHP/Laravel版本。
 
 | 消费者 | 当前实现 | 保留边界 |
 | --- | --- | --- |

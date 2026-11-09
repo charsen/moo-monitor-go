@@ -12,8 +12,8 @@ import (
 	"sync"
 	"unicode/utf8"
 
-	"gitee.com/charsen/moo-go-monitor/mask"
-	"gitee.com/charsen/moo-go-monitor/records"
+	"gitee.com/charsen/moo-monitor-go/mask"
+	"gitee.com/charsen/moo-monitor-go/records"
 )
 
 var ErrConfig = errors.New("source context configuration rejected")

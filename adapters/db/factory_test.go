@@ -9,8 +9,8 @@ import (
 	"testing"
 	"time"
 
-	"gitee.com/charsen/moo-go-monitor/buffer"
-	"gitee.com/charsen/moo-go-monitor/slowquery"
+	"gitee.com/charsen/moo-monitor-go/buffer"
+	"gitee.com/charsen/moo-monitor-go/slowquery"
 	frameworkconfig "github.com/goravel/framework/config"
 	contractsdb "github.com/goravel/framework/contracts/database/db"
 	contractsdriver "github.com/goravel/framework/contracts/database/driver"

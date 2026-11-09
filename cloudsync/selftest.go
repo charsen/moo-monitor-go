@@ -7,9 +7,9 @@ import (
 	"strings"
 	"time"
 
-	"gitee.com/charsen/moo-go-monitor/buffer"
-	"gitee.com/charsen/moo-go-monitor/records"
-	"gitee.com/charsen/moo-go-monitor/slowquery"
+	"gitee.com/charsen/moo-monitor-go/buffer"
+	"gitee.com/charsen/moo-monitor-go/records"
+	"gitee.com/charsen/moo-monitor-go/slowquery"
 )
 
 var ErrSelfTest = errors.New("monitor self-test did not confirm storage")
@@ -102,7 +102,7 @@ func (s *SelfTest) RunWithOptions(ctx context.Context, kind SelfTestType, option
 	failed := false
 	if kind == SelfTestBoth || kind == SelfTestRuntimes {
 		result.Runtime.Attempted = true
-		record, err := s.runtime.Build(records.Snapshot{Exception: records.Exception{Class: "moo-go-monitor/SelfTestError", Message: "moo-monitor connectivity self-test; safe to ignore", File: "moo-monitor/self-test"}, Context: records.GoContext{Env: s.config.Meta.AppEnv, Project: s.config.Project, Go: runtime.Version(), Goravel: s.config.GoravelVersion}, Source: "self_test", Meta: map[string]any{"updated_at": stamp}}, now)
+		record, err := s.runtime.Build(records.Snapshot{Exception: records.Exception{Class: "moo-monitor-go/SelfTestError", Message: "moo-monitor connectivity self-test; safe to ignore", File: "moo-monitor/self-test"}, Context: records.GoContext{Env: s.config.Meta.AppEnv, Project: s.config.Project, Go: runtime.Version(), Goravel: s.config.GoravelVersion}, Source: "self_test", Meta: map[string]any{"updated_at": stamp}}, now)
 		if err != nil {
 			result.Runtime.Outcome = "invalid_record"
 			failed = true

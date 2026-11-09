@@ -7,7 +7,7 @@ import (
 	"testing"
 	"time"
 
-	adapter "gitee.com/charsen/moo-go-monitor/adapters/goravel"
+	adapter "gitee.com/charsen/moo-monitor-go/adapters/goravel"
 	contractsqueue "github.com/goravel/framework/contracts/queue"
 	frameworkerrors "github.com/goravel/framework/errors"
 	frameworkqueue "github.com/goravel/framework/queue"

@@ -12,7 +12,7 @@ import (
 	"sync"
 	"unicode/utf8"
 
-	"gitee.com/charsen/moo-go-monitor/mask"
+	"gitee.com/charsen/moo-monitor-go/mask"
 )
 
 var ErrBusy = errors.New("crash output slot already owned")

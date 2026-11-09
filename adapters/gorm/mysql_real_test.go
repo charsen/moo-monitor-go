@@ -8,9 +8,9 @@ import (
 	"testing"
 	"time"
 
-	observer "gitee.com/charsen/moo-go-monitor/adapters/gorm"
-	"gitee.com/charsen/moo-go-monitor/buffer"
-	"gitee.com/charsen/moo-go-monitor/slowquery"
+	observer "gitee.com/charsen/moo-monitor-go/adapters/gorm"
+	"gitee.com/charsen/moo-monitor-go/buffer"
+	"gitee.com/charsen/moo-monitor-go/slowquery"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )

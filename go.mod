@@ -1,4 +1,4 @@
-module gitee.com/charsen/moo-go-monitor
+module gitee.com/charsen/moo-monitor-go
 
 go 1.26.0
 

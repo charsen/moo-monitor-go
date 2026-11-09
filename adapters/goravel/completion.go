@@ -4,7 +4,7 @@ import (
 	"context"
 	"time"
 
-	"gitee.com/charsen/moo-go-monitor/capture"
+	"gitee.com/charsen/moo-monitor-go/capture"
 )
 
 // lifecycleCapture is shared only by the queue and scheduler's safe side channels.

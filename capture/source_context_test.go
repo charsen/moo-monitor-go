@@ -8,8 +8,8 @@ import (
 	"strings"
 	"testing"
 
-	"gitee.com/charsen/moo-go-monitor/records"
-	"gitee.com/charsen/moo-go-monitor/sourcecontext"
+	"gitee.com/charsen/moo-monitor-go/records"
+	"gitee.com/charsen/moo-monitor-go/sourcecontext"
 )
 
 type brokenSource struct{ panicRead bool }

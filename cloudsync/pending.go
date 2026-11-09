@@ -4,7 +4,7 @@ import (
 	"context"
 	"errors"
 
-	"gitee.com/charsen/moo-go-monitor/buffer"
+	"gitee.com/charsen/moo-monitor-go/buffer"
 )
 
 type PendingCounts struct {

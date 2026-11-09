@@ -6,7 +6,7 @@
 
 独占cloudsync/heartbeat.go、selftest.go与对应定向测试。复用现HTTPClient私有post和已有records/slowquery Builder，不改增量Sync/ACK/业务Buffer；不改17推送主链。Host健康command真实make后深化，Host48两正文/测试独占，shared配置/注册/入口由writer维护。
 
-Heartbeat(ctx,HeartbeatMeta) POST api/v1/heartbeat，body token/meta，固定sdk=moo-go-monitor；当前发sdk_version/app_env/app_name、六bool及37新增的go_version/goravel_version；Cloud心跳白名单已兼容并实际部署验证，不伪PHP/Laravel。每条runtime版本持久化缺口见[兼容方案](cloud-go-compatibility.md)。timeout按源1..4秒，2次/100ms只连接错误，复用拒redirect/TLS/有界响应/安全错误；接收2xx且ok===true。HTTPClient/http.Client浅副本调整本次timeout，不修改共享client。
+Heartbeat(ctx,HeartbeatMeta) POST api/v1/heartbeat，body token/meta，固定sdk=moo-monitor-go；当前发sdk_version/app_env/app_name、六bool及37新增的go_version/goravel_version；Cloud心跳白名单已兼容并实际部署验证，不伪PHP/Laravel。每条runtime版本持久化缺口见[兼容方案](cloud-go-compatibility.md)。timeout按源1..4秒，2次/100ms只连接错误，复用拒redirect/TLS/有界响应/安全错误；接收2xx且ok===true。HTTPClient/http.Client浅副本调整本次timeout，不修改共享client。
 
 每轮实际push后（包括空轮/部分失败）best-effort心跳，结果独立不改push成功；dry-run不发送。与17的Heartbeater消费接口协作，第二步共享接入由writer维护，不并发改17文件。
 

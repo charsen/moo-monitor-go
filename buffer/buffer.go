@@ -13,7 +13,7 @@ import (
 	"strings"
 	"time"
 
-	"gitee.com/charsen/moo-go-monitor/records"
+	"gitee.com/charsen/moo-monitor-go/records"
 	"github.com/gofrs/flock"
 )
 

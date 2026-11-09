@@ -8,7 +8,7 @@ import (
 	"unicode"
 	"unicode/utf8"
 
-	"gitee.com/charsen/moo-go-monitor/mask"
+	"gitee.com/charsen/moo-monitor-go/mask"
 	contractshttp "github.com/goravel/framework/contracts/http"
 )
 

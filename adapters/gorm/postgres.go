@@ -5,7 +5,7 @@ import (
 	"strconv"
 	"unicode/utf8"
 
-	"gitee.com/charsen/moo-go-monitor/slowquery"
+	"gitee.com/charsen/moo-monitor-go/slowquery"
 	"github.com/jackc/pgx/v5"
 	"gorm.io/gorm"
 )

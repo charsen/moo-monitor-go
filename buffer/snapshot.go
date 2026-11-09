@@ -13,7 +13,7 @@ import (
 	"sort"
 	"time"
 
-	"gitee.com/charsen/moo-go-monitor/records"
+	"gitee.com/charsen/moo-monitor-go/records"
 )
 
 type Snapshot = VersionedSnapshot[records.Record]

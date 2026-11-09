@@ -4,9 +4,9 @@ import (
 	"context"
 	"errors"
 
-	"gitee.com/charsen/moo-go-monitor/buffer"
-	"gitee.com/charsen/moo-go-monitor/records"
-	"gitee.com/charsen/moo-go-monitor/slowquery"
+	"gitee.com/charsen/moo-monitor-go/buffer"
+	"gitee.com/charsen/moo-monitor-go/records"
+	"gitee.com/charsen/moo-monitor-go/slowquery"
 )
 
 // StatusReader owns scope handles, never a Client. Construction can prepare lock

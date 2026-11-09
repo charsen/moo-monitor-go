@@ -7,8 +7,8 @@ import (
 	"math"
 	"strconv"
 
-	"gitee.com/charsen/moo-go-monitor/mask"
-	"gitee.com/charsen/moo-go-monitor/records"
+	"gitee.com/charsen/moo-monitor-go/mask"
+	"gitee.com/charsen/moo-monitor-go/records"
 	"go.yaml.in/yaml/v3"
 )
 
