@@ -9,5 +9,3 @@ SCloud Host adapter只在明确写操作配置true：Push的既有CloudSettings.
 新增once_http_test.go的owned断连服务先收完整请求body再断开：runtime、slow、两类discard、heartbeat各一次，不将未知响应当未执行。默认runtime对照仍为3次，证明默认不变；borrowed RoundTripper新定向检查GetBody=nil/SDK只调用一次。只此新范围race1.937s通过，没有重跑成熟HTTP全组、真实Cloud或外部业务网络。
 
 四层：SDK新可选字段/constructor/post与heartbeat复制；Host显式SCloud调用，既有CLI/owner默认保留；owned/borrowed transport所有权边界和现实例接线；新断连计数与UI outcome消费者/文档。UI完整结果验收另见Host SCloud计划，本文不冒其页面全模块完成。
-
-自主练习：比较一次用户操作与某个POST尝试数；解释body已收完再EOF为什么不能判定未执行；确认使用owned和borrowed transport时策略边界；检查调用方如何对partial/timeout展示结果并主动领取新票据。
