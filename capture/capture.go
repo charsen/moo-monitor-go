@@ -84,6 +84,8 @@ func (c *Collector) LogMessage(ctx context.Context, message string, options Opti
 }
 
 func (c *Collector) capture(ctx context.Context, event error, message string, options Options) (hash string, failure error) {
+	// A panic during a store mutation has an unknown outcome: preserve that
+	// uncertainty so the same scoped event cannot be blindly recorded twice.
 	recording := false
 	defer func() {
 		if recover() != nil {
@@ -111,6 +113,7 @@ func (c *Collector) capture(ctx context.Context, event error, message string, op
 	if options.Source == "" {
 		source = "reportable"
 	}
+	// Existing event identity wins; a later source can only enrich its rank.
 	if options.Scope != nil {
 		scope := options.Scope
 		if err := scope.enter(ctx); err != nil {
@@ -149,6 +152,7 @@ func (c *Collector) capture(ctx context.Context, event error, message string, op
 			return "", ErrScopeFull
 		}
 	}
+	// Freeze identity before optional source enrichment, then record once.
 	snapshot, err := c.snapshot(event, message, source, options)
 	if err != nil {
 		return "", err

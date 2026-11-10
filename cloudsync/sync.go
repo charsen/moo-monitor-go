@@ -112,6 +112,7 @@ func (s *synchronizer[R]) SyncWithOptions(ctx context.Context, options SyncOptio
 	if err := ctx.Err(); err != nil {
 		return result, err
 	}
+	// The invocation gate and scope lock protect the same durable ACK ledger.
 	select {
 	case <-s.gate:
 		defer func() { s.gate <- struct{}{} }()
@@ -139,6 +140,7 @@ func (s *synchronizer[R]) SyncWithOptions(ctx context.Context, options SyncOptio
 	if err != nil {
 		return result, err
 	}
+	// Work from one snapshot set; confirmations apply only to exact versions.
 	snapshots, err := s.store.Snapshot(ctx)
 	if err != nil {
 		return result, err
@@ -174,6 +176,7 @@ func (s *synchronizer[R]) SyncWithOptions(ctx context.Context, options SyncOptio
 	}
 	result.Cursor = ledger.Cursor
 	var pendingCause error
+	// Finish validation, local CAS and ACK persistence before the next batch.
 	for start := 0; start < len(pending); start += s.batchSize {
 		batch := pending[start:min(start+s.batchSize, len(pending))]
 		receipt, err := s.client.Send(ctx, batch)
@@ -184,42 +187,7 @@ func (s *synchronizer[R]) SyncWithOptions(ctx context.Context, options SyncOptio
 		if err = validate(receipt, batch); err != nil {
 			return result, err
 		}
-		items := receipt.Results
-		if receipt.Legacy {
-			items = make([]Item, len(batch))
-			for i, snapshot := range batch {
-				items[i] = Item{Index: i, Hash: snapshot.Hash, Status: "saved"}
-			}
-		}
-		// The whole batch has passed validation before the first local side effect.
-		for _, item := range items {
-			snapshot := batch[item.Index]
-			decision := buffer.Decision{Disposition: buffer.Confirm}
-			permanent := item.Status == "skipped" && !item.Retryable
-			if item.Status == "skipped" && item.Retryable {
-				pendingCause = errors.Join(pendingCause, ErrPending)
-				continue
-			}
-			if permanent {
-				decision.Disposition = buffer.Quarantine
-				decision.Reason = buffer.SafeRejectionReason(*item.Reason)
-			}
-			applied, err := s.store.Compare(ctx, snapshot, decision)
-			if err != nil {
-				pendingCause = errors.Join(pendingCause, err)
-				continue
-			}
-			if !applied {
-				pendingCause = errors.Join(pendingCause, ErrPending)
-				continue
-			}
-			ledger.Confirmed[snapshot.Hash] = Confirmed{Digest: snapshot.Digest, Timestamp: snapshot.Timestamp, Bucket: snapshot.Bucket}
-			result.Confirmed++
-			result.Remaining--
-			if permanent {
-				result.Rejected = append(result.Rejected, Rejected{Hash: snapshot.Hash, Reason: decision.Reason})
-			}
-		}
+		pendingCause = errors.Join(pendingCause, s.applyValidatedReceipt(ctx, batch, receipt, &ledger, &result))
 		ledger.Cursor = safeCursor(ledger.Cursor, snapshots, ledger.Confirmed)
 		result.Pending = 0
 		for _, snapshot := range snapshots {
