@@ -38,7 +38,7 @@ func New(keys []string) (*Masker, error) {
 		alternatives = append(alternatives, regexp.QuoteMeta(key))
 	}
 	if len(alternatives) > 0 {
-		pattern := `([a-z0-9_.\-]*(?:` + strings.Join(alternatives, "|") + `)[a-z0-9_.\-]*[\t\n\f\r\v ]*["']?[\t\n\f\r\v ]*[:=][\t\n\f\r\v ]*["']?)([^\t\n\f\r\v "',&;]+)`
+		pattern := `([a-z0-9_.\-]*(?:` + strings.Join(alternatives, "|") + `)[a-z0-9_.\-]*[\t\n\f\r\v ]*["']?[\t\n\f\r\v ]*[:=][\t\n\f\r\v ]*)("(?:[^"\\\r\n]|\\.)*(?:"|$)|'(?:[^'\\\r\n]|\\.)*(?:'|$)|[^\t\n\f\r\v "',&;]+)`
 		compiled, err := regexp.Compile(pattern)
 		if err != nil {
 			return nil, fmt.Errorf("compile sensitive key pattern: %w", err)
@@ -100,9 +100,36 @@ func (m *Masker) MaskSecrets(value string) string {
 	value = jwt.ReplaceAllString(value, "***JWT***")
 	value = replaceLowerASCII(value, bearer, "Bearer ***", false)
 	if m.keySecrets != nil {
-		value = replaceLowerASCII(value, m.keySecrets, "***", true)
+		value = m.maskKeyValues(value)
 	}
 	return value
+}
+
+// Quoted values are a whole credential, including spaces and escaped quotes.
+// Preserve their delimiters so existing JSON-like diagnostics remain readable.
+func (m *Masker) maskKeyValues(value string) string {
+	matches := m.keySecrets.FindAllStringSubmatchIndex(lowerASCII(value), -1)
+	if len(matches) == 0 {
+		return value
+	}
+	var result strings.Builder
+	last := 0
+	for _, match := range matches {
+		result.WriteString(value[last:match[0]])
+		result.WriteString(value[match[2]:match[3]])
+		secret := value[match[4]:match[5]]
+		quoted := secret[0] == '"' || secret[0] == '\''
+		if quoted {
+			result.WriteByte(secret[0])
+		}
+		result.WriteString("***")
+		if quoted && len(secret) > 1 && secret[len(secret)-1] == secret[0] {
+			result.WriteByte(secret[0])
+		}
+		last = match[1]
+	}
+	result.WriteString(value[last:])
+	return result.String()
 }
 
 // Match ASCII-folded bytes but retain original captured prefixes and untouched text.

@@ -7,6 +7,7 @@
 - [`capture/`](../../capture)、[`buffer/`](../../buffer)、[`cloudsync/`](../../cloudsync)：公开 Go API 与持久/同步状态。
 - [`adapters/`](../../adapters)：Goravel/GORM 适配，与独立核心分离。
 - [`fixtures/`](fixtures)：协议对照、固定假数据与历史发布证据。
+- [`跨SDK脱敏样例`](fixtures/cross-sdk-redaction.json)：与其他Monitor SDK逐字一致的纯假数据；覆盖多词/转义引号密码、JWT和正常源码标识。仅共享测试输入与安全断言，不统一不同运行时的采集能力，也不替代历史PHP来源fixture。
 
 记录、scope、游标与 ACK 隔离；严格逐条确认才推进水位。Host 提供采集配置、存储、身份快照及 Owner 启停。Scaffold 通过消费方窄接口使用状态和显式操作，由 Host 连接两个包；SDK 不反向依赖 scaffold 或 Host。
 
