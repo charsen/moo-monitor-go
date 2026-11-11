@@ -52,6 +52,11 @@ func TestSourceFixture(t *testing.T) {
 			if err := json.Unmarshal(tc.Output, &expected); err != nil {
 				t.Fatal(err)
 			}
+			// Keep the PHP source fixture unchanged as historical evidence. Go now
+			// masks the entire compound Digest header, including its realm.
+			if tc.Name == "auth-digest" {
+				expected = "Authorization: ***"
+			}
 			if actual != expected {
 				t.Fatalf("got %q want %s", got, tc.Output)
 			}

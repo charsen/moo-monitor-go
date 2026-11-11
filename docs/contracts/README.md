@@ -1,5 +1,7 @@
 # Monitor 公共契约
 
+Digest Authorization 复合头整体遮蔽，包含逗号参数和折行续行，保留后续独立头。Go 此安全加固优先于 PHP 历史单词输出；原 fixture 保留，auth-digest 的 Go 期望在测试中明确说明。脱敏仍是有限格式匹配，不承诺任意文本都安全。
+
 本目录维护协议与测试证据；学习资料由 skeleton 统一保存。
 
 - [显式单次 HTTP](explicit-once-http.md)：调用所有权与超时，不隐式重试未知结果。

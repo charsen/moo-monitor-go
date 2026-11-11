@@ -9,9 +9,10 @@ import (
 )
 
 var (
-	authorization = regexp.MustCompile(`(\bauthorization[\t\n\f\r\v ]*[:=][\t\n\f\r\v ]*)(?:bearer|basic|digest)?[\t\n\f\r\v ]*[^\t\n\f\r\v "',&;]+`)
-	jwt           = regexp.MustCompile(`eyJ[A-Za-z0-9_\-]+\.[A-Za-z0-9_\-]+\.[A-Za-z0-9_\-]+`)
-	bearer        = regexp.MustCompile(`\bbearer[\t\n\f\r\v ]+[a-z0-9._\-]+`)
+	digestAuthorization = regexp.MustCompile(`(\bauthorization[\t ]*[:=][\t ]*)digest\b[^\r\n]*(?:\r?\n[\t ]+[^\r\n]*)*`)
+	authorization       = regexp.MustCompile(`(\bauthorization[\t\n\f\r\v ]*[:=][\t\n\f\r\v ]*)(?:bearer|basic|digest)?[\t\n\f\r\v ]*[^\t\n\f\r\v "',&;]+`)
+	jwt                 = regexp.MustCompile(`eyJ[A-Za-z0-9_\-]+\.[A-Za-z0-9_\-]+\.[A-Za-z0-9_\-]+`)
+	bearer              = regexp.MustCompile(`\bbearer[\t\n\f\r\v ]+[a-z0-9._\-]+`)
 )
 
 // Masker owns a copy of its keys. Its configuration and compiled patterns are immutable.
@@ -96,6 +97,9 @@ func (m *Masker) MaskURL(value string) string {
 // MaskSecrets keeps the source order: Authorization, JWT, Bearer, then configured keys.
 // This is a finite text-pattern matcher, not a guarantee that arbitrary text is safe.
 func (m *Masker) MaskSecrets(value string) string {
+	// Digest is a compound header: commas/quoted values belong to the same
+	// credential. Consume folded continuation lines but preserve the next header.
+	value = replaceLowerASCII(value, digestAuthorization, "***", true)
 	value = replaceLowerASCII(value, authorization, "***", true)
 	value = jwt.ReplaceAllString(value, "***JWT***")
 	value = replaceLowerASCII(value, bearer, "Bearer ***", false)
